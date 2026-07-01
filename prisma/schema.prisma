@@ -1,0 +1,164 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum PricingModel {
+  FREE
+  FREEMIUM
+  PAID
+  FREE_TRIAL
+}
+
+enum BillingFrequency {
+  MONTHLY
+  YEARLY
+  ONE_TIME
+  NA
+}
+
+// ---- Stub models owned by other modules ----
+// Module 4 (Companies) and Module 11 (Auth) will extend these.
+// Do not add fields here beyond what Module 3 needs for its relations.
+
+model Company {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  name      String
+  logoUrl   String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  tools Tool[]
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  reviews   Review[]
+  bookmarks Bookmark[]
+}
+
+// ---- Module 3: AI Tools ----
+
+model Tool {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  name        String
+  logoUrl     String?
+  description String
+  websiteUrl  String
+  screenshots String[] @default([])
+  features    String[] @default([])
+
+  pricingModel     PricingModel
+  pricingAmount    Decimal?         @db.Decimal(10, 2)
+  billingFrequency BillingFrequency @default(NA)
+
+  companyId String?
+  company   Company? @relation(fields: [companyId], references: [id])
+
+  categories ToolCategory[]
+  tags       ToolTag[]
+
+  reviews   Review[]
+  bookmarks Bookmark[]
+
+  alternatives  Tool[] @relation("ToolAlternatives")
+  alternativeOf Tool[] @relation("ToolAlternatives")
+
+  // Denormalized for fast listing-page sort/display. Recomputed by the
+  // reviews API on every create/update/delete — see lib/reviews.ts.
+  avgRating   Float @default(0)
+  reviewCount Int   @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@index([companyId])
+@@index([pricingModel])
+@@index([createdAt])
+@@index([avgRating])
+}
+
+model Category {
+  id   String @id @default(cuid())
+  slug String @unique
+  name String
+
+  tools ToolCategory[]
+}
+
+model Tag {
+  id   String @id @default(cuid())
+  slug String @unique
+  name String
+
+  tools ToolTag[]
+}
+
+model ToolCategory {
+  toolId     String
+  categoryId String
+
+  tool     Tool     @relation(fields: [toolId], references: [id], onDelete: Cascade)
+  category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@id([toolId, categoryId])
+  @@index([categoryId])
+}
+
+model ToolTag {
+  toolId String
+  tagId  String
+
+  tool Tool @relation(fields: [toolId], references: [id], onDelete: Cascade)
+  tag  Tag  @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([toolId, tagId])
+  @@index([tagId])
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  rating    Int
+  comment   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  toolId String
+  tool   Tool   @relation(fields: [toolId], references: [id], onDelete: Cascade)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([toolId, userId])
+@@index([toolId])
+@@index([userId])
+@@index([rating])
+}
+
+model Bookmark {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  toolId String
+  tool   Tool   @relation(fields: [toolId], references: [id], onDelete: Cascade)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([toolId, userId])
+@@index([toolId])
+@@index([userId])
+}
