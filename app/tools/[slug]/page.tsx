@@ -2,16 +2,15 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowUpRight, Sparkles } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { getToolBySlug, getSimilarTools, getToolReviews } from "@/lib/tools";
 import { isToolBookmarked } from "@/lib/actions";
 import { PricingBadge } from "@/components/PricingBadge";
-import { CategoryChip, TagChip } from "@/components/CategoryChip";
+import { CategoryChip } from "@/components/CategoryChip";
 import { RatingStars } from "@/components/RatingStars";
 import { BookmarkButton } from "@/components/BookmarkButton";
-import { ReviewForm } from "@/components/ReviewForm";
-import { ReviewList } from "@/components/ReviewList";
 import { ToolCard } from "@/components/ToolCard";
+import { ToolTabs } from "@/components/ToolTabs";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -64,7 +63,10 @@ export default async function ToolDetailPage({ params }: PageProps) {
   };
 
   return (
-    <main className="mx-auto max-w-container px-6 py-10">
+    <main className="mx-auto max-w-container px-6 py-10 relative overflow-hidden">
+      {/* Background Radial Glow */}
+      <div className="absolute top-0 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-accent/5 rounded-full blur-3xl pointer-events-none z-0"></div>
+
       {/* eslint-disable-next-line react/no-danger */}
       <script
         type="application/ld+json"
@@ -73,48 +75,51 @@ export default async function ToolDetailPage({ params }: PageProps) {
         }}
       />
 
-      <nav aria-label="Breadcrumb" className="mb-6 text-sm text-foreground-faint">
-        <Link href="/tools" className="hover:text-foreground">
+      {/* Breadcrumb Navigation */}
+      <nav aria-label="Breadcrumb" className="mb-6 text-sm text-foreground-faint relative z-10">
+        <Link href="/tools" className="hover:text-foreground transition-colors">
           AI Tools
         </Link>
         <span className="mx-2">/</span>
         <span className="text-foreground-muted">{tool.name}</span>
       </nav>
 
-      <header className="flex flex-col gap-6 rounded-lg border border-border bg-surface p-6 sm:flex-row sm:items-start sm:justify-between">
+      {/* Premium Glassmorphic Header */}
+      <header className="relative z-10 flex flex-col gap-6 rounded-xl border border-border/80 bg-surface/40 p-6 backdrop-blur-md shadow-2xl shadow-black/30 sm:flex-row sm:items-start sm:justify-between">
         <div className="flex items-start gap-4">
-          <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-border bg-white p-2">
+          {/* Logo with Radial Glow backdrop */}
+          <div className="relative flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-border/60 bg-white/95 p-2.5 shadow-xl shadow-black/20">
             {tool.logoUrl ? (
               <Image
                 src={tool.logoUrl}
                 alt={`${tool.name} logo`}
-                width={64}
-                height={64}
+                width={80}
+                height={80}
                 className="h-full w-full object-contain"
                 priority
               />
             ) : (
-              <span className="text-xl font-semibold text-neutral-900">
+              <span className="text-2xl font-bold text-neutral-900 select-none">
                 {tool.name.charAt(0)}
               </span>
             )}
           </div>
 
-          <div>
-            <h1 className="text-2xl font-semibold text-foreground">
+          <div className="space-y-2">
+            <h1 className="text-3xl font-extrabold tracking-tight text-foreground">
               {tool.name}
             </h1>
 
             {tool.company && (
-              <p className="mt-0.5 text-sm text-foreground-muted">
+              <p className="text-xs text-foreground-muted">
                 by{" "}
-                <span className="text-foreground">
+                <span className="text-foreground font-semibold">
                   {tool.company.name}
                 </span>
               </p>
             )}
 
-            <div className="mt-3 flex flex-wrap items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2 pt-1">
               <PricingBadge
                 pricingModel={tool.pricingModel}
                 pricingAmount={tool.pricingAmount}
@@ -130,7 +135,7 @@ export default async function ToolDetailPage({ params }: PageProps) {
               ))}
             </div>
 
-            <div className="mt-3">
+            <div className="pt-0.5">
               <RatingStars
                 rating={tool.avgRating}
                 reviewCount={tool.reviewCount}
@@ -152,7 +157,7 @@ export default async function ToolDetailPage({ params }: PageProps) {
             href={tool.websiteUrl}
             target="_blank"
             rel="noopener noreferrer nofollow"
-            className="inline-flex items-center gap-1.5 rounded-md bg-accent px-4 py-1.5 text-sm font-medium text-white transition-colors hover:bg-accent-hover"
+            className="inline-flex items-center gap-1.5 rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-accent/20 transition-all hover:bg-accent-hover hover:-translate-y-0.5"
           >
             Visit Website
             <ArrowUpRight size={16} aria-hidden="true" />
@@ -160,97 +165,24 @@ export default async function ToolDetailPage({ params }: PageProps) {
         </div>
       </header>
 
-      <div className="mt-8 flex flex-col gap-8 lg:flex-row">
-        <div className="flex-1 space-y-8">
-          <section aria-labelledby="about-heading">
-            <h2
-              id="about-heading"
-              className="mb-3 text-lg font-semibold text-foreground"
-            >
-              About {tool.name}
-            </h2>
-
-            <p className="text-sm leading-relaxed text-foreground-muted">
-              {tool.description}
-            </p>
-          </section>
-
-          {tool.features.length > 0 && (
-            <section aria-labelledby="features-heading">
-              <h2
-                id="features-heading"
-                className="mb-3 text-lg font-semibold text-foreground"
-              >
-                Key features
-              </h2>
-
-              <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-                {tool.features.map((feature) => (
-                  <li
-                    key={feature}
-                    className="flex items-center gap-2 rounded-md border border-border bg-surface px-3 py-2 text-sm text-foreground-muted"
-                  >
-                    <Sparkles
-                      size={14}
-                      className="shrink-0 text-accent"
-                      aria-hidden="true"
-                    />
-                    {feature}
-                  </li>
-                ))}
-              </ul>
-            </section>
-          )}
-
-          {tool.tags.length > 0 && (
-            <section aria-labelledby="tags-heading">
-              <h2
-                id="tags-heading"
-                className="mb-3 text-lg font-semibold text-foreground"
-              >
-                Tags
-              </h2>
-
-              <div className="flex flex-wrap gap-2">
-                {tool.tags.map(({ tag }) => (
-                  <TagChip
-                    key={tag.slug}
-                    label={tag.name}
-                  />
-                ))}
-              </div>
-            </section>
-          )}
-
-          <section aria-labelledby="reviews-heading">
-            <h2
-              id="reviews-heading"
-              className="mb-3 text-lg font-semibold text-foreground"
-            >
-              Reviews {tool.reviewCount > 0 && `(${tool.reviewCount})`}
-            </h2>
-
-            <div className="mb-4">
-              <ReviewForm
-                toolId={tool.id}
-                toolSlug={tool.slug}
-              />
-            </div>
-
-            <ReviewList reviews={reviews} />
-          </section>
+      {/* Main Content Layout */}
+      <div className="mt-8 flex flex-col gap-8 lg:flex-row relative z-10">
+        {/* Left Interactive Tabs column */}
+        <div className="flex-1 min-w-0">
+          <ToolTabs tool={tool} reviews={reviews} />
         </div>
 
+        {/* Right Sidebar */}
         {similarTools.length > 0 && (
           <aside
-            className="w-full shrink-0 lg:w-80"
+            className="w-full shrink-0 lg:w-80 space-y-4"
             aria-labelledby="similar-heading"
           >
             <h2
               id="similar-heading"
-              className="mb-3 text-lg font-semibold text-foreground"
+              className="text-lg font-bold text-foreground border-b border-border/40 pb-2 flex items-center gap-2"
             >
-              Similar tools
+              Similar Tools
             </h2>
 
             <div role="list" className="flex flex-col gap-4">
