@@ -67,7 +67,7 @@ const CATEGORY_NAMES = [
   "Coding",
   "Image Generation",
   "Video",
-  "Audio & Voice",
+  "Audio",
   "Productivity",
   "Marketing",
   "Design",
@@ -313,7 +313,7 @@ const TOOLS: SeedTool[] = [
     pricingAmount: 16.99,
     billingFrequency: BillingFrequency.MONTHLY,
     features: ["Live transcription", "Auto summaries", "Speaker identification", "Calendar sync"],
-    categorySlugs: ["productivity", "audio-voice"],
+    categorySlugs: ["productivity", "audio"],
     tagSlugs: ["mobile-app", "free-trial"],
   },
   {
@@ -453,7 +453,7 @@ const TOOLS: SeedTool[] = [
     pricingAmount: 24,
     billingFrequency: BillingFrequency.MONTHLY,
     features: ["Transcript-based editing", "Overdub voice cloning", "Studio Sound", "Screen recording"],
-    categorySlugs: ["video", "audio-voice"],
+    categorySlugs: ["video", "audio"],
     tagSlugs: ["free-trial"],
   },
   {
@@ -467,7 +467,7 @@ const TOOLS: SeedTool[] = [
     pricingAmount: 5,
     billingFrequency: BillingFrequency.MONTHLY,
     features: ["Voice cloning", "29 languages", "Dubbing Studio", "Low-latency API"],
-    categorySlugs: ["audio-voice"],
+    categorySlugs: ["audio"],
     tagSlugs: ["api", "free-trial"],
   },
   {
@@ -481,7 +481,7 @@ const TOOLS: SeedTool[] = [
     pricingAmount: 23,
     billingFrequency: BillingFrequency.MONTHLY,
     features: ["120+ voices", "Voice changer", "Timeline editor", "Team collaboration"],
-    categorySlugs: ["audio-voice"],
+    categorySlugs: ["audio"],
     tagSlugs: ["free-trial"],
   },
   {
@@ -495,7 +495,7 @@ const TOOLS: SeedTool[] = [
     pricingAmount: 10,
     billingFrequency: BillingFrequency.MONTHLY,
     features: ["Full song generation", "Custom lyrics", "Stem export", "Commercial rights on paid plans"],
-    categorySlugs: ["audio-voice"],
+    categorySlugs: ["audio"],
     tagSlugs: ["mobile-app", "free-trial"],
   },
   {
@@ -603,7 +603,7 @@ const TOOLS: SeedTool[] = [
     pricingAmount: null,
     billingFrequency: BillingFrequency.NA,
     features: ["Open weights", "Non-verbal communication (laughs, sighs)", "Multi-lingual support", "Voice cloning"],
-    categorySlugs: ["audio-voice"],
+    categorySlugs: ["audio"],
     tagSlugs: ["open-source", "api"],
   },
   {
@@ -616,7 +616,7 @@ const TOOLS: SeedTool[] = [
     pricingAmount: null,
     billingFrequency: BillingFrequency.NA,
     features: ["Noise suppression", "Local compilation", "Whisper transcription", "OpenVINO acceleration"],
-    categorySlugs: ["audio-voice"],
+    categorySlugs: ["audio"],
     tagSlugs: ["open-source", "no-code"],
   }
 ];
