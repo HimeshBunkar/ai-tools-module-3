@@ -63,7 +63,7 @@ export default async function ToolDetailPage({ params }: PageProps) {
   };
 
   return (
-    <main className="mx-auto max-w-container px-6 py-10 relative overflow-hidden">
+    <main className="mx-auto max-w-container px-4 py-6 md:px-6 md:py-10 relative overflow-hidden">
       {/* Background Radial Glow */}
       <div className="absolute top-0 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-accent/5 rounded-full blur-3xl pointer-events-none z-0"></div>
 
@@ -76,7 +76,7 @@ export default async function ToolDetailPage({ params }: PageProps) {
       />
 
       {/* Breadcrumb Navigation */}
-      <nav aria-label="Breadcrumb" className="mb-6 text-sm text-foreground-faint relative z-10">
+      <nav aria-label="Breadcrumb" className="mb-4 md:mb-6 text-sm text-foreground-faint relative z-10">
         <Link href="/tools" className="hover:text-foreground transition-colors">
           AI Tools
         </Link>
@@ -85,10 +85,10 @@ export default async function ToolDetailPage({ params }: PageProps) {
       </nav>
 
       {/* Premium Glassmorphic Header */}
-      <header className="relative z-10 flex flex-col gap-6 rounded-xl border border-border/80 bg-surface/40 p-6 backdrop-blur-md shadow-2xl shadow-black/30 sm:flex-row sm:items-start sm:justify-between">
-        <div className="flex items-start gap-4">
+      <header className="relative z-10 flex flex-col gap-6 rounded-xl border border-border/80 bg-surface/40 p-4 md:p-6 backdrop-blur-md shadow-2xl shadow-black/30 sm:flex-row sm:items-start sm:justify-between">
+        <div className="flex flex-col gap-4 xs:flex-row xs:items-start sm:gap-4">
           {/* Logo with Radial Glow backdrop */}
-          <div className="relative flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-border/60 bg-white/95 p-2.5 shadow-xl shadow-black/20">
+          <div className="relative flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-border/60 bg-white/95 p-2.5 shadow-xl shadow-black/20 self-start xs:self-auto">
             {tool.logoUrl ? (
               <Image
                 src={tool.logoUrl}
@@ -106,7 +106,7 @@ export default async function ToolDetailPage({ params }: PageProps) {
           </div>
 
           <div className="space-y-2">
-            <h1 className="text-3xl font-extrabold tracking-tight text-foreground">
+            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground">
               {tool.name}
             </h1>
 
@@ -119,7 +119,7 @@ export default async function ToolDetailPage({ params }: PageProps) {
               </p>
             )}
 
-            <div className="flex flex-wrap items-center gap-2 pt-1">
+            <div className="flex flex-wrap items-center gap-1.5 pt-1">
               <PricingBadge
                 pricingModel={tool.pricingModel}
                 pricingAmount={tool.pricingAmount}
@@ -145,19 +145,20 @@ export default async function ToolDetailPage({ params }: PageProps) {
           </div>
         </div>
 
-        <div className="flex shrink-0 items-center gap-2">
+        <div className="flex flex-col gap-3 w-full sm:w-auto mt-2 sm:mt-0">
           <BookmarkButton
             toolId={tool.id}
             toolSlug={tool.slug}
             initialBookmarked={bookmarked}
             initialCount={tool._count.bookmarks}
+            className="w-full sm:w-auto justify-center py-2.5 sm:py-1.5"
           />
 
           <a
             href={tool.websiteUrl}
             target="_blank"
             rel="noopener noreferrer nofollow"
-            className="inline-flex items-center gap-1.5 rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-accent/20 transition-all hover:bg-accent-hover hover:-translate-y-0.5"
+            className="inline-flex w-full sm:w-auto justify-center items-center gap-1.5 rounded-lg bg-accent px-4 py-2.5 sm:py-2 text-sm font-semibold text-white shadow-lg shadow-accent/20 transition-all hover:bg-accent-hover hover:-translate-y-0.5"
           >
             Visit Website
             <ArrowUpRight size={16} aria-hidden="true" />

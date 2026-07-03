@@ -99,7 +99,7 @@ export function ProsConsVerdict({ name, categories }: ProsConsVerdictProps) {
     <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Pros Card */}
-        <div className="rounded-xl border border-success/10 bg-success/5 p-5">
+        <div className="rounded-xl border border-success/10 bg-success/5 p-4 xs:p-5">
           <h3 className="flex items-center gap-2 text-sm font-semibold text-success uppercase tracking-wider mb-4">
             <span className="flex h-5 w-5 items-center justify-center rounded-full bg-success/15">
               <Check size={12} className="text-success" />
@@ -117,7 +117,7 @@ export function ProsConsVerdict({ name, categories }: ProsConsVerdictProps) {
         </div>
 
         {/* Cons Card */}
-        <div className="rounded-xl border border-danger/10 bg-danger/5 p-5">
+        <div className="rounded-xl border border-danger/10 bg-danger/5 p-4 xs:p-5">
           <h3 className="flex items-center gap-2 text-sm font-semibold text-danger uppercase tracking-wider mb-4">
             <span className="flex h-5 w-5 items-center justify-center rounded-full bg-danger/15">
               <X size={12} className="text-danger" />
@@ -136,7 +136,7 @@ export function ProsConsVerdict({ name, categories }: ProsConsVerdictProps) {
       </div>
 
       {/* Antigravity Verdict Card */}
-      <div className="relative overflow-hidden rounded-xl border border-accent/20 bg-gradient-to-br from-accent/5 to-transparent p-6 shadow-xl shadow-black/20">
+      <div className="relative overflow-hidden rounded-xl border border-accent/20 bg-gradient-to-br from-accent/5 to-transparent p-4 xs:p-6 shadow-xl shadow-black/20">
         <div className="absolute right-0 top-0 -mr-6 -mt-6 h-24 w-24 rounded-full bg-accent/10 blur-xl"></div>
         <div className="flex items-center gap-2.5 mb-3">
           <Sparkles className="text-accent h-4 w-4" />

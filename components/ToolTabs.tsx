@@ -50,10 +50,21 @@ export function ToolTabs({ tool, reviews }: ToolTabsProps) {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 relative">
+      <style jsx global>{`
+        /* Hide scrollbars for the horizontal tab container */
+        .scrollbar-none::-webkit-scrollbar {
+          display: none !important;
+        }
+        .scrollbar-none {
+          -ms-overflow-style: none !important;
+          scrollbar-width: none !important;
+        }
+      `}</style>
+
       {/* Premium Glassmorphic Tab switcher */}
-      <div className="flex border-b border-border/80 overflow-x-auto scrollbar-none sticky top-0 bg-background/80 backdrop-blur-md z-10 py-1">
-        <div className="flex gap-2 min-w-max">
+      <div className="flex border-b border-border/80 overflow-x-auto scrollbar-none sticky top-0 bg-background/85 backdrop-blur-md z-10 py-1">
+        <div className="flex gap-1 min-w-max px-1">
           {tabList.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
@@ -63,7 +74,7 @@ export function ToolTabs({ tool, reviews }: ToolTabsProps) {
                 type="button"
                 onClick={() => setActiveTab(tab.id)}
                 className={cn(
-                  "flex items-center gap-2 border-b-2 px-4 py-2.5 text-sm font-medium transition-all select-none hover:text-foreground",
+                  "flex items-center gap-1.5 border-b-2 px-3.5 py-3 text-sm font-medium transition-all select-none hover:text-foreground active:scale-95",
                   isActive
                     ? "border-accent text-accent"
                     : "border-transparent text-foreground-muted hover:border-border/60"
@@ -137,7 +148,7 @@ export function ToolTabs({ tool, reviews }: ToolTabsProps) {
         )}
 
         {activeTab === "specs" && (
-          <div className="rounded-xl border border-border bg-surface/30 p-6 backdrop-blur-md animate-fadeIn space-y-6">
+          <div className="rounded-xl border border-border bg-surface/30 p-4 md:p-6 backdrop-blur-md animate-fadeIn space-y-6">
             <h3 className="text-base font-semibold text-foreground flex items-center gap-2">
               <FileText size={18} className="text-accent" />
               Technical Specifications
