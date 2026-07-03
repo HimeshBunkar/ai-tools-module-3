@@ -63,8 +63,8 @@ export function ToolTabs({ tool, reviews }: ToolTabsProps) {
       `}</style>
 
       {/* Premium Glassmorphic Tab switcher */}
-      <div className="flex border-b border-border/80 overflow-x-auto scrollbar-none sticky top-0 bg-background/85 backdrop-blur-md z-10 py-1">
-        <div className="flex gap-1 min-w-max px-1">
+      <div className="flex border-b border-border/80 overflow-x-auto scrollbar-none sticky top-0 bg-background/85 backdrop-blur-md z-10 py-2.5">
+        <div className="flex gap-2 min-w-max px-1">
           {tabList.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
@@ -74,13 +74,13 @@ export function ToolTabs({ tool, reviews }: ToolTabsProps) {
                 type="button"
                 onClick={() => setActiveTab(tab.id)}
                 className={cn(
-                  "flex items-center gap-1.5 border-b-2 px-3.5 py-3 text-sm font-medium transition-all select-none hover:text-foreground active:scale-95",
+                  "flex items-center gap-1.5 px-4 py-2 text-xs xs:text-sm font-medium rounded-lg transition-all select-none active:scale-95 border",
                   isActive
-                    ? "border-accent text-accent"
-                    : "border-transparent text-foreground-muted hover:border-border/60"
+                    ? "bg-accent/15 text-accent border-accent/25 shadow-[0_0_12px_rgba(79,70,229,0.15)] font-semibold"
+                    : "text-foreground-muted hover:bg-surface-raised/40 hover:text-foreground border-transparent"
                 )}
               >
-                <Icon size={16} />
+                <Icon size={15} />
                 {tab.label}
               </button>
             );

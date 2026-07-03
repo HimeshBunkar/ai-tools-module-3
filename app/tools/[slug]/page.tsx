@@ -11,6 +11,7 @@ import { RatingStars } from "@/components/RatingStars";
 import { BookmarkButton } from "@/components/BookmarkButton";
 import { ToolCard } from "@/components/ToolCard";
 import { ToolTabs } from "@/components/ToolTabs";
+import { StickyCTA } from "@/components/StickyCTA";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -119,23 +120,24 @@ export default async function ToolDetailPage({ params }: PageProps) {
               </p>
             )}
 
-            <div className="flex flex-wrap items-center gap-1.5 pt-1">
-              <PricingBadge
-                pricingModel={tool.pricingModel}
-                pricingAmount={tool.pricingAmount}
-                billingFrequency={tool.billingFrequency}
-              />
-
-              {tool.categories.map(({ category }) => (
-                <CategoryChip
-                  key={category.slug}
-                  label={category.name}
-                  href={`/tools?category=${category.slug}`}
+            <div className="flex flex-col gap-2 pt-1.5 sm:flex-row sm:items-center sm:gap-2">
+              <div className="flex flex-wrap items-center gap-1.5">
+                <PricingBadge
+                  pricingModel={tool.pricingModel}
+                  pricingAmount={tool.pricingAmount}
+                  billingFrequency={tool.billingFrequency}
                 />
-              ))}
+                {tool.categories.map(({ category }) => (
+                  <CategoryChip
+                    key={category.slug}
+                    label={category.name}
+                    href={`/tools?category=${category.slug}`}
+                  />
+                ))}
+              </div>
             </div>
 
-            <div className="pt-0.5">
+            <div className="pt-1">
               <RatingStars
                 rating={tool.avgRating}
                 reviewCount={tool.reviewCount}
@@ -167,7 +169,7 @@ export default async function ToolDetailPage({ params }: PageProps) {
       </header>
 
       {/* Main Content Layout */}
-      <div className="mt-8 flex flex-col gap-8 lg:flex-row relative z-10">
+      <div className="mt-8 flex flex-col gap-8 lg:flex-row relative z-10 pb-20 md:pb-0">
         {/* Left Interactive Tabs column */}
         <div className="flex-1 min-w-0">
           <ToolTabs tool={tool} reviews={reviews} />
@@ -196,6 +198,15 @@ export default async function ToolDetailPage({ params }: PageProps) {
           </aside>
         )}
       </div>
+
+      {/* Floating Sticky CTA on mobile screens */}
+      <StickyCTA
+        name={tool.name}
+        logoUrl={tool.logoUrl}
+        websiteUrl={tool.websiteUrl}
+        avgRating={tool.avgRating}
+        reviewCount={tool.reviewCount}
+      />
     </main>
   );
 }
