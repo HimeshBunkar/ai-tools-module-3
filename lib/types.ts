@@ -25,7 +25,7 @@ export type ToolsSearchParams = {
   page?: string;
 };
 
-export const PAGE_SIZE = 20;
+export const PAGE_SIZE = 80;
 
 // ---------------------------------------------------------------------------
 // Detail page types (Step 3)
