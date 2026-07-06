@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { getTools, getAllCategories } from "@/lib/tools";
 import { SearchBar } from "@/components/SearchBar";
-import { FilterSidebar } from "@/components/FilterSidebar";
+import { TopFilters } from "@/components/TopFilters";
 import { SortDropdown } from "@/components/SortDropdown";
 import { ToolGrid } from "@/components/ToolGrid";
 import { Pagination } from "@/components/Pagination";
@@ -50,18 +50,17 @@ export default async function ToolsPage({ searchParams }: PageProps) {
         <SearchBar defaultValue={params.q} />
       </header>
 
-      <div className="flex flex-col gap-8 lg:flex-row">
-        <FilterSidebar categories={categories} params={params} />
+      {/* Horizontal Category & Pricing tag filters on top */}
+      <TopFilters categories={categories} params={params} />
 
-        <div className="flex-1">
-          <div className="mb-4 flex items-center justify-end">
-            <SortDropdown />
-          </div>
-
-          <ToolGrid tools={tools} />
-
-          <Pagination page={page} totalPages={totalPages} params={params} />
+      <div className="space-y-6">
+        <div className="flex items-center justify-end">
+          <SortDropdown />
         </div>
+
+        <ToolGrid tools={tools} />
+
+        <Pagination page={page} totalPages={totalPages} params={params} />
       </div>
     </main>
   );
