@@ -5,20 +5,13 @@ import { X } from "lucide-react";
 import { buildToolsUrl, cn } from "@/lib/utils";
 import type { ToolsSearchParams } from "@/lib/types";
 
-const PRICING_OPTIONS = [
-  { value: "FREE", label: "Free" },
-  { value: "FREEMIUM", label: "Freemium" },
-  { value: "PAID", label: "Paid" },
-  { value: "FREE_TRIAL", label: "Free Trial" },
-] as const;
-
 type TopFiltersProps = {
   categories: { slug: string; name: string; _count: { tools: number } }[];
   params: ToolsSearchParams;
 };
 
 export function TopFilters({ categories, params }: TopFiltersProps) {
-  const hasActiveFilters = Boolean(params.category || params.pricing || params.q);
+  const hasActiveFilters = Boolean(params.category || params.q);
 
   return (
     <div className="space-y-5 mb-8 relative">
@@ -72,45 +65,6 @@ export function TopFilters({ categories, params }: TopFiltersProps) {
                 )}>
                   {cat._count.tools}
                 </span>
-              </Link>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Pricing Tags row */}
-      <div className="space-y-2">
-        <span className="block text-xs font-semibold uppercase tracking-wide text-foreground-faint">
-          Pricing
-        </span>
-        <div className="flex flex-wrap gap-2">
-          {/* "All" pricing chip */}
-          <Link
-            href={buildToolsUrl(params, { pricing: null })}
-            className={cn(
-              "rounded-full px-3.5 py-1.5 text-xs font-medium border transition-all active:scale-95",
-              !params.pricing
-                ? "bg-accent/15 text-accent border-accent/35 shadow-sm"
-                : "bg-surface border-border text-foreground-muted hover:bg-surface-raised hover:text-foreground"
-            )}
-          >
-            All Pricing
-          </Link>
-
-          {PRICING_OPTIONS.map((opt) => {
-            const isActive = params.pricing === opt.value;
-            return (
-              <Link
-                key={opt.value}
-                href={buildToolsUrl(params, { pricing: isActive ? null : opt.value })}
-                className={cn(
-                  "rounded-full px-3.5 py-1.5 text-xs font-medium border transition-all active:scale-95",
-                  isActive
-                    ? "bg-accent/15 text-accent border-accent/35 shadow-sm"
-                    : "bg-surface border-border text-foreground-muted hover:bg-surface-raised hover:text-foreground"
-                )}
-              >
-                {opt.label}
               </Link>
             );
           })}
