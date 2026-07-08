@@ -162,3 +162,75 @@ model Bookmark {
 @@index([toolId])
 @@index([userId])
 }
+
+model AIModel {
+  id            String   @id @default(cuid())
+  name          String
+  creator       String
+  contextWindow String
+  parameterSize String
+  modality      String
+  releaseDate   String
+  description   String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @default(now()) @updatedAt
+}
+
+model News {
+  id          String   @id @default(cuid())
+  title       String
+  source      String
+  category    String
+  summary     String
+  url         String
+  readTime    String
+  publishedAt String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
+}
+
+model Repository {
+  id          String   @id @default(cuid())
+  name        String
+  owner       String
+  stars       Int
+  language    String
+  description String
+  url         String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
+}
+
+model Video {
+  id          String   @id @default(cuid())
+  title       String
+  channel     String
+  duration    String
+  views       String
+  url         String
+  publishedAt String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
+}
+
+model Robot {
+  id           String   @id @default(cuid())
+  name         String
+  category     String
+  manufacturer String
+  year         String
+  description  String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @default(now()) @updatedAt
+}
+
+model Device {
+  id           String   @id @default(cuid())
+  name         String
+  category     String
+  manufacturer String
+  year         String
+  description  String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @default(now()) @updatedAt
+}

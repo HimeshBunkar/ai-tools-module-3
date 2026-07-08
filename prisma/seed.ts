@@ -1748,6 +1748,219 @@ async function main() {
     });
   }
 
+  // ---- New Discovery Sections Seeding ----
+  console.log("Seeding AI models...");
+  await prisma.aIModel.deleteMany({});
+  const seedModels = [
+    {
+      name: "GPT-4o",
+      creator: "OpenAI",
+      contextWindow: "128K tokens",
+      parameterSize: "N/A (Proprietary)",
+      modality: "Text, Audio, Vision",
+      releaseDate: "May 2024",
+      description: "OpenAI's flagship multimodal model, offering real-time conversational voice capabilities and high performance across vision tasks.",
+    },
+    {
+      name: "Claude 3.5 Sonnet",
+      creator: "Anthropic",
+      contextWindow: "200K tokens",
+      parameterSize: "N/A (Proprietary)",
+      modality: "Text, Vision",
+      releaseDate: "June 2024",
+      description: "State-of-the-art reasoning and coding capabilities, featuring the interactive 'Artifacts' environment for live document editing.",
+    },
+    {
+      name: "Gemini 1.5 Pro",
+      creator: "Google",
+      contextWindow: "2M tokens",
+      parameterSize: "N/A (Proprietary)",
+      modality: "Text, Vision, Audio, Code",
+      releaseDate: "April 2024",
+      description: "Features a massive 2-million token context window, allowing users to upload full codebases or hours of video content at once.",
+    },
+    {
+      name: "Llama 3.1 405B",
+      creator: "Meta",
+      contextWindow: "128K tokens",
+      parameterSize: "405 Billion",
+      modality: "Text, Code",
+      releaseDate: "July 2024",
+      description: "Meta's flagship open-weights model, rivaling top proprietary models in coding, multilingual tasks, and complex reasoning.",
+    },
+  ];
+  for (const m of seedModels) {
+    await prisma.aIModel.create({ data: m });
+  }
+
+  console.log("Seeding News...");
+  await prisma.news.deleteMany({});
+  const seedNews = [
+    {
+      title: "OpenAI Announces SearchGPT Prototype",
+      source: "TechCrunch",
+      category: "Search & Retrieval",
+      publishedAt: "2 hours ago",
+      readTime: "3 min read",
+      summary: "OpenAI is testing a new search tool designed to give users fast, timely answers with cited links to web publications.",
+      url: "https://openai.com/blog/searchgpt-prototype",
+    },
+    {
+      title: "Next.js 15 Released with Turbopack and React 19 Support",
+      source: "Vercel Blog",
+      category: "Web Development",
+      publishedAt: "1 day ago",
+      readTime: "5 min read",
+      summary: "Vercel brings Next.js 15 to production with default caching updates, compiler changes, and React Server Components improvements.",
+      url: "https://nextjs.org/blog/next-15",
+    },
+    {
+      title: "Anthropic Introduces Claude 3.5 Sonnet Artifacts on Mobile Apps",
+      source: "VentureBeat",
+      category: "LLM Interface",
+      publishedAt: "3 days ago",
+      readTime: "4 min read",
+      summary: "Users can now interact with, view, and edit React layouts, SVGs, and documents built by Claude inside their mobile phone app.",
+      url: "https://anthropic.com/news/claude-3-5-sonnet",
+    },
+    {
+      title: "Boston Dynamics Spotlights New Fully Electric Atlas Humanoid",
+      source: "Robotics World",
+      category: "Robotics",
+      publishedAt: "1 week ago",
+      readTime: "6 min read",
+      summary: "Boston Dynamics retires the hydraulic Atlas and debuts a completely electric model with advanced range of motion and joint pivots.",
+      url: "https://bostondynamics.com",
+    },
+  ];
+  for (const n of seedNews) {
+    await prisma.news.create({ data: n });
+  }
+
+  console.log("Seeding Repositories...");
+  await prisma.repository.deleteMany({});
+  const seedRepos = [
+    {
+      name: "bark",
+      owner: "suno-ai",
+      stars: 32400,
+      language: "Python",
+      description: "Transformer-based audio generation model capable of highly realistic multi-lingual text-to-speech and sound effects.",
+      url: "https://github.com/suno-ai/bark",
+    },
+    {
+      name: "stable-diffusion-webui",
+      owner: "AUTOMATIC1111",
+      stars: 131800,
+      language: "Python",
+      description: "A comprehensive browser interface built on Gradio for running Stable Diffusion text-to-image and image-to-image models.",
+      url: "https://github.com/AUTOMATIC1111/stable-diffusion-webui",
+    },
+    {
+      name: "ComfyUI",
+      owner: "comfyanonymous",
+      stars: 48900,
+      language: "Python",
+      description: "A powerful, modular node-based graphic interface for running diffusion models in customizable, complex workflows.",
+      url: "https://github.com/comfyanonymous/ComfyUI",
+    },
+    {
+      name: "transformers",
+      owner: "huggingface",
+      stars: 129000,
+      language: "Python",
+      description: "State-of-the-art Machine Learning architectures (BERT, GPT, LLaMA, Whisper) for PyTorch, TensorFlow, and JAX.",
+      url: "https://github.com/huggingface/transformers",
+    },
+  ];
+  for (const r of seedRepos) {
+    await prisma.repository.create({ data: r });
+  }
+
+  console.log("Seeding Videos...");
+  await prisma.video.deleteMany({});
+  const seedVideos = [
+    {
+      title: "Cursor AI Editor Tutorial: Build a Full App in 10 Minutes",
+      channel: "CodeCraft",
+      duration: "10:24",
+      views: "120K views",
+      publishedAt: "2 weeks ago",
+      url: "https://youtube.com",
+    },
+    {
+      title: "Midjourney v6 Advanced Prompting: Master the New Aesthetic Parameters",
+      channel: "DesignVibe",
+      duration: "15:45",
+      views: "85K views",
+      publishedAt: "1 month ago",
+      url: "https://youtube.com",
+    },
+    {
+      title: "How Next.js 15 Server Actions Work: A Deep Dive Guide",
+      channel: "Vercel Community",
+      duration: "21:12",
+      views: "60K views",
+      publishedAt: "3 weeks ago",
+      url: "https://youtube.com",
+    },
+    {
+      title: "Inside Figure 01: The OpenAI-Powered Humanoid Robot at Work",
+      channel: "TechFuture",
+      duration: "8:50",
+      views: "230K views",
+      publishedAt: "2 months ago",
+      url: "https://youtube.com",
+    },
+  ];
+  for (const v of seedVideos) {
+    await prisma.video.create({ data: v });
+  }
+
+  console.log("Seeding Robots...");
+  await prisma.robot.deleteMany({});
+  const seedRobots = [
+    {
+      name: "Figure 02",
+      category: "Humanoid Robot",
+      manufacturer: "Figure AI",
+      year: "2024",
+      description: "A commercial-grade humanoid robot powered by OpenAI speech-to-speech models, designed for factory logistics and tasks.",
+    },
+    {
+      name: "Unitree H1",
+      category: "Bipedal Humanoid",
+      manufacturer: "Unitree Robotics",
+      year: "2023",
+      description: "A bipedal robot capable of running, backflips, and walking up stairs, utilizing deep reinforcement learning control loops.",
+    },
+  ];
+  for (const r of seedRobots) {
+    await prisma.robot.create({ data: r });
+  }
+
+  console.log("Seeding Devices...");
+  await prisma.device.deleteMany({});
+  const seedDevices = [
+    {
+      name: "Rabbit r1",
+      category: "AI Pocket Assistant",
+      manufacturer: "Rabbit Inc.",
+      year: "2024",
+      description: "A pocket companion device utilizing a Large Action Model (LAM) designed to execute online app actions on your behalf.",
+    },
+    {
+      name: "Humane AI Pin",
+      category: "Wearable Projector Pin",
+      manufacturer: "Humane",
+      year: "2024",
+      description: "A wearable pin that projects digital interface layouts onto the palm of your hand, featuring voice and gesture inputs.",
+    },
+  ];
+  for (const d of seedDevices) {
+    await prisma.device.create({ data: d });
+  }
+
   console.log(`Seed complete: ${COMPANIES.length} companies, ${TOOLS.length} tools, ${REVIEWS.length} reviews.`);
 }
 

@@ -18,14 +18,8 @@ import { SortDropdown } from "@/components/SortDropdown";
 import { ToolGrid } from "@/components/ToolGrid";
 import { Pagination } from "@/components/Pagination";
 
-// Mock datasets for extended discovery rows
+// Mock configuration datasets
 import {
-  MOCK_MODELS,
-  MOCK_NEWS,
-  MOCK_REPOS,
-  MOCK_VIDEOS,
-  MOCK_ROBOTS,
-  MOCK_DEVICES,
   STATS,
   ENTITY_NAV,
 } from "@/lib/mockData";
@@ -61,6 +55,16 @@ export default async function HomePage({ searchParams }: PageProps) {
       },
     },
   });
+
+  // 3. Fetch discovery items from dynamic database tables
+  const [models, news, repos, videos, robots, devices] = await Promise.all([
+    prisma.aIModel.findMany({ take: 4, orderBy: { createdAt: "desc" } }),
+    prisma.news.findMany({ take: 4, orderBy: { createdAt: "desc" } }),
+    prisma.repository.findMany({ take: 4, orderBy: { stars: "desc" } }),
+    prisma.video.findMany({ take: 4, orderBy: { createdAt: "desc" } }),
+    prisma.robot.findMany({ take: 4, orderBy: { createdAt: "desc" } }),
+    prisma.device.findMany({ take: 4, orderBy: { createdAt: "desc" } }),
+  ]);
 
   return (
     <div className="min-h-screen flex flex-col bg-background text-foreground selection:bg-accent-muted selection:text-foreground">
@@ -275,10 +279,10 @@ export default async function HomePage({ searchParams }: PageProps) {
           title="Latest AI Models"
           description="Track active foundational neural network releases, context specifications, and parameter bounds."
           viewAllHref="/tools"
-          isEmpty={MOCK_MODELS.length === 0}
+          isEmpty={models.length === 0}
         >
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {MOCK_MODELS.map((m) => (
+            {models.map((m) => (
               <div
                 key={m.id}
                 className="group flex flex-col rounded-xl border border-border bg-surface p-5 hover:-translate-y-0.5 hover:border-accent/40 transition-all duration-300"
@@ -312,10 +316,10 @@ export default async function HomePage({ searchParams }: PageProps) {
           title="Latest AI News"
           description="Read curated summaries on corporate releases, tech benchmarks, and regulatory actions."
           viewAllHref="/tools"
-          isEmpty={MOCK_NEWS.length === 0}
+          isEmpty={news.length === 0}
         >
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {MOCK_NEWS.map((n) => (
+            {news.map((n) => (
               <Link
                 key={n.id}
                 href={n.url}
@@ -349,10 +353,10 @@ export default async function HomePage({ searchParams }: PageProps) {
           title="Trending Repositories"
           description="Browse trending open-source machine learning weights, Gradio setups, and terminal frameworks."
           viewAllHref="/tools"
-          isEmpty={MOCK_REPOS.length === 0}
+          isEmpty={repos.length === 0}
         >
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {MOCK_REPOS.map((r) => (
+            {repos.map((r) => (
               <Link
                 key={r.id}
                 href={r.url}
@@ -387,10 +391,10 @@ export default async function HomePage({ searchParams }: PageProps) {
           title="Latest AI Videos"
           description="Watch model walkthroughs, visual tutorial workflows, and developer IDE setup deep dives."
           viewAllHref="/tools"
-          isEmpty={MOCK_VIDEOS.length === 0}
+          isEmpty={videos.length === 0}
         >
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {MOCK_VIDEOS.map((v) => (
+            {videos.map((v) => (
               <Link
                 key={v.id}
                 href={v.url}
@@ -424,7 +428,7 @@ export default async function HomePage({ searchParams }: PageProps) {
               <p className="text-xs text-foreground-muted">Advanced humanoids, bipedals, and mechanical platforms.</p>
             </div>
             <div className="space-y-3">
-              {MOCK_ROBOTS.map((r) => (
+              {robots.map((r) => (
                 <div
                   key={r.id}
                   className="flex items-start gap-4 rounded-xl border border-border bg-surface p-4 hover:border-accent/40 transition-colors"
@@ -453,7 +457,7 @@ export default async function HomePage({ searchParams }: PageProps) {
               <p className="text-xs text-foreground-muted">Edge compute accessories, pocket assistants, and wearables.</p>
             </div>
             <div className="space-y-3">
-              {MOCK_DEVICES.map((d) => (
+              {devices.map((d) => (
                 <div
                   key={d.id}
                   className="flex items-start gap-4 rounded-xl border border-border bg-surface p-4 hover:border-accent/40 transition-colors"
