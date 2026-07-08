@@ -75,12 +75,12 @@ export default async function HomePage({ searchParams }: PageProps) {
       <section className="relative mx-auto max-w-container px-6 pt-16 pb-20 text-center flex flex-col items-center">
         {/* Glowing Background Radial */}
         <div 
-          className="absolute top-[-20%] left-1/2 -translate-x-1/2 h-[600px] w-[600px] rounded-full bg-accent/5 blur-[120px] pointer-events-none" 
+          className="absolute top-[-20%] left-1/2 -translate-x-1/2 h-[600px] w-[600px] rounded-full bg-white/5 blur-[120px] pointer-events-none" 
           aria-hidden="true" 
         />
 
         {/* Feature Pill */}
-        <div className="inline-flex items-center gap-1.5 rounded-full border border-accent/20 bg-accent/5 px-3 py-1 text-xs font-medium text-accent hover:border-accent/40 transition-all cursor-default mb-6">
+        <div className="inline-flex items-center gap-1.5 rounded-full border border-border bg-surface px-3 py-1 text-xs font-medium text-foreground-muted hover:border-neutral-700 hover:text-foreground transition-all cursor-default mb-6">
           <Zap size={10} />
           <span>Discover the AI Ecosystem</span>
         </div>
@@ -88,7 +88,7 @@ export default async function HomePage({ searchParams }: PageProps) {
         {/* Headline */}
         <h1 className="max-w-4xl text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl lg:text-6xl/tight">
           Where the world discovers <br className="hidden sm:inline" />
-          <span className="bg-gradient-to-r from-accent to-[#A78BFA] bg-clip-text text-transparent">
+          <span className="bg-gradient-to-b from-white to-neutral-400 bg-clip-text text-transparent">
             AI Innovation
           </span>
         </h1>
@@ -107,7 +107,7 @@ export default async function HomePage({ searchParams }: PageProps) {
         >
           <Search
             size={18}
-            className="absolute left-4 top-1/2 -translate-y-1/2 text-foreground-faint pointer-events-none group-focus-within:text-accent transition-colors"
+            className="absolute left-4 top-1/2 -translate-y-1/2 text-foreground-faint pointer-events-none group-focus-within:text-white transition-colors"
             aria-hidden="true"
           />
           <input
@@ -115,7 +115,7 @@ export default async function HomePage({ searchParams }: PageProps) {
             name="q"
             defaultValue={params.q}
             placeholder="Search tools, models, news or companies..."
-            className="w-full rounded-full border border-border bg-surface/50 py-3.5 pl-11 pr-24 text-sm text-foreground placeholder:text-foreground-faint focus:border-accent focus:bg-surface focus:outline-none transition-all shadow-md"
+            className="w-full rounded-full border border-border bg-surface/50 py-3.5 pl-11 pr-24 text-sm text-foreground placeholder:text-foreground-faint focus:border-neutral-500 focus:bg-surface focus:outline-none transition-all shadow-md"
           />
           <div className="absolute right-2.5 top-1/2 -translate-y-1/2 flex items-center gap-1.5 pointer-events-none">
             <kbd className="hidden sm:inline-flex h-5 select-none items-center gap-0.5 rounded border border-border bg-surface-raised px-1.5 font-mono text-[9px] font-medium text-foreground-faint">
@@ -123,7 +123,7 @@ export default async function HomePage({ searchParams }: PageProps) {
             </kbd>
             <button
               type="submit"
-              className="rounded-full bg-accent hover:bg-accent-hover text-white text-xs font-semibold px-3 py-1.5 pointer-events-auto transition-colors"
+              className="rounded-full bg-white hover:bg-neutral-200 text-black text-xs font-semibold px-3 py-1.5 pointer-events-auto transition-colors"
             >
               Search
             </button>
@@ -137,7 +137,7 @@ export default async function HomePage({ searchParams }: PageProps) {
             <Link
               key={tag}
               href={`/tools?q=${tag.toLowerCase()}`}
-              className="text-foreground-muted hover:text-accent transition-colors bg-surface-raised/40 hover:bg-accent/5 px-2.5 py-1 rounded-full border border-border/40 hover:border-accent/25"
+              className="text-foreground-muted hover:text-white transition-colors bg-surface-raised/40 hover:bg-white/5 px-2.5 py-1 rounded-full border border-border/40 hover:border-neutral-600"
             >
               {tag}
             </Link>
@@ -148,7 +148,7 @@ export default async function HomePage({ searchParams }: PageProps) {
         <div className="mt-8 flex flex-wrap justify-center gap-4">
           <Link
             href="#tools"
-            className="rounded-full bg-accent hover:bg-accent-hover px-6 py-2.5 text-xs font-semibold text-white shadow-md shadow-accent/10 transition-colors active:scale-95"
+            className="rounded-full bg-white hover:bg-neutral-200 px-6 py-2.5 text-xs font-semibold text-black shadow-md transition-colors active:scale-95"
           >
             Explore AI Directory
           </Link>
@@ -165,16 +165,16 @@ export default async function HomePage({ searchParams }: PageProps) {
       <section className="border-y border-border/60 bg-surface/20 py-12">
         <div className="mx-auto max-w-container px-6">
           <div className="text-center mb-8">
-            <h2 className="text-xs font-semibold uppercase tracking-wider text-accent">Platform Statistics</h2>
+            <h2 className="text-xs font-semibold uppercase tracking-wider text-foreground-muted">Platform Statistics</h2>
             <p className="mt-1 text-sm text-foreground-muted">Mapping the global distribution of advanced intelligence.</p>
           </div>
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-9">
             {STATS.map((stat, i) => (
               <div
                 key={i}
-                className="group flex flex-col justify-center rounded-xl border border-border bg-surface/60 p-4 text-center hover:border-accent/40 hover:bg-surface-raised hover:-translate-y-0.5 transition-all duration-300"
+                className="group flex flex-col justify-center rounded-xl border border-border bg-surface/60 p-4 text-center hover:border-neutral-700 hover:bg-surface-raised hover:-translate-y-0.5 transition-all duration-300"
               >
-                <span className="text-xl font-bold tracking-tight text-foreground group-hover:text-accent transition-colors">
+                <span className="text-xl font-bold tracking-tight text-foreground group-hover:text-white transition-colors">
                   {stat.value}
                 </span>
                 <span className="mt-1 text-[10px] font-semibold text-foreground-muted uppercase tracking-wider">
@@ -196,7 +196,7 @@ export default async function HomePage({ searchParams }: PageProps) {
             <Link
               key={i}
               href={nav.href}
-              className="rounded-full px-4 py-1.5 text-xs font-medium border border-border bg-surface text-foreground-muted hover:border-accent/40 hover:text-foreground hover:bg-surface-raised transition-all whitespace-nowrap active:scale-95"
+              className="rounded-full px-4 py-1.5 text-xs font-medium border border-border bg-surface text-foreground-muted hover:border-neutral-600 hover:text-foreground hover:bg-surface-raised transition-all whitespace-nowrap active:scale-95"
             >
               {nav.label}
             </Link>
@@ -249,7 +249,7 @@ export default async function HomePage({ searchParams }: PageProps) {
               <Link
                 key={c.id}
                 href={`/tools?q=${encodeURIComponent(c.name)}`}
-                className="group flex items-center gap-4 rounded-xl border border-border bg-surface p-5 hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-lg transition-all duration-300"
+                className="group flex items-center gap-4 rounded-xl border border-border bg-surface p-5 hover:-translate-y-0.5 hover:border-neutral-600 hover:shadow-lg transition-all duration-300"
               >
                 <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-border bg-white p-2">
                   <Image
@@ -261,7 +261,7 @@ export default async function HomePage({ searchParams }: PageProps) {
                   />
                 </div>
                 <div className="min-w-0">
-                  <h3 className="truncate font-semibold text-foreground group-hover:text-accent transition-colors">
+                  <h3 className="truncate font-semibold text-foreground group-hover:text-white transition-colors">
                     {c.name}
                   </h3>
                   <p className="mt-1 text-xs text-foreground-muted">
@@ -285,13 +285,13 @@ export default async function HomePage({ searchParams }: PageProps) {
             {models.map((m) => (
               <div
                 key={m.id}
-                className="group flex flex-col rounded-xl border border-border bg-surface p-5 hover:-translate-y-0.5 hover:border-accent/40 transition-all duration-300"
+                className="group flex flex-col rounded-xl border border-border bg-surface p-5 hover:-translate-y-0.5 hover:border-neutral-600 transition-all duration-300"
               >
                 <div className="flex items-center justify-between gap-2">
-                  <span className="text-xs font-bold text-accent uppercase tracking-wider">{m.creator}</span>
+                  <span className="text-xs font-bold text-foreground-muted uppercase tracking-wider">{m.creator}</span>
                   <span className="rounded-full bg-surface-raised border border-border px-2 py-0.5 text-[9px] font-bold text-foreground-muted">{m.releaseDate}</span>
                 </div>
-                <h3 className="mt-3 font-semibold text-foreground group-hover:text-accent transition-colors">{m.name}</h3>
+                <h3 className="mt-3 font-semibold text-foreground group-hover:text-white transition-colors">{m.name}</h3>
                 <p className="mt-2 text-xs text-foreground-muted line-clamp-3 leading-relaxed flex-1">
                   {m.description}
                 </p>
@@ -324,14 +324,14 @@ export default async function HomePage({ searchParams }: PageProps) {
                 key={n.id}
                 href={n.url}
                 target="_blank"
-                className="group flex flex-col justify-between rounded-xl border border-border bg-surface p-5 hover:-translate-y-0.5 hover:border-accent/40 transition-all duration-300"
+                className="group flex flex-col justify-between rounded-xl border border-border bg-surface p-5 hover:-translate-y-0.5 hover:border-neutral-600 transition-all duration-300"
               >
                 <div className="space-y-3">
-                  <div className="flex items-center justify-between gap-2 text-[10px] font-bold uppercase tracking-wider text-accent">
+                  <div className="flex items-center justify-between gap-2 text-[10px] font-bold uppercase tracking-wider text-foreground-muted">
                     <span>{n.category}</span>
                     <span className="text-foreground-faint">{n.publishedAt}</span>
                   </div>
-                  <h3 className="font-semibold text-foreground group-hover:text-accent transition-colors leading-snug line-clamp-2">
+                  <h3 className="font-semibold text-foreground group-hover:text-white transition-colors leading-snug line-clamp-2">
                     {n.title}
                   </h3>
                   <p className="text-xs text-foreground-muted line-clamp-3 leading-relaxed">
@@ -361,7 +361,7 @@ export default async function HomePage({ searchParams }: PageProps) {
                 key={r.id}
                 href={r.url}
                 target="_blank"
-                className="group flex flex-col justify-between rounded-xl border border-border bg-surface p-5 hover:-translate-y-0.5 hover:border-accent/40 transition-all duration-300"
+                className="group flex flex-col justify-between rounded-xl border border-border bg-surface p-5 hover:-translate-y-0.5 hover:border-neutral-600 transition-all duration-300"
               >
                 <div>
                   <div className="flex items-center justify-between gap-2">
@@ -371,13 +371,13 @@ export default async function HomePage({ searchParams }: PageProps) {
                       <span>{(r.stars / 1000).toFixed(1)}k</span>
                     </div>
                   </div>
-                  <h3 className="mt-2 font-semibold text-foreground group-hover:text-accent transition-colors">{r.name}</h3>
+                  <h3 className="mt-2 font-semibold text-foreground group-hover:text-white transition-colors">{r.name}</h3>
                   <p className="mt-2 text-xs text-foreground-muted line-clamp-3 leading-relaxed">
                     {r.description}
                   </p>
                 </div>
                 <div className="mt-4 pt-3 border-t border-border/60 flex items-center gap-2">
-                  <span className="h-2 w-2 rounded-full bg-accent" />
+                  <span className="h-2 w-2 rounded-full bg-foreground-faint" />
                   <span className="text-[10px] text-foreground-faint font-bold uppercase tracking-wider">{r.language}</span>
                 </div>
               </Link>
@@ -399,14 +399,14 @@ export default async function HomePage({ searchParams }: PageProps) {
                 key={v.id}
                 href={v.url}
                 target="_blank"
-                className="group flex flex-col justify-between rounded-xl border border-border bg-surface p-5 hover:-translate-y-0.5 hover:border-accent/40 transition-all duration-300"
+                className="group flex flex-col justify-between rounded-xl border border-border bg-surface p-5 hover:-translate-y-0.5 hover:border-neutral-600 transition-all duration-300"
               >
                 <div>
                   <div className="flex items-center justify-between gap-2 text-[10px] text-foreground-faint font-bold uppercase">
                     <span>{v.channel}</span>
                     <span className="rounded bg-surface-raised border border-border px-1.5 py-0.5 text-[9px]">{v.duration}</span>
                   </div>
-                  <h3 className="mt-3 font-semibold text-foreground group-hover:text-accent transition-colors leading-snug line-clamp-2">
+                  <h3 className="mt-3 font-semibold text-foreground group-hover:text-white transition-colors leading-snug line-clamp-2">
                     {v.title}
                   </h3>
                 </div>
@@ -431,9 +431,9 @@ export default async function HomePage({ searchParams }: PageProps) {
               {robots.map((r) => (
                 <div
                   key={r.id}
-                  className="flex items-start gap-4 rounded-xl border border-border bg-surface p-4 hover:border-accent/40 transition-colors"
+                  className="flex items-start gap-4 rounded-xl border border-border bg-surface p-4 hover:border-neutral-600 transition-colors animate-fade-in"
                 >
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-surface-raised text-accent">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-surface-raised text-foreground-muted">
                     <Cpu size={24} />
                   </div>
                   <div>
@@ -460,9 +460,9 @@ export default async function HomePage({ searchParams }: PageProps) {
               {devices.map((d) => (
                 <div
                   key={d.id}
-                  className="flex items-start gap-4 rounded-xl border border-border bg-surface p-4 hover:border-accent/40 transition-colors"
+                  className="flex items-start gap-4 rounded-xl border border-border bg-surface p-4 hover:border-neutral-600 transition-colors animate-fade-in"
                 >
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-surface-raised text-accent">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-surface-raised text-foreground-muted">
                     <Laptop size={24} />
                   </div>
                   <div>

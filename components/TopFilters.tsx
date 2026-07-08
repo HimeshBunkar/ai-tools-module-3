@@ -38,7 +38,7 @@ export function TopFilters({ categories, params }: TopFiltersProps) {
             className={cn(
               "rounded-full px-3.5 py-1.5 text-xs font-medium border transition-all active:scale-95 whitespace-nowrap",
               !params.category
-                ? "bg-accent/15 text-accent border-accent/35 shadow-sm"
+                ? "bg-white text-black border-transparent shadow-sm hover:bg-neutral-200"
                 : "bg-surface border-border text-foreground-muted hover:bg-surface-raised hover:text-foreground"
             )}
           >
@@ -54,14 +54,14 @@ export function TopFilters({ categories, params }: TopFiltersProps) {
                 className={cn(
                   "rounded-full px-3.5 py-1.5 text-xs font-medium border transition-all active:scale-95 whitespace-nowrap flex items-center gap-1.5",
                   isActive
-                    ? "bg-accent/15 text-accent border-accent/35 shadow-sm"
+                    ? "bg-white text-black border-transparent shadow-sm hover:bg-neutral-200"
                     : "bg-surface border-border text-foreground-muted hover:bg-surface-raised hover:text-foreground"
                 )}
               >
                 <span>{cat.name}</span>
                 <span className={cn(
                   "rounded-full px-1.5 py-0.5 text-[10px] font-bold",
-                  isActive ? "bg-accent/20 text-accent" : "bg-surface-raised text-foreground-faint"
+                  isActive ? "bg-black/10 text-black/80" : "bg-surface-raised text-foreground-faint"
                 )}>
                   {cat._count.tools}
                 </span>

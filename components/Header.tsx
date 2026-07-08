@@ -38,7 +38,7 @@ export function Header() {
       <div className="mx-auto max-w-container px-6 flex items-center justify-between gap-4">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 group shrink-0">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-accent text-white font-black text-lg transition-transform group-hover:scale-105 active:scale-95 shadow-md shadow-accent/20">
+          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-white text-black font-black text-lg transition-transform group-hover:scale-105 active:scale-95 shadow-sm border border-border">
             S
           </div>
           <span className="text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-white">
@@ -61,12 +61,12 @@ export function Header() {
             placeholder="Search the AI ecosystem..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full rounded-full border border-border bg-surface/50 py-2 pl-9 pr-4 text-xs text-foreground placeholder:text-foreground-faint focus:border-accent focus:bg-surface focus:outline-none transition-all"
+            className="w-full rounded-full border border-border bg-surface/50 py-2 pl-9 pr-4 text-xs text-foreground placeholder:text-foreground-faint focus:border-neutral-500 focus:bg-surface focus:outline-none transition-all"
           />
           {searchQuery && (
             <button
               type="submit"
-              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[10px] font-semibold text-accent hover:text-accent-hover"
+              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[10px] font-semibold text-foreground-muted hover:text-white"
             >
               Search
             </button>
@@ -121,7 +121,7 @@ export function Header() {
           
           <button
             onClick={() => router.push("/tools")}
-            className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-accent/15 border border-accent/25 hover:border-accent/40 text-accent hover:bg-accent/20 transition-all active:scale-95 shadow-sm"
+            className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-surface-raised border border-border hover:bg-neutral-800 text-white transition-all active:scale-95 shadow-sm"
             aria-label="Profile"
           >
             <User size={14} />

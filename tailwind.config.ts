@@ -10,24 +10,24 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "#0B0B0E",
+        background: "#000000",
         surface: {
-          DEFAULT: "#131316",
-          raised: "#18181C",
+          DEFAULT: "#0C0C0E",
+          raised: "#141416",
         },
         border: {
-          DEFAULT: "#232326",
-          subtle: "#1B1B1F",
+          DEFAULT: "#1F1F22",
+          subtle: "#141416",
         },
         foreground: {
-          DEFAULT: "#EDEDEF",
-          muted: "#8B8B93",
-          faint: "#5C5C64",
+          DEFAULT: "#FFFFFF",
+          muted: "#9A9A9E",
+          faint: "#555558",
         },
         accent: {
-          DEFAULT: "#6E56CF",
-          hover: "#7C66DB",
-          muted: "#2A2440",
+          DEFAULT: "#FFFFFF",
+          hover: "#E5E5E5",
+          muted: "#18181C",
         },
         pricing: {
           free: "#4CC38A",

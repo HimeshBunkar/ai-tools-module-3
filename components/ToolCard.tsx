@@ -12,7 +12,7 @@ export function ToolCard({ tool }: { tool: ToolCardData }) {
   return (
     <Link
       href={`/tools/${tool.slug}`}
-      className="group flex h-full flex-col gap-3 rounded-lg border border-border bg-surface p-4 transition-all hover:-translate-y-0.5 hover:border-accent hover:shadow-lg hover:shadow-black/20 focus-visible:outline-2 focus-visible:outline-accent"
+      className="group flex h-full flex-col gap-3 rounded-lg border border-border bg-surface p-4 transition-all hover:-translate-y-0.5 hover:border-neutral-500 hover:shadow-lg hover:shadow-black/20 focus-visible:outline-2 focus-visible:outline-neutral-500"
     >
       <div className="flex items-start justify-between gap-3">
         <div className="flex min-w-0 items-center gap-3">
@@ -32,7 +32,7 @@ export function ToolCard({ tool }: { tool: ToolCardData }) {
             )}
           </div>
           <div className="min-w-0">
-            <h3 className="truncate font-medium text-foreground transition-colors group-hover:text-accent">
+            <h3 className="truncate font-medium text-foreground transition-colors group-hover:text-white">
               {tool.name}
             </h3>
             {primaryCategory && (

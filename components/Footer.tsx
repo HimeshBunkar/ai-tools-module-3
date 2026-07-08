@@ -23,7 +23,7 @@ export function Footer() {
         {/* Brand info & Newsletter */}
         <div className="col-span-2 space-y-5">
           <div className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent text-white font-black text-base">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white text-black font-black text-base border border-border">
               S
             </div>
             <span className="text-base font-bold tracking-tight text-foreground">
@@ -45,11 +45,11 @@ export function Footer() {
                 placeholder="you@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full rounded-lg border border-border bg-surface/50 py-2 pl-3 pr-10 text-xs text-foreground placeholder:text-foreground-faint focus:border-accent focus:bg-surface focus:outline-none transition-all"
+                className="w-full rounded-lg border border-border bg-surface/50 py-2 pl-3 pr-10 text-xs text-foreground placeholder:text-foreground-faint focus:border-neutral-500 focus:bg-surface focus:outline-none transition-all"
               />
               <button
                 type="submit"
-                className="absolute right-1 top-1 bottom-1 px-2.5 rounded-md bg-accent hover:bg-accent-hover text-white flex items-center justify-center transition-colors"
+                className="absolute right-1 top-1 bottom-1 px-2.5 rounded-md bg-white hover:bg-neutral-200 text-black flex items-center justify-center transition-colors"
                 aria-label="Subscribe"
               >
                 <ArrowRight size={12} />

@@ -24,7 +24,7 @@ export function Pagination({ page, totalPages, params }: PaginationProps) {
           "flex h-8 w-8 items-center justify-center rounded-md border border-border text-foreground-muted transition-colors",
           page === 1
             ? "pointer-events-none opacity-40"
-            : "hover:border-accent hover:text-foreground"
+            : "hover:border-neutral-500 hover:text-foreground"
         )}
       >
         <ChevronLeft size={16} aria-hidden="true" />
@@ -43,7 +43,7 @@ export function Pagination({ page, totalPages, params }: PaginationProps) {
             className={cn(
               "flex h-8 w-8 items-center justify-center rounded-md text-sm transition-colors",
               n === page
-                ? "bg-accent text-white"
+                ? "bg-white text-black font-semibold hover:bg-neutral-200"
                 : "text-foreground-muted hover:bg-surface-raised hover:text-foreground"
             )}
           >
@@ -60,7 +60,7 @@ export function Pagination({ page, totalPages, params }: PaginationProps) {
           "flex h-8 w-8 items-center justify-center rounded-md border border-border text-foreground-muted transition-colors",
           page === totalPages
             ? "pointer-events-none opacity-40"
-            : "hover:border-accent hover:text-foreground"
+            : "hover:border-neutral-500 hover:text-foreground"
         )}
       >
         <ChevronRight size={16} aria-hidden="true" />

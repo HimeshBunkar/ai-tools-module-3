@@ -42,7 +42,7 @@ export function DiscoverySection({
         </div>
         <Link
           href={viewAllHref}
-          className="inline-flex items-center gap-1 text-xs font-semibold text-accent hover:text-accent-hover transition-colors whitespace-nowrap group"
+          className="inline-flex items-center gap-1 text-xs font-semibold text-foreground-muted hover:text-white transition-colors whitespace-nowrap group"
         >
           <span>View All</span>
           <ArrowRight size={12} className="transition-transform group-hover:translate-x-0.5" />
