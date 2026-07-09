@@ -21,12 +21,12 @@ const config: Config = {
         },
         foreground: {
           DEFAULT: "#FFFFFF",
-          muted: "#B8BCC8",
-          faint: "#7B8191",
+          muted: "#A1A1AA",
+          faint: "#71717A",
         },
         accent: {
           DEFAULT: "#6E56CF",
-          hover: "#7C68E8",
+          hover: "#8B7DFF",
           muted: "#1C1C24",
         },
         pricing: {

@@ -150,7 +150,7 @@ export default async function HomePage({ searchParams }: PageProps) {
           {/* Three-Panel Dashboard Strip */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full text-left relative z-10">
             {/* Panel A — Query Terminal */}
-            <div className="bg-surface/80 backdrop-blur-sm border border-border rounded-card p-6 flex flex-col justify-between min-h-[180px] hover:border-neutral-700 transition-all">
+            <div className="bg-surface border border-border rounded-card p-6 flex flex-col justify-between min-h-[180px] hover:border-neutral-700 transition-all">
               <div className="flex items-center justify-between text-[10px] font-mono tracking-widest text-foreground-faint">
                 <span>QUERY TERMINAL</span>
                 <span className="flex items-center gap-1">
@@ -202,7 +202,7 @@ export default async function HomePage({ searchParams }: PageProps) {
             </div>
 
             {/* Panel B — Index Telemetry */}
-            <div className="bg-surface/80 backdrop-blur-sm border border-border rounded-card p-6 flex flex-col justify-between min-h-[180px] hover:border-neutral-700 transition-all">
+            <div className="bg-surface border border-border rounded-card p-6 flex flex-col justify-between min-h-[180px] hover:border-neutral-700 transition-all">
               <div className="text-[10px] font-mono tracking-widest text-foreground-faint">
                 INDEX TELEMETRY
               </div>
@@ -232,7 +232,7 @@ export default async function HomePage({ searchParams }: PageProps) {
             </div>
 
             {/* Panel C — Quick Links */}
-            <div className="bg-surface/80 backdrop-blur-sm border border-border rounded-card p-6 flex flex-col justify-between min-h-[180px] hover:border-neutral-700 transition-all">
+            <div className="bg-surface border border-border rounded-card p-6 flex flex-col justify-between min-h-[180px] hover:border-neutral-700 transition-all">
               <div className="text-[10px] font-mono tracking-widest text-foreground-faint">
                 QUICK LINKS
               </div>
