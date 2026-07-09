@@ -81,7 +81,7 @@ export default async function HomePage({ searchParams }: PageProps) {
       <Header />
 
       {/* Hero Section */}
-      <section className="relative mx-auto max-w-container w-full px-6 pt-6 pb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-6 border-b border-border/40">
+      <section className="relative mx-auto max-w-container w-full px-6 pt-6 pb-6 grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 items-center border-b border-border/30">
         {/* Glowing Background Radial */}
         <div 
           className="absolute top-[-20%] left-1/2 -translate-x-1/2 h-[300px] w-[300px] rounded-full bg-white/5 blur-[80px] pointer-events-none" 
@@ -89,20 +89,20 @@ export default async function HomePage({ searchParams }: PageProps) {
         />
 
         {/* Left Side: Headline & description */}
-        <div className="flex-1 text-left max-w-xl">
-          <h1 className="text-xl font-black tracking-tight text-foreground sm:text-2xl lg:text-3xl">
+        <div className="col-span-12 md:col-span-6 text-left max-w-xl pr-2">
+          <h1 className="text-xl font-bold tracking-tight text-foreground sm:text-2xl lg:text-3xl leading-none">
             Where the world discovers{" "}
-            <span className="bg-gradient-to-b from-white to-neutral-400 bg-clip-text text-transparent block md:inline">
+            <span className="bg-gradient-to-b from-white to-neutral-400 bg-clip-text text-transparent block md:inline font-black">
               AI Innovation
             </span>
           </h1>
-          <p className="mt-1 text-xs text-foreground-muted leading-relaxed">
-            The premium discovery engine mapping tools, models, news, and robotics.
+          <p className="mt-1.5 text-xs text-foreground-muted leading-relaxed max-w-md">
+            The premium discovery engine mapping tools, models, news, and humanoid robotics in the global AI ecosystem.
           </p>
         </div>
 
         {/* Right Side: Global Search Box & Popular Queries */}
-        <div className="w-full md:max-w-md lg:max-w-lg flex flex-col items-stretch shrink-0">
+        <div className="col-span-12 md:col-span-6 w-full flex flex-col items-stretch md:border-l md:border-border/30 md:pl-8">
           <form
             action="/tools"
             method="GET"
@@ -111,7 +111,7 @@ export default async function HomePage({ searchParams }: PageProps) {
           >
             <Search
               size={14}
-              className="absolute left-3.5 top-1/2 -translate-y-1/2 text-foreground-faint pointer-events-none group-focus-within:text-white transition-colors"
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-foreground-faint pointer-events-none group-focus-within:text-white transition-colors"
               aria-hidden="true"
             />
             <input
@@ -119,15 +119,15 @@ export default async function HomePage({ searchParams }: PageProps) {
               name="q"
               defaultValue={params.q}
               placeholder="Search tools, models, news or companies..."
-              className="w-full rounded-full border border-border bg-surface/50 py-2 pl-9 pr-24 text-[11px] text-foreground placeholder:text-foreground-faint focus:border-neutral-500 focus:bg-surface focus:outline-none transition-all shadow-sm"
+              className="w-full rounded-lg border border-border bg-neutral-950/40 py-2 pl-9 pr-24 text-[11px] text-foreground placeholder:text-foreground-faint focus:border-neutral-500 focus:bg-neutral-950 focus:outline-none transition-all shadow-sm"
             />
-            <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1 pointer-events-none">
-              <kbd className="hidden sm:inline-flex h-4.5 select-none items-center gap-0.5 rounded border border-border bg-surface-raised px-1 font-mono text-[8px] font-medium text-foreground-faint">
+            <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1.5 pointer-events-none">
+              <kbd className="hidden sm:inline-flex h-4.5 select-none items-center gap-0.5 rounded border border-border/80 bg-neutral-900/60 px-1.5 font-mono text-[8px] font-medium text-foreground-faint">
                 <span>⌘</span>K
               </kbd>
               <button
                 type="submit"
-                className="rounded-full bg-white hover:bg-neutral-200 text-black text-[9px] font-semibold px-2 py-0.5 pointer-events-auto transition-colors"
+                className="rounded bg-white hover:bg-neutral-200 text-black text-[9px] font-semibold px-2 py-0.5 pointer-events-auto transition-colors"
               >
                 Search
               </button>
@@ -135,13 +135,13 @@ export default async function HomePage({ searchParams }: PageProps) {
           </form>
 
           {/* Popular / Trending Searches */}
-          <div className="mt-2 flex flex-wrap gap-1.5 text-[9px] items-center">
+          <div className="mt-2.5 flex flex-wrap gap-1.5 text-[9px] items-center">
             <span className="text-foreground-faint font-medium">Popular:</span>
             {["ChatGPT", "Claude", "Cursor", "Midjourney"].map((tag) => (
               <Link
                 key={tag}
                 href={`/tools?q=${tag.toLowerCase()}`}
-                className="text-foreground-muted hover:text-white transition-colors bg-surface-raised/40 hover:bg-white/5 px-2 py-0.5 rounded-full border border-border/40 hover:border-neutral-600"
+                className="text-foreground-muted hover:text-white transition-colors bg-surface-raised/40 hover:bg-white/5 px-2 py-0.5 rounded border border-border/40 hover:border-neutral-600"
               >
                 {tag}
               </Link>
@@ -150,21 +150,21 @@ export default async function HomePage({ searchParams }: PageProps) {
         </div>
       </section>
 
-      {/* 3. Entity Navigation Sticky Bar (Counts integrated inline) */}
-      <div className="sticky top-[73px] z-40 w-full border-b border-border/80 bg-background/90 backdrop-blur-sm py-2">
-        <div className="mx-auto max-w-container px-6 flex items-center gap-2 overflow-x-auto scrollbar-none">
-          <span className="text-[10px] font-bold uppercase tracking-wider text-foreground-faint shrink-0 mr-1">
+      {/* 3. Entity Navigation Sticky Bar (Underlined Tabs with Counts) */}
+      <div className="sticky top-[73px] z-40 w-full border-b border-border/30 bg-background/80 backdrop-blur-md">
+        <div className="mx-auto max-w-container px-6 flex items-center gap-1 overflow-x-auto scrollbar-none">
+          <span className="text-[9px] font-bold uppercase tracking-wider text-foreground-faint shrink-0 mr-2 py-2">
             Browse
           </span>
           {ENTITY_NAV_WITH_COUNTS.map((nav, i) => (
             <Link
               key={i}
               href={nav.href}
-              className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-medium border border-border bg-surface text-foreground-muted hover:border-neutral-600 hover:text-foreground hover:bg-surface-raised transition-all whitespace-nowrap active:scale-95 group"
+              className="inline-flex items-center gap-1 py-2 px-3 text-[11px] font-semibold text-foreground-muted hover:text-white transition-all whitespace-nowrap border-b-2 border-transparent hover:border-neutral-600 active:scale-98 group"
             >
               <span>{nav.label}</span>
               {nav.count && (
-                <span className="rounded bg-surface-raised border border-border/60 px-1 py-0.2 text-[8px] font-bold text-foreground-faint group-hover:text-foreground-muted group-hover:border-neutral-700 transition-colors">
+                <span className="text-[8px] font-mono font-bold text-foreground-faint group-hover:text-foreground-muted transition-colors">
                   {nav.count}
                 </span>
               )}
