@@ -85,7 +85,7 @@ export default async function HomePage({ searchParams }: PageProps) {
 
       {/* 2. Hero Section with CSS Grid Overlay */}
       <section 
-        className="relative w-full flex flex-col items-center pt-[140px] pb-20 px-6 overflow-hidden border-b border-[#232326]/40"
+        className="relative w-full flex flex-col items-center pt-[60px] pb-20 px-6 overflow-hidden border-b border-[#232326]/40"
         style={{
           backgroundImage: 'linear-gradient(to right, rgba(35, 35, 38, 0.12) 1px, transparent 1px), linear-gradient(to bottom, rgba(35, 35, 38, 0.12) 1px, transparent 1px)',
           backgroundSize: '32px 32px',

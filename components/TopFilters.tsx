@@ -31,7 +31,7 @@ export function TopFilters({ categories, params }: TopFiltersProps) {
         <span className="block text-[10px] font-mono tracking-widest text-foreground-faint uppercase">
           CATEGORIES
         </span>
-        <div className="flex flex-wrap gap-2 overflow-x-auto scrollbar-none pb-1">
+        <div className="flex flex-nowrap gap-3 overflow-x-auto scrollbar-none pb-1">
           {/* "All" category chip */}
           <Link
             href={buildToolsUrl(params, { category: null })}
