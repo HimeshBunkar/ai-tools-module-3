@@ -60,9 +60,9 @@ export default function HomePage() {
           </div>
 
           {/* Headline (72px - 80px) */}
-          <h1 className="max-w-[900px] text-5xl sm:text-6xl lg:text-[76px] font-black tracking-tight text-white leading-[1.05] mb-6 select-none">
-            Where the world discovers <br className="hidden sm:inline" />
+          <h1 className="max-w-[900px] text-5xl sm:text-6xl lg:text-[76px] font-black tracking-tight leading-[1.05] mb-6 select-none">
             <span className="bg-gradient-to-b from-white to-neutral-400 bg-clip-text text-transparent">Where the world discovers </span>
+            <br className="hidden sm:inline" />
             <span className="text-[#6E56CF]">AI innovation</span>
           </h1>
 
@@ -113,7 +113,7 @@ export default function HomePage() {
           </div>
 
           {/* Bottom Visual: Premium Floating Developer Interface Panels (Empty Placeholders Only) */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 w-full max-w-[1200px] mt-8 text-left">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-[800px] mt-8 text-left">
             
             {/* Panel 1: Code editor placeholder */}
             <div className="rounded-[24px] border border-[#232326] bg-[#131316] p-6 aspect-[4/3] flex flex-col justify-between shadow-2xl transition-all duration-300 hover:-translate-y-1 hover:border-[#6E56CF]/30 group">
@@ -139,42 +139,7 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Panel 2: Dashboard telemetry monitor placeholder */}
-            <div className="rounded-[24px] border border-[#232326] bg-[#131316] p-6 aspect-[4/3] flex flex-col justify-between shadow-2xl transition-all duration-300 hover:-translate-y-1 hover:border-[#6E56CF]/30 group">
-              <div className="flex items-center justify-between border-b border-[#232326]/60 pb-3">
-                <div className="w-8 h-8 rounded-lg bg-[#18181C]" />
-                <div className="w-24 h-2.5 rounded bg-[#18181C]" />
-              </div>
-              <div className="flex-1 flex items-center justify-center py-4 relative">
-                {/* SVG Empty chart path */}
-                <svg className="w-full h-24 overflow-visible" viewBox="0 0 100 30" preserveAspectRatio="none">
-                  <defs>
-                    <linearGradient id="chartGlow" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#6E56CF" stopOpacity="0.12" />
-                      <stop offset="100%" stopColor="#6E56CF" stopOpacity="0" />
-                    </linearGradient>
-                  </defs>
-                  <path 
-                    d="M0,25 Q15,10 30,22 T60,5 T90,28 T100,15" 
-                    fill="none" 
-                    stroke="#6E56CF" 
-                    strokeWidth="1.2" 
-                    strokeLinecap="round"
-                    className="opacity-70 group-hover:opacity-100 transition-opacity"
-                  />
-                  <path 
-                    d="M0,25 Q15,10 30,22 T60,5 T90,28 T100,15 L100,30 L0,30 Z" 
-                    fill="url(#chartGlow)"
-                  />
-                </svg>
-              </div>
-              <div className="flex justify-between items-center pt-3 border-t border-[#232326]/60">
-                <div className="w-16 h-2 rounded bg-[#18181C]" />
-                <div className="w-10 h-2 rounded bg-[#18181C]" />
-              </div>
-            </div>
-
-            {/* Panel 3: Settings/Parameters panel placeholder */}
+            {/* Panel 2: Settings/Parameters panel placeholder */}
             <div className="rounded-[24px] border border-[#232326] bg-[#131316] p-6 aspect-[4/3] flex flex-col justify-between shadow-2xl transition-all duration-300 hover:-translate-y-1 hover:border-[#6E56CF]/30 group">
               <div className="flex items-center justify-between border-b border-[#232326]/60 pb-3">
                 <div className="w-16 h-2.5 rounded bg-[#18181C]" />
