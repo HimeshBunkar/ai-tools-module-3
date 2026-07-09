@@ -17,7 +17,7 @@ export function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border bg-background py-3.5">
+    <header className="sticky top-0 z-50 w-full border-b border-border/20 bg-background/50 backdrop-blur-md py-3.5">
       <div className="mx-auto max-w-container px-6 flex items-center justify-between gap-4">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 group shrink-0">
@@ -71,16 +71,22 @@ export function Header() {
             Models
           </Link>
           <Link
+            href="#robotics"
+            className="text-xs font-medium text-foreground-muted hover:text-foreground transition-colors"
+          >
+            Robotics
+          </Link>
+          <Link
             href="#news"
             className="text-xs font-medium text-foreground-muted hover:text-foreground transition-colors"
           >
             News
           </Link>
           <Link
-            href="#robotics"
+            href="#repos"
             className="text-xs font-medium text-foreground-muted hover:text-foreground transition-colors"
           >
-            Robotics
+            Repositories
           </Link>
         </nav>
 

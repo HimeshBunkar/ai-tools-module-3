@@ -20,13 +20,13 @@ const config: Config = {
           subtle: "#1B1B1F",
         },
         foreground: {
-          DEFAULT: "#EDEDEF",
-          muted: "#8B8B93",
-          faint: "#5C5C64",
+          DEFAULT: "#FFFFFF",
+          muted: "#B8BCC8",
+          faint: "#7B8191",
         },
         accent: {
           DEFAULT: "#6E56CF",
-          hover: "#7C66DB",
+          hover: "#7C68E8",
           muted: "#1C1C24",
         },
         pricing: {
@@ -35,7 +35,7 @@ const config: Config = {
           paid: "#6E56CF",
           trial: "#E8A64C",
         },
-        success: "#4CC38A",
+        success: "#22C55E",
         danger: "#E5484D",
       },
       fontFamily: {
@@ -46,6 +46,7 @@ const config: Config = {
         sm: "8px",
         md: "10px",
         lg: "12px",
+        card: "20px",
         full: "999px",
       },
       maxWidth: {

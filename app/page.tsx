@@ -11,6 +11,7 @@ import type { ToolsSearchParams } from "@/lib/types";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { DiscoverySection } from "@/components/DiscoverySection";
+import { ParticleGlobe } from "@/components/ParticleGlobe";
 
 // Existing tools components
 import { TopFilters } from "@/components/TopFilters";
@@ -80,25 +81,44 @@ export default async function HomePage({ searchParams }: PageProps) {
       {/* 1. Sticky Header */}
       <Header />
 
-      {/* Linear-style Hero Section with CSS Grid Overlay */}
+      {/* Linear-style Hero Section with CSS Grid Overlay & Particle Globe */}
       <section 
-        className="relative w-full border-b border-border/40 py-20 flex flex-col items-center justify-center overflow-hidden"
+        className="relative w-full border-b border-border/40 py-24 md:py-32 flex flex-col items-center justify-center overflow-hidden"
         style={{
-          backgroundImage: 'radial-gradient(ellipse 60% 60% at 50% 0%, rgba(110, 86, 207, 0.08), transparent), linear-gradient(to right, rgba(35, 35, 38, 0.15) 1px, transparent 1px), linear-gradient(to bottom, rgba(35, 35, 38, 0.15) 1px, transparent 1px)',
-          backgroundSize: '100% 100%, 24px 24px, 24px 24px',
+          backgroundImage: 'linear-gradient(to right, rgba(35, 35, 38, 0.08) 1px, transparent 1px), linear-gradient(to bottom, rgba(35, 35, 38, 0.08) 1px, transparent 1px)',
+          backgroundSize: '24px 24px',
         }}
       >
+        {/* Interactive HTML5 Canvas Particle Globe */}
+        <ParticleGlobe />
+
         <div className="mx-auto max-w-container px-6 w-full flex flex-col items-center text-center relative z-10">
           
+          {/* Subtle Floating AI Nodes around the Hero */}
+          <div className="absolute top-[22%] left-[8%] hidden xl:flex items-center gap-1.5 opacity-30 animate-pulse pointer-events-none">
+            <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+            <span className="h-px w-8 bg-gradient-to-r from-accent to-transparent" />
+            <span className="text-[9px] font-mono text-foreground-faint">NODE_ALPHA_12</span>
+          </div>
+          <div className="absolute bottom-[35%] right-[10%] hidden xl:flex items-center gap-1.5 opacity-25 animate-pulse pointer-events-none" style={{ animationDelay: '1.2s' }}>
+            <span className="text-[9px] font-mono text-foreground-faint">NODE_BETA_99</span>
+            <span className="h-px w-8 bg-gradient-to-l from-accent to-transparent" />
+            <span className="h-1.5 w-1.5 rounded-full bg-blue-400" />
+          </div>
+          <div className="absolute top-[40%] right-[6%] hidden xl:flex items-center gap-1.5 opacity-25 animate-pulse pointer-events-none" style={{ animationDelay: '2.4s' }}>
+            <span className="h-1 w-1 rounded-full bg-indigo-500 animate-ping" />
+            <span className="text-[9px] font-mono text-foreground-faint">SYS_ACTIVE_PING</span>
+          </div>
+
           {/* Announcement Pill */}
-          <div className="inline-flex items-center gap-1.5 rounded-full border border-border/80 bg-surface px-3 py-1 text-xs font-semibold text-foreground-muted hover:border-neutral-700 hover:text-white transition-all cursor-pointer mb-6">
+          <div className="inline-flex items-center gap-1.5 rounded-full border border-border/85 bg-surface px-3 py-1 text-xs font-semibold text-foreground-muted hover:border-neutral-700 hover:text-white transition-all cursor-pointer mb-8 relative z-10">
             <span>The AI Signal 2026</span>
             <span className="text-border/60">|</span>
             <span className="text-accent flex items-center gap-0.5">Ecosystem Update <ArrowRight size={10} /></span>
           </div>
 
           {/* Headline */}
-          <h1 className="max-w-4xl text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-[1.1] mb-6">
+          <h1 className="max-w-5xl text-5xl sm:text-6xl lg:text-[80px] font-black tracking-tight text-white leading-[1.05] mb-6 relative z-10">
             Where the world discovers <br className="hidden sm:inline" />
             <span className="bg-gradient-to-b from-white to-neutral-400 bg-clip-text text-transparent">
               AI Innovation
@@ -106,15 +126,15 @@ export default async function HomePage({ searchParams }: PageProps) {
           </h1>
 
           {/* Subtitle */}
-          <p className="max-w-2xl text-sm sm:text-base text-foreground-muted leading-relaxed mb-8">
-            The AI Signal is a premium discovery engine mapping AI tools, companies, models, workflows, robotics, and edge hardware. Built for builders, research labs, and early adopters.
+          <p className="max-w-3xl text-base sm:text-xl text-foreground-muted leading-relaxed mb-10 relative z-10">
+            Discover and explore AI tools, companies, models, repositories, robotics and developer infrastructure from one unified platform.
           </p>
 
           {/* Actions Row */}
-          <div className="flex flex-wrap justify-center gap-3 mb-16">
+          <div className="flex flex-wrap justify-center gap-3 mb-20 relative z-10">
             <Link
               href="#tools"
-              className="rounded-md bg-white hover:bg-neutral-200 px-6 py-2.5 text-xs font-bold text-black shadow-md transition-all active:scale-95 flex items-center gap-1"
+              className="rounded-md bg-white hover:bg-neutral-200 px-6 py-2.5 text-xs font-bold text-black shadow-md transition-all active:scale-95 flex items-center gap-1.5"
             >
               <span>Explore Directory</span>
               <ArrowRight size={12} />
@@ -123,19 +143,19 @@ export default async function HomePage({ searchParams }: PageProps) {
               href="/tools"
               className="rounded-md border border-border bg-surface-raised/40 hover:bg-border px-6 py-2.5 text-xs font-bold text-foreground transition-all active:scale-95"
             >
-              Submit a Product
+              View Documentation
             </Link>
           </div>
 
-          {/* Three-Panel Dashboard Strip inside the Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full text-left">
+          {/* Three-Panel Dashboard Strip */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full text-left relative z-10">
             {/* Panel A — Query Terminal */}
-            <div className="bg-surface/80 backdrop-blur-sm border border-border rounded-lg p-5 flex flex-col justify-between min-h-[170px] hover:border-neutral-700 transition-all">
+            <div className="bg-surface/80 backdrop-blur-sm border border-border rounded-card p-6 flex flex-col justify-between min-h-[180px] hover:border-neutral-700 transition-all">
               <div className="flex items-center justify-between text-[10px] font-mono tracking-widest text-foreground-faint">
                 <span>QUERY TERMINAL</span>
                 <span className="flex items-center gap-1">
                   <span className="h-1.5 w-1.5 rounded-full bg-success animate-pulse" />
-                  <span className="text-success uppercase">active</span>
+                  <span className="text-success uppercase font-semibold">active</span>
                 </span>
               </div>
 
@@ -151,7 +171,7 @@ export default async function HomePage({ searchParams }: PageProps) {
                     name="q"
                     defaultValue={params.q}
                     placeholder="Search tools, models, news or companies..."
-                    className="w-full rounded-l-md border border-r-0 border-border bg-surface-raised py-2 pl-9 pr-12 text-xs text-foreground placeholder:text-foreground-faint focus:border-accent focus:outline-none transition-all"
+                    className="w-full rounded-l-md border border-r-0 border-border bg-surface-raised py-2.5 pl-9 pr-12 text-xs text-foreground placeholder:text-foreground-faint focus:border-accent focus:outline-none transition-all"
                   />
                   <kbd className="absolute right-3 top-1/2 -translate-y-1/2 hidden sm:inline-flex h-4.5 select-none items-center gap-0.5 rounded border border-border/80 bg-neutral-900/60 px-1.5 font-mono text-[8px] text-foreground-faint pointer-events-none">
                     <span>⌘</span>K
@@ -159,7 +179,7 @@ export default async function HomePage({ searchParams }: PageProps) {
                 </div>
                 <button
                   type="submit"
-                  className="rounded-r-md bg-white hover:bg-neutral-200 text-black text-xs font-semibold px-4 py-2 border border-white transition-colors h-[34px] flex items-center justify-center shrink-0"
+                  className="rounded-r-md bg-white hover:bg-neutral-200 text-black text-xs font-semibold px-4 py-2 border border-white transition-colors h-[38px] flex items-center justify-center shrink-0"
                 >
                   Search
                 </button>
@@ -167,18 +187,22 @@ export default async function HomePage({ searchParams }: PageProps) {
 
               <div className="flex items-center gap-1.5 text-[10px] font-mono tracking-widest text-foreground-faint uppercase">
                 <span>Popular:</span>
-                <div className="flex items-center gap-2 font-sans lowercase text-foreground-muted">
+                <div className="flex flex-wrap items-center gap-2 font-sans lowercase text-foreground-muted">
                   <Link href="/tools?q=chatgpt" className="hover:text-accent transition-colors">ChatGPT</Link>
                   <span className="text-border/40">•</span>
                   <Link href="/tools?q=claude" className="hover:text-accent transition-colors">Claude</Link>
                   <span className="text-border/40">•</span>
+                  <Link href="/tools?q=gemini" className="hover:text-accent transition-colors">Gemini</Link>
+                  <span className="text-border/40">•</span>
                   <Link href="/tools?q=cursor" className="hover:text-accent transition-colors">Cursor</Link>
+                  <span className="text-border/40">•</span>
+                  <Link href="/tools?q=lovable" className="hover:text-accent transition-colors">Lovable</Link>
                 </div>
               </div>
             </div>
 
             {/* Panel B — Index Telemetry */}
-            <div className="bg-surface/80 backdrop-blur-sm border border-border rounded-lg p-5 flex flex-col justify-between min-h-[170px] hover:border-neutral-700 transition-all">
+            <div className="bg-surface/80 backdrop-blur-sm border border-border rounded-card p-6 flex flex-col justify-between min-h-[180px] hover:border-neutral-700 transition-all">
               <div className="text-[10px] font-mono tracking-widest text-foreground-faint">
                 INDEX TELEMETRY
               </div>
@@ -186,19 +210,19 @@ export default async function HomePage({ searchParams }: PageProps) {
               <div className="grid grid-cols-2 gap-4 my-2">
                 <div className="flex flex-col">
                   <span className="text-[9px] font-mono tracking-wider text-foreground-faint">TOOLS</span>
-                  <span className="text-xl font-bold tracking-tight text-foreground font-sans">50K+</span>
+                  <span className="text-xl font-bold tracking-tight text-foreground font-mono">50K+</span>
                 </div>
                 <div className="flex flex-col">
                   <span className="text-[9px] font-mono tracking-wider text-foreground-faint">MODELS</span>
-                  <span className="text-xl font-bold tracking-tight text-foreground font-sans">1K+</span>
+                  <span className="text-xl font-bold tracking-tight text-foreground font-mono">1K+</span>
                 </div>
                 <div className="flex flex-col">
                   <span className="text-[9px] font-mono tracking-wider text-foreground-faint">REPOS</span>
-                  <span className="text-xl font-bold tracking-tight text-foreground font-sans">20K+</span>
+                  <span className="text-xl font-bold tracking-tight text-foreground font-mono">20K+</span>
                 </div>
                 <div className="flex flex-col">
                   <span className="text-[9px] font-mono tracking-wider text-foreground-faint">ROBOTS</span>
-                  <span className="text-xl font-bold tracking-tight text-foreground font-sans">500+</span>
+                  <span className="text-xl font-bold tracking-tight text-foreground font-mono">500+</span>
                 </div>
               </div>
 
@@ -207,24 +231,33 @@ export default async function HomePage({ searchParams }: PageProps) {
               </div>
             </div>
 
-            {/* Panel C — Directory Links */}
-            <div className="bg-surface/80 backdrop-blur-sm border border-border rounded-lg p-5 flex flex-col justify-between min-h-[170px] hover:border-neutral-700 transition-all">
+            {/* Panel C — Quick Links */}
+            <div className="bg-surface/80 backdrop-blur-sm border border-border rounded-card p-6 flex flex-col justify-between min-h-[180px] hover:border-neutral-700 transition-all">
               <div className="text-[10px] font-mono tracking-widest text-foreground-faint">
-                DIRECTORY LINKS
+                QUICK LINKS
               </div>
 
               <div className="grid grid-cols-2 gap-2 my-2 text-xs text-foreground-muted">
                 <Link href="#tools" className="hover:text-foreground transition-colors flex items-center gap-1">
-                  <span>→</span> <span>Tools</span>
-                </Link>
-                <Link href="#models" className="hover:text-foreground transition-colors flex items-center gap-1">
-                  <span>→</span> <span>Models</span>
+                  <span>→</span> <span>AI Tools</span>
                 </Link>
                 <Link href="#companies" className="hover:text-foreground transition-colors flex items-center gap-1">
                   <span>→</span> <span>Companies</span>
                 </Link>
+                <Link href="#models" className="hover:text-foreground transition-colors flex items-center gap-1">
+                  <span>→</span> <span>Models</span>
+                </Link>
                 <Link href="#robotics" className="hover:text-foreground transition-colors flex items-center gap-1">
                   <span>→</span> <span>Robotics</span>
+                </Link>
+                <Link href="#repos" className="hover:text-foreground transition-colors flex items-center gap-1">
+                  <span>→</span> <span>Repositories</span>
+                </Link>
+                <Link href="#news" className="hover:text-foreground transition-colors flex items-center gap-1">
+                  <span>→</span> <span>News</span>
+                </Link>
+                <Link href="/tools" className="hover:text-foreground transition-colors flex items-center gap-1">
+                  <span>→</span> <span>Collections</span>
                 </Link>
               </div>
 
