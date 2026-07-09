@@ -80,72 +80,126 @@ export default async function HomePage({ searchParams }: PageProps) {
       {/* 1. Sticky Header */}
       <Header />
 
-      {/* Hero Section */}
-      <section className="relative mx-auto max-w-container w-full px-6 pt-6 pb-6 grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 items-center border-b border-border/30">
+      {/* Hero Header Section */}
+      <section className="relative mx-auto max-w-container w-full px-6 pt-5 pb-5 border-b border-border/30">
         {/* Glowing Background Radial */}
         <div 
           className="absolute top-[-20%] left-1/2 -translate-x-1/2 h-[300px] w-[300px] rounded-full bg-white/5 blur-[80px] pointer-events-none" 
           aria-hidden="true" 
         />
 
-        {/* Left Side: Headline & description */}
-        <div className="col-span-12 md:col-span-6 text-left max-w-xl pr-2">
-          <h1 className="text-xl font-bold tracking-tight text-foreground sm:text-2xl lg:text-3xl leading-none">
+        {/* Title row */}
+        <div className="text-left mb-4">
+          <h1 className="text-lg font-bold tracking-tight text-foreground sm:text-xl lg:text-2xl leading-none">
             Where the world discovers{" "}
-            <span className="bg-gradient-to-b from-white to-neutral-400 bg-clip-text text-transparent block md:inline font-black">
+            <span className="bg-gradient-to-b from-white to-neutral-400 bg-clip-text text-transparent font-black">
               AI Innovation
             </span>
           </h1>
-          <p className="mt-1.5 text-xs text-foreground-muted leading-relaxed max-w-md">
-            The premium discovery engine mapping tools, models, news, and humanoid robotics in the global AI ecosystem.
-          </p>
         </div>
 
-        {/* Right Side: Global Search Box & Popular Queries */}
-        <div className="col-span-12 md:col-span-6 w-full flex flex-col items-stretch md:border-l md:border-border/30 md:pl-8">
-          <form
-            action="/tools"
-            method="GET"
-            role="search"
-            className="relative group w-full"
-          >
-            <Search
-              size={14}
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-foreground-faint pointer-events-none group-focus-within:text-white transition-colors"
-              aria-hidden="true"
-            />
-            <input
-              type="text"
-              name="q"
-              defaultValue={params.q}
-              placeholder="Search tools, models, news or companies..."
-              className="w-full rounded-lg border border-border bg-neutral-950/40 py-2 pl-9 pr-24 text-[11px] text-foreground placeholder:text-foreground-faint focus:border-neutral-500 focus:bg-neutral-950 focus:outline-none transition-all shadow-sm"
-            />
-            <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1.5 pointer-events-none">
-              <kbd className="hidden sm:inline-flex h-4.5 select-none items-center gap-0.5 rounded border border-border/80 bg-neutral-900/60 px-1.5 font-mono text-[8px] font-medium text-foreground-faint">
-                <span>⌘</span>K
-              </kbd>
-              <button
-                type="submit"
-                className="rounded bg-white hover:bg-neutral-200 text-black text-[9px] font-semibold px-2 py-0.5 pointer-events-auto transition-colors"
-              >
-                Search
-              </button>
+        {/* Bento Grid Dashboard */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-3 w-full relative z-10">
+          {/* Bento Card 1: Search Console (Raycast Style) */}
+          <div className="col-span-12 md:col-span-6 rounded-lg border border-border bg-surface/50 p-4 flex flex-col justify-between min-h-[120px] hover:border-neutral-700 transition-all shadow-sm">
+            <div className="flex items-center justify-between text-[9px] font-mono tracking-wider text-foreground-faint">
+              <span>QUERY TERMINAL</span>
+              <span className="flex items-center gap-1">
+                <span className="h-1.5 w-1.5 rounded-full bg-neutral-400 animate-pulse" />
+                <span>active</span>
+              </span>
             </div>
-          </form>
+            
+            <form action="/tools" method="GET" className="relative group w-full my-1.5">
+              <Search
+                size={14}
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-foreground-faint group-focus-within:text-white transition-colors"
+                aria-hidden="true"
+              />
+              <input
+                type="text"
+                name="q"
+                defaultValue={params.q}
+                placeholder="Search tools, models, news or companies..."
+                className="w-full rounded-md border border-border bg-neutral-950/40 py-2 pl-9 pr-24 text-[11px] text-foreground placeholder:text-foreground-faint focus:border-neutral-500 focus:bg-neutral-950 focus:outline-none transition-all"
+              />
+              <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1.5 pointer-events-none">
+                <kbd className="hidden sm:inline-flex h-4.5 select-none items-center gap-0.5 rounded border border-border/80 bg-neutral-900/60 px-1.5 font-mono text-[8px] font-medium text-foreground-faint">
+                  <span>⌘</span>K
+                </kbd>
+                <button
+                  type="submit"
+                  className="rounded bg-white hover:bg-neutral-200 text-black text-[9px] font-semibold px-2 py-0.5 pointer-events-auto transition-colors"
+                >
+                  Search
+                </button>
+              </div>
+            </form>
 
-          {/* Popular / Trending Searches */}
-          <div className="mt-2.5 flex flex-wrap gap-1.5 text-[9px] items-center">
-            <span className="text-foreground-faint font-medium">Popular:</span>
-            {["ChatGPT", "Claude", "Cursor", "Midjourney"].map((tag) => (
-              <Link
-                key={tag}
-                href={`/tools?q=${tag.toLowerCase()}`}
-                className="text-foreground-muted hover:text-white transition-colors bg-surface-raised/40 hover:bg-white/5 px-2 py-0.5 rounded border border-border/40 hover:border-neutral-600"
-              >
-                {tag}
+            <div className="flex items-center gap-1.5 text-[9px] text-foreground-faint">
+              <span>Popular:</span>
+              {["ChatGPT", "Claude", "Cursor"].map((tag) => (
+                <Link
+                  key={tag}
+                  href={`/tools?q=${tag.toLowerCase()}`}
+                  className="text-foreground-muted hover:text-white transition-colors"
+                >
+                  {tag}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* Bento Card 2: Live Telemetry Counts */}
+          <div className="col-span-12 md:col-span-3 rounded-lg border border-border bg-surface/50 p-4 flex flex-col justify-between min-h-[120px] hover:border-neutral-700 transition-all shadow-sm">
+            <div className="text-[9px] font-mono tracking-wider text-foreground-faint">
+              INDEX TELEMETRY
+            </div>
+            <div className="grid grid-cols-2 gap-x-2 gap-y-1 my-1">
+              <div>
+                <span className="block text-[8px] text-foreground-faint uppercase font-mono">tools</span>
+                <span className="font-mono text-xs font-bold text-white">50K+</span>
+              </div>
+              <div>
+                <span className="block text-[8px] text-foreground-faint uppercase font-mono">models</span>
+                <span className="font-mono text-xs font-bold text-white">1K+</span>
+              </div>
+              <div>
+                <span className="block text-[8px] text-foreground-faint uppercase font-mono">repos</span>
+                <span className="font-mono text-xs font-bold text-white">20K+</span>
+              </div>
+              <div>
+                <span className="block text-[8px] text-foreground-faint uppercase font-mono">robots</span>
+                <span className="font-mono text-xs font-bold text-white">500+</span>
+              </div>
+            </div>
+            <div className="text-[8px] text-foreground-faint font-mono uppercase">
+              updated: live sync
+            </div>
+          </div>
+
+          {/* Bento Card 3: Quick Navigation Scroll Nodes */}
+          <div className="col-span-12 md:col-span-3 rounded-lg border border-border bg-surface/50 p-4 flex flex-col justify-between min-h-[120px] hover:border-neutral-700 transition-all shadow-sm">
+            <div className="text-[9px] font-mono tracking-wider text-foreground-faint">
+              DIRECTORY LINKS
+            </div>
+            <div className="grid grid-cols-2 gap-x-2 gap-y-1 my-1 text-[10px] text-foreground-muted font-medium">
+              <Link href="#tools" className="hover:text-white flex items-center">
+                <span>→ Tools</span>
               </Link>
-            ))}
+              <Link href="#companies" className="hover:text-white flex items-center">
+                <span>→ Companies</span>
+              </Link>
+              <Link href="#models" className="hover:text-white flex items-center">
+                <span>→ Models</span>
+              </Link>
+              <Link href="#robotics" className="hover:text-white flex items-center">
+                <span>→ Robotics</span>
+              </Link>
+            </div>
+            <div className="text-[8px] text-foreground-faint font-mono uppercase">
+              nodes: page anchors
+            </div>
           </div>
         </div>
       </section>
