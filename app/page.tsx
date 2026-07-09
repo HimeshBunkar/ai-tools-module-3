@@ -120,7 +120,7 @@ export default async function HomePage({ searchParams }: PageProps) {
 
           {/* Large Pill Search Input (760px - 820px) */}
           <form action="/tools" method="GET" className="relative w-full max-w-[800px] mx-auto mb-10 group">
-            <div className="relative w-full rounded-full border border-[#232326] bg-[#131316] px-6 py-4.5 pr-14 focus-within:border-[#6E56CF] focus-within:shadow-[0_0_24px_rgba(110,86,207,0.15)] transition-all duration-300">
+            <div className="relative w-full rounded-full border border-[#232326] bg-[#131316] px-6 py-4.5 pr-24 focus-within:border-[#6E56CF] focus-within:shadow-[0_0_24px_rgba(110,86,207,0.15)] transition-all duration-300">
               <input
                 type="text"
                 name="q"
@@ -128,13 +128,18 @@ export default async function HomePage({ searchParams }: PageProps) {
                 placeholder="Search AI tools, models, companies..."
                 className="w-full bg-transparent text-sm text-white placeholder:text-[#71717A] focus:outline-none"
               />
-              <button 
-                type="submit" 
-                className="absolute right-6 top-1/2 -translate-y-1/2 text-[#71717A] hover:text-[#6E56CF] transition-colors"
-                aria-label="Search"
-              >
-                <Search size={20} />
-              </button>
+              <div className="absolute right-6 top-1/2 -translate-y-1/2 flex items-center gap-2">
+                <kbd className="hidden sm:inline-flex h-5 select-none items-center gap-0.5 rounded border border-[#232326] bg-[#18181C] px-1.5 font-mono text-[9px] text-[#71717A] pointer-events-none">
+                  <span>⌘</span>K
+                </kbd>
+                <button 
+                  type="submit" 
+                  className="text-[#71717A] hover:text-[#6E56CF] transition-colors"
+                  aria-label="Search"
+                >
+                  <Search size={20} />
+                </button>
+              </div>
             </div>
           </form>
 

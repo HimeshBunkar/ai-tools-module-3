@@ -14,11 +14,11 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "AI Tools — Discover the AI Ecosystem",
-    template: "%s | AI Tools",
+    default: "The AI Signal — Discover the AI Ecosystem",
+    template: "%s | The AI Signal",
   },
   description:
-    "Discover, compare, and explore AI tools across every category and use case.",
+    "Discover, compare, and explore the best AI tools, companies, models, and repositories in the global ecosystem.",
 };
 
 export default function RootLayout({
