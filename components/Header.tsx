@@ -1,23 +1,13 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Search, Plus, User, Compass } from "lucide-react";
-import { cn } from "@/lib/utils";
 
 export function Header() {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
-  const [isScrolled, setIsScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,18 +17,11 @@ export function Header() {
   };
 
   return (
-    <header
-      className={cn(
-        "sticky top-0 z-50 w-full transition-all duration-300",
-        isScrolled
-          ? "border-b border-border bg-background/75 backdrop-blur-md shadow-lg shadow-black/10 py-3"
-          : "border-b border-transparent bg-transparent py-4"
-      )}
-    >
+    <header className="sticky top-0 z-50 w-full border-b border-border bg-background py-3.5">
       <div className="mx-auto max-w-container px-6 flex items-center justify-between gap-4">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 group shrink-0">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-white text-black font-black text-lg transition-transform group-hover:scale-105 active:scale-95 shadow-sm border border-border">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white text-black font-black text-base transition-transform group-hover:scale-105 active:scale-95 shadow-sm border border-border">
             S
           </div>
           <span className="text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-white">
@@ -49,7 +32,7 @@ export function Header() {
         {/* Global Search Bar (stays visible while scrolling) */}
         <form
           onSubmit={handleSearchSubmit}
-          className="relative max-w-md flex-1 hidden md:block"
+          className="relative max-w-[480px] flex-1 hidden md:block"
         >
           <Search
             size={16}
@@ -61,7 +44,7 @@ export function Header() {
             placeholder="Search the AI ecosystem..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full rounded-full border border-border bg-surface/50 py-2 pl-9 pr-4 text-xs text-foreground placeholder:text-foreground-faint focus:border-neutral-500 focus:bg-surface focus:outline-none transition-all"
+            className="w-full rounded-full border border-border bg-surface py-2 pl-9 pr-4 text-xs text-foreground placeholder:text-foreground-faint focus:border-accent focus:bg-surface focus:outline-none transition-all"
           />
           {searchQuery && (
             <button
@@ -113,7 +96,7 @@ export function Header() {
           
           <Link
             href="/tools"
-            className="hidden sm:inline-flex items-center gap-1.5 rounded-full border border-border bg-surface-raised px-4 py-2 text-xs font-medium text-foreground hover:bg-border transition-all active:scale-95"
+            className="hidden sm:inline-flex items-center gap-1.5 rounded-full bg-white px-4 py-2 text-xs font-semibold text-black hover:bg-neutral-200 transition-all active:scale-95"
           >
             <Plus size={12} />
             <span>Submit Tool</span>

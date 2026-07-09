@@ -10,24 +10,24 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "#000000",
+        background: "#0B0B0E",
         surface: {
-          DEFAULT: "#0C0C0E",
-          raised: "#141416",
+          DEFAULT: "#131316",
+          raised: "#18181C",
         },
         border: {
-          DEFAULT: "#1F1F22",
-          subtle: "#141416",
+          DEFAULT: "#232326",
+          subtle: "#1B1B1F",
         },
         foreground: {
-          DEFAULT: "#FFFFFF",
-          muted: "#9A9A9E",
-          faint: "#555558",
+          DEFAULT: "#EDEDEF",
+          muted: "#8B8B93",
+          faint: "#5C5C64",
         },
         accent: {
-          DEFAULT: "#FFFFFF",
-          hover: "#E5E5E5",
-          muted: "#18181C",
+          DEFAULT: "#6E56CF",
+          hover: "#7C66DB",
+          muted: "#1C1C24",
         },
         pricing: {
           free: "#4CC38A",
@@ -43,9 +43,10 @@ const config: Config = {
         mono: ["var(--font-geist-mono)", "monospace"],
       },
       borderRadius: {
-        sm: "6px",
-        md: "8px",
+        sm: "8px",
+        md: "10px",
         lg: "12px",
+        full: "999px",
       },
       maxWidth: {
         container: "1280px",

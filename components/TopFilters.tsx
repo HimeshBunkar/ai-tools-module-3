@@ -28,8 +28,8 @@ export function TopFilters({ categories, params }: TopFiltersProps) {
 
       {/* Category Tags scroll row */}
       <div className="space-y-2">
-        <span className="block text-xs font-semibold uppercase tracking-wide text-foreground-faint">
-          Categories
+        <span className="block text-[10px] font-mono tracking-widest text-foreground-faint uppercase">
+          CATEGORIES
         </span>
         <div className="flex flex-wrap gap-2 overflow-x-auto scrollbar-none pb-1">
           {/* "All" category chip */}
@@ -38,8 +38,8 @@ export function TopFilters({ categories, params }: TopFiltersProps) {
             className={cn(
               "rounded-full px-3.5 py-1.5 text-xs font-medium border transition-all active:scale-95 whitespace-nowrap",
               !params.category
-                ? "bg-white text-black border-transparent shadow-sm hover:bg-neutral-200"
-                : "bg-surface border-border text-foreground-muted hover:bg-surface-raised hover:text-foreground"
+                ? "bg-white text-black border-transparent hover:bg-neutral-200"
+                : "bg-surface border-border text-foreground-muted hover:border-accent"
             )}
           >
             All Categories
@@ -52,16 +52,16 @@ export function TopFilters({ categories, params }: TopFiltersProps) {
                 key={cat.slug}
                 href={buildToolsUrl(params, { category: isActive ? null : cat.slug })}
                 className={cn(
-                  "rounded-full px-3.5 py-1.5 text-xs font-medium border transition-all active:scale-95 whitespace-nowrap flex items-center gap-1.5",
+                  "rounded-full px-3.5 py-1.5 text-xs font-medium border transition-all active:scale-95 whitespace-nowrap flex items-center",
                   isActive
-                    ? "bg-white text-black border-transparent shadow-sm hover:bg-neutral-200"
-                    : "bg-surface border-border text-foreground-muted hover:bg-surface-raised hover:text-foreground"
+                    ? "bg-white text-black border-transparent hover:bg-neutral-200"
+                    : "bg-surface border-border text-foreground-muted hover:border-accent"
                 )}
               >
                 <span>{cat.name}</span>
                 <span className={cn(
-                  "rounded-full px-1.5 py-0.5 text-[10px] font-bold",
-                  isActive ? "bg-black/10 text-black/80" : "bg-surface-raised text-foreground-faint"
+                  "ml-1 text-[10px]",
+                  isActive ? "text-black/50 font-bold" : "text-foreground-faint"
                 )}>
                   {cat._count.tools}
                 </span>

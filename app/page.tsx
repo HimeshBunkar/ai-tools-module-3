@@ -80,150 +80,145 @@ export default async function HomePage({ searchParams }: PageProps) {
       {/* 1. Sticky Header */}
       <Header />
 
-      {/* Hero Header Section */}
-      <section className="relative mx-auto max-w-container w-full px-6 pt-5 pb-5 border-b border-border/30">
-        {/* Glowing Background Radial */}
-        <div 
-          className="absolute top-[-20%] left-1/2 -translate-x-1/2 h-[300px] w-[300px] rounded-full bg-white/5 blur-[80px] pointer-events-none" 
-          aria-hidden="true" 
-        />
+      {/* Hero Section */}
+      <section className="relative mx-auto max-w-container px-6 pt-16 pb-0 text-center flex flex-col items-center">
+        {/* Headline */}
+        <h1 className="max-w-4xl text-4xl sm:text-5xl font-semibold tracking-tight text-foreground leading-[1.2] mb-10">
+          Where the world discovers <span className="font-semibold text-white">AI innovation</span>
+        </h1>
+      </section>
 
-        {/* Title row */}
-        <div className="text-left mb-4">
-          <h1 className="text-lg font-bold tracking-tight text-foreground sm:text-xl lg:text-2xl leading-none">
-            Where the world discovers{" "}
-            <span className="bg-gradient-to-b from-white to-neutral-400 bg-clip-text text-transparent font-black">
-              AI Innovation
-            </span>
-          </h1>
-        </div>
-
-        {/* Bento Grid Dashboard */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-3 w-full relative z-10">
-          {/* Bento Card 1: Search Console (Raycast Style) */}
-          <div className="col-span-12 md:col-span-6 rounded-lg border border-border bg-surface/50 p-4 flex flex-col justify-between min-h-[120px] hover:border-neutral-700 transition-all shadow-sm">
-            <div className="flex items-center justify-between text-[9px] font-mono tracking-wider text-foreground-faint">
+      {/* Three-Panel Dashboard Strip */}
+      <section className="mx-auto max-w-container w-full px-6 pb-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {/* Panel A — Query Terminal */}
+          <div className="bg-surface border border-border rounded-lg p-5 flex flex-col justify-between min-h-[170px] hover:border-neutral-700 transition-all">
+            <div className="flex items-center justify-between text-[10px] font-mono tracking-widest text-foreground-faint">
               <span>QUERY TERMINAL</span>
               <span className="flex items-center gap-1">
-                <span className="h-1.5 w-1.5 rounded-full bg-neutral-400 animate-pulse" />
-                <span>active</span>
+                <span className="h-1.5 w-1.5 rounded-full bg-success animate-pulse" />
+                <span className="text-success uppercase">active</span>
               </span>
             </div>
-            
-            <form action="/tools" method="GET" className="relative group w-full my-1.5">
-              <Search
-                size={14}
-                className="absolute left-3 top-1/2 -translate-y-1/2 text-foreground-faint group-focus-within:text-white transition-colors"
-                aria-hidden="true"
-              />
-              <input
-                type="text"
-                name="q"
-                defaultValue={params.q}
-                placeholder="Search tools, models, news or companies..."
-                className="w-full rounded-md border border-border bg-neutral-950/40 py-2 pl-9 pr-24 text-[11px] text-foreground placeholder:text-foreground-faint focus:border-neutral-500 focus:bg-neutral-950 focus:outline-none transition-all"
-              />
-              <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1.5 pointer-events-none">
-                <kbd className="hidden sm:inline-flex h-4.5 select-none items-center gap-0.5 rounded border border-border/80 bg-neutral-900/60 px-1.5 font-mono text-[8px] font-medium text-foreground-faint">
+
+            <form action="/tools" method="GET" className="relative flex items-center w-full my-3">
+              <div className="relative flex-1">
+                <Search
+                  size={14}
+                  className="absolute left-3 top-1/2 -translate-y-1/2 text-foreground-faint"
+                  aria-hidden="true"
+                />
+                <input
+                  type="text"
+                  name="q"
+                  defaultValue={params.q}
+                  placeholder="Search tools, models, news or companies..."
+                  className="w-full rounded-l-md border border-r-0 border-border bg-surface-raised py-2 pl-9 pr-12 text-xs text-foreground placeholder:text-foreground-faint focus:border-accent focus:outline-none transition-all"
+                />
+                <kbd className="absolute right-3 top-1/2 -translate-y-1/2 hidden sm:inline-flex h-4.5 select-none items-center gap-0.5 rounded border border-border/80 bg-neutral-900/60 px-1.5 font-mono text-[8px] text-foreground-faint pointer-events-none">
                   <span>⌘</span>K
                 </kbd>
-                <button
-                  type="submit"
-                  className="rounded bg-white hover:bg-neutral-200 text-black text-[9px] font-semibold px-2 py-0.5 pointer-events-auto transition-colors"
-                >
-                  Search
-                </button>
               </div>
+              <button
+                type="submit"
+                className="rounded-r-md bg-white hover:bg-neutral-200 text-black text-xs font-semibold px-4 py-2 border border-white transition-colors h-[34px] flex items-center justify-center shrink-0"
+              >
+                Search
+              </button>
             </form>
 
-            <div className="flex items-center gap-1.5 text-[9px] text-foreground-faint">
+            <div className="flex items-center gap-1.5 text-[10px] font-mono tracking-widest text-foreground-faint uppercase">
               <span>Popular:</span>
-              {["ChatGPT", "Claude", "Cursor"].map((tag) => (
-                <Link
-                  key={tag}
-                  href={`/tools?q=${tag.toLowerCase()}`}
-                  className="text-foreground-muted hover:text-white transition-colors"
-                >
-                  {tag}
-                </Link>
-              ))}
+              <div className="flex items-center gap-2 font-sans lowercase text-foreground-muted">
+                <Link href="/tools?q=chatgpt" className="hover:text-accent transition-colors">ChatGPT</Link>
+                <span className="text-border/40">•</span>
+                <Link href="/tools?q=claude" className="hover:text-accent transition-colors">Claude</Link>
+                <span className="text-border/40">•</span>
+                <Link href="/tools?q=cursor" className="hover:text-accent transition-colors">Cursor</Link>
+              </div>
             </div>
           </div>
 
-          {/* Bento Card 2: Live Telemetry Counts */}
-          <div className="col-span-12 md:col-span-3 rounded-lg border border-border bg-surface/50 p-4 flex flex-col justify-between min-h-[120px] hover:border-neutral-700 transition-all shadow-sm">
-            <div className="text-[9px] font-mono tracking-wider text-foreground-faint">
+          {/* Panel B — Index Telemetry */}
+          <div className="bg-surface border border-border rounded-lg p-5 flex flex-col justify-between min-h-[170px] hover:border-neutral-700 transition-all">
+            <div className="text-[10px] font-mono tracking-widest text-foreground-faint">
               INDEX TELEMETRY
             </div>
-            <div className="grid grid-cols-2 gap-x-2 gap-y-1 my-1">
-              <div>
-                <span className="block text-[8px] text-foreground-faint uppercase font-mono">tools</span>
-                <span className="font-mono text-xs font-bold text-white">50K+</span>
+
+            <div className="grid grid-cols-2 gap-4 my-2">
+              <div className="flex flex-col">
+                <span className="text-[9px] font-mono tracking-wider text-foreground-faint">TOOLS</span>
+                <span className="text-xl font-bold tracking-tight text-foreground font-sans">50K+</span>
               </div>
-              <div>
-                <span className="block text-[8px] text-foreground-faint uppercase font-mono">models</span>
-                <span className="font-mono text-xs font-bold text-white">1K+</span>
+              <div className="flex flex-col">
+                <span className="text-[9px] font-mono tracking-wider text-foreground-faint">MODELS</span>
+                <span className="text-xl font-bold tracking-tight text-foreground font-sans">1K+</span>
               </div>
-              <div>
-                <span className="block text-[8px] text-foreground-faint uppercase font-mono">repos</span>
-                <span className="font-mono text-xs font-bold text-white">20K+</span>
+              <div className="flex flex-col">
+                <span className="text-[9px] font-mono tracking-wider text-foreground-faint">REPOS</span>
+                <span className="text-xl font-bold tracking-tight text-foreground font-sans">20K+</span>
               </div>
-              <div>
-                <span className="block text-[8px] text-foreground-faint uppercase font-mono">robots</span>
-                <span className="font-mono text-xs font-bold text-white">500+</span>
+              <div className="flex flex-col">
+                <span className="text-[9px] font-mono tracking-wider text-foreground-faint">ROBOTS</span>
+                <span className="text-xl font-bold tracking-tight text-foreground font-sans">500+</span>
               </div>
             </div>
-            <div className="text-[8px] text-foreground-faint font-mono uppercase">
-              updated: live sync
+
+            <div className="text-[10px] font-mono tracking-widest text-foreground-faint uppercase">
+              UPDATED: LIVE SYNC
             </div>
           </div>
 
-          {/* Bento Card 3: Quick Navigation Scroll Nodes */}
-          <div className="col-span-12 md:col-span-3 rounded-lg border border-border bg-surface/50 p-4 flex flex-col justify-between min-h-[120px] hover:border-neutral-700 transition-all shadow-sm">
-            <div className="text-[9px] font-mono tracking-wider text-foreground-faint">
+          {/* Panel C — Directory Links */}
+          <div className="bg-surface border border-border rounded-lg p-5 flex flex-col justify-between min-h-[170px] hover:border-neutral-700 transition-all">
+            <div className="text-[10px] font-mono tracking-widest text-foreground-faint">
               DIRECTORY LINKS
             </div>
-            <div className="grid grid-cols-2 gap-x-2 gap-y-1 my-1 text-[10px] text-foreground-muted font-medium">
-              <Link href="#tools" className="hover:text-white flex items-center">
-                <span>→ Tools</span>
+
+            <div className="grid grid-cols-2 gap-2 my-2 text-xs text-foreground-muted">
+              <Link href="#tools" className="hover:text-foreground transition-colors flex items-center gap-1">
+                <span>→</span> <span>Tools</span>
               </Link>
-              <Link href="#companies" className="hover:text-white flex items-center">
-                <span>→ Companies</span>
+              <Link href="#models" className="hover:text-foreground transition-colors flex items-center gap-1">
+                <span>→</span> <span>Models</span>
               </Link>
-              <Link href="#models" className="hover:text-white flex items-center">
-                <span>→ Models</span>
+              <Link href="#companies" className="hover:text-foreground transition-colors flex items-center gap-1">
+                <span>→</span> <span>Companies</span>
               </Link>
-              <Link href="#robotics" className="hover:text-white flex items-center">
-                <span>→ Robotics</span>
+              <Link href="#robotics" className="hover:text-foreground transition-colors flex items-center gap-1">
+                <span>→</span> <span>Robotics</span>
               </Link>
             </div>
-            <div className="text-[8px] text-foreground-faint font-mono uppercase">
-              nodes: page anchors
+
+            <div className="text-[10px] font-mono tracking-widest text-foreground-faint uppercase">
+              NODES: PAGE ANCHORS
             </div>
           </div>
         </div>
       </section>
 
-      {/* 3. Entity Navigation Sticky Bar (Underlined Tabs with Counts) */}
-      <div className="sticky top-[73px] z-40 w-full border-b border-border/30 bg-background/80 backdrop-blur-md">
-        <div className="mx-auto max-w-container px-6 flex items-center gap-1 overflow-x-auto scrollbar-none">
-          <span className="text-[9px] font-bold uppercase tracking-wider text-foreground-faint shrink-0 mr-2 py-2">
-            Browse
+      {/* 5. Entity Navigation Bar (Text-only Horizontal Scroll) */}
+      <div className="w-full border-y border-border-subtle bg-transparent py-3">
+        <div className="mx-auto max-w-container px-6 flex items-center gap-4 overflow-x-auto scrollbar-none">
+          <span className="text-[10px] font-mono tracking-widest text-foreground-faint shrink-0 uppercase">
+            BROWSE
           </span>
-          {ENTITY_NAV_WITH_COUNTS.map((nav, i) => (
-            <Link
-              key={i}
-              href={nav.href}
-              className="inline-flex items-center gap-1 py-2 px-3 text-[11px] font-semibold text-foreground-muted hover:text-white transition-all whitespace-nowrap border-b-2 border-transparent hover:border-neutral-600 active:scale-98 group"
-            >
-              <span>{nav.label}</span>
-              {nav.count && (
-                <span className="text-[8px] font-mono font-bold text-foreground-faint group-hover:text-foreground-muted transition-colors">
-                  {nav.count}
-                </span>
-              )}
-            </Link>
-          ))}
+          <div className="flex items-center gap-5 overflow-x-auto scrollbar-none">
+            {ENTITY_NAV_WITH_COUNTS.map((nav, i) => (
+              <Link
+                key={i}
+                href={nav.href}
+                className="text-xs font-semibold text-foreground-muted hover:text-white transition-colors flex items-center gap-1 whitespace-nowrap active:scale-95 group"
+              >
+                <span>{nav.label}</span>
+                {nav.count && (
+                  <span className="text-[10px] font-mono font-medium text-foreground-faint ml-0.5">
+                    {nav.count}
+                  </span>
+                )}
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
 
@@ -234,10 +229,10 @@ export default async function HomePage({ searchParams }: PageProps) {
         <div id="tools" className="scroll-mt-24 space-y-6">
           <div className="flex items-end justify-between border-b border-border/60 pb-3">
             <div className="space-y-1">
-              <h2 className="text-xl font-bold tracking-tight text-foreground sm:text-2xl">
+              <h2 className="text-2xl font-semibold tracking-tight text-foreground sm:text-[26px]">
                 Featured AI Tools
               </h2>
-              <p className="text-xs text-foreground-muted sm:text-sm">
+              <p className="text-sm text-foreground-muted leading-relaxed">
                 Filter and sort the absolute best active AI tools in the directory database.
               </p>
             </div>
