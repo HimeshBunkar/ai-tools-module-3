@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Search, Cpu, Laptop, Star } from "lucide-react";
+import { Search, Cpu, Laptop, Star, ArrowRight } from "lucide-react";
 
 import { prisma } from "@/lib/prisma";
 import { getTools, getAllCategories } from "@/lib/tools";
@@ -80,125 +80,165 @@ export default async function HomePage({ searchParams }: PageProps) {
       {/* 1. Sticky Header */}
       <Header />
 
-      {/* Hero Section */}
-      <section className="relative mx-auto max-w-container px-6 pt-16 pb-0 text-center flex flex-col items-center">
-        {/* Headline */}
-        <h1 className="max-w-4xl text-4xl sm:text-5xl font-semibold tracking-tight text-foreground leading-[1.2] mb-10">
-          Where the world discovers <span className="font-semibold text-white">AI innovation</span>
-        </h1>
-      </section>
+      {/* Linear-style Hero Section with CSS Grid Overlay */}
+      <section 
+        className="relative w-full border-b border-border/40 py-20 flex flex-col items-center justify-center overflow-hidden"
+        style={{
+          backgroundImage: 'radial-gradient(ellipse 60% 60% at 50% 0%, rgba(110, 86, 207, 0.08), transparent), linear-gradient(to right, rgba(35, 35, 38, 0.15) 1px, transparent 1px), linear-gradient(to bottom, rgba(35, 35, 38, 0.15) 1px, transparent 1px)',
+          backgroundSize: '100% 100%, 24px 24px, 24px 24px',
+        }}
+      >
+        <div className="mx-auto max-w-container px-6 w-full flex flex-col items-center text-center relative z-10">
+          
+          {/* Announcement Pill */}
+          <div className="inline-flex items-center gap-1.5 rounded-full border border-border/80 bg-surface px-3 py-1 text-xs font-semibold text-foreground-muted hover:border-neutral-700 hover:text-white transition-all cursor-pointer mb-6">
+            <span>The AI Signal 2026</span>
+            <span className="text-border/60">|</span>
+            <span className="text-accent flex items-center gap-0.5">Ecosystem Update <ArrowRight size={10} /></span>
+          </div>
 
-      {/* Three-Panel Dashboard Strip */}
-      <section className="mx-auto max-w-container w-full px-6 pb-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {/* Panel A — Query Terminal */}
-          <div className="bg-surface border border-border rounded-lg p-5 flex flex-col justify-between min-h-[170px] hover:border-neutral-700 transition-all">
-            <div className="flex items-center justify-between text-[10px] font-mono tracking-widest text-foreground-faint">
-              <span>QUERY TERMINAL</span>
-              <span className="flex items-center gap-1">
-                <span className="h-1.5 w-1.5 rounded-full bg-success animate-pulse" />
-                <span className="text-success uppercase">active</span>
-              </span>
+          {/* Headline */}
+          <h1 className="max-w-4xl text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-[1.1] mb-6">
+            Where the world discovers <br className="hidden sm:inline" />
+            <span className="bg-gradient-to-b from-white to-neutral-400 bg-clip-text text-transparent">
+              AI Innovation
+            </span>
+          </h1>
+
+          {/* Subtitle */}
+          <p className="max-w-2xl text-sm sm:text-base text-foreground-muted leading-relaxed mb-8">
+            The AI Signal is a premium discovery engine mapping AI tools, companies, models, workflows, robotics, and edge hardware. Built for builders, research labs, and early adopters.
+          </p>
+
+          {/* Actions Row */}
+          <div className="flex flex-wrap justify-center gap-3 mb-16">
+            <Link
+              href="#tools"
+              className="rounded-md bg-white hover:bg-neutral-200 px-6 py-2.5 text-xs font-bold text-black shadow-md transition-all active:scale-95 flex items-center gap-1"
+            >
+              <span>Explore Directory</span>
+              <ArrowRight size={12} />
+            </Link>
+            <Link
+              href="/tools"
+              className="rounded-md border border-border bg-surface-raised/40 hover:bg-border px-6 py-2.5 text-xs font-bold text-foreground transition-all active:scale-95"
+            >
+              Submit a Product
+            </Link>
+          </div>
+
+          {/* Three-Panel Dashboard Strip inside the Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full text-left">
+            {/* Panel A — Query Terminal */}
+            <div className="bg-surface/80 backdrop-blur-sm border border-border rounded-lg p-5 flex flex-col justify-between min-h-[170px] hover:border-neutral-700 transition-all">
+              <div className="flex items-center justify-between text-[10px] font-mono tracking-widest text-foreground-faint">
+                <span>QUERY TERMINAL</span>
+                <span className="flex items-center gap-1">
+                  <span className="h-1.5 w-1.5 rounded-full bg-success animate-pulse" />
+                  <span className="text-success uppercase">active</span>
+                </span>
+              </div>
+
+              <form action="/tools" method="GET" className="relative flex items-center w-full my-3">
+                <div className="relative flex-1">
+                  <Search
+                    size={14}
+                    className="absolute left-3 top-1/2 -translate-y-1/2 text-foreground-faint"
+                    aria-hidden="true"
+                  />
+                  <input
+                    type="text"
+                    name="q"
+                    defaultValue={params.q}
+                    placeholder="Search tools, models, news or companies..."
+                    className="w-full rounded-l-md border border-r-0 border-border bg-surface-raised py-2 pl-9 pr-12 text-xs text-foreground placeholder:text-foreground-faint focus:border-accent focus:outline-none transition-all"
+                  />
+                  <kbd className="absolute right-3 top-1/2 -translate-y-1/2 hidden sm:inline-flex h-4.5 select-none items-center gap-0.5 rounded border border-border/80 bg-neutral-900/60 px-1.5 font-mono text-[8px] text-foreground-faint pointer-events-none">
+                    <span>⌘</span>K
+                  </kbd>
+                </div>
+                <button
+                  type="submit"
+                  className="rounded-r-md bg-white hover:bg-neutral-200 text-black text-xs font-semibold px-4 py-2 border border-white transition-colors h-[34px] flex items-center justify-center shrink-0"
+                >
+                  Search
+                </button>
+              </form>
+
+              <div className="flex items-center gap-1.5 text-[10px] font-mono tracking-widest text-foreground-faint uppercase">
+                <span>Popular:</span>
+                <div className="flex items-center gap-2 font-sans lowercase text-foreground-muted">
+                  <Link href="/tools?q=chatgpt" className="hover:text-accent transition-colors">ChatGPT</Link>
+                  <span className="text-border/40">•</span>
+                  <Link href="/tools?q=claude" className="hover:text-accent transition-colors">Claude</Link>
+                  <span className="text-border/40">•</span>
+                  <Link href="/tools?q=cursor" className="hover:text-accent transition-colors">Cursor</Link>
+                </div>
+              </div>
             </div>
 
-            <form action="/tools" method="GET" className="relative flex items-center w-full my-3">
-              <div className="relative flex-1">
-                <Search
-                  size={14}
-                  className="absolute left-3 top-1/2 -translate-y-1/2 text-foreground-faint"
-                  aria-hidden="true"
-                />
-                <input
-                  type="text"
-                  name="q"
-                  defaultValue={params.q}
-                  placeholder="Search tools, models, news or companies..."
-                  className="w-full rounded-l-md border border-r-0 border-border bg-surface-raised py-2 pl-9 pr-12 text-xs text-foreground placeholder:text-foreground-faint focus:border-accent focus:outline-none transition-all"
-                />
-                <kbd className="absolute right-3 top-1/2 -translate-y-1/2 hidden sm:inline-flex h-4.5 select-none items-center gap-0.5 rounded border border-border/80 bg-neutral-900/60 px-1.5 font-mono text-[8px] text-foreground-faint pointer-events-none">
-                  <span>⌘</span>K
-                </kbd>
+            {/* Panel B — Index Telemetry */}
+            <div className="bg-surface/80 backdrop-blur-sm border border-border rounded-lg p-5 flex flex-col justify-between min-h-[170px] hover:border-neutral-700 transition-all">
+              <div className="text-[10px] font-mono tracking-widest text-foreground-faint">
+                INDEX TELEMETRY
               </div>
-              <button
-                type="submit"
-                className="rounded-r-md bg-white hover:bg-neutral-200 text-black text-xs font-semibold px-4 py-2 border border-white transition-colors h-[34px] flex items-center justify-center shrink-0"
-              >
-                Search
-              </button>
-            </form>
 
-            <div className="flex items-center gap-1.5 text-[10px] font-mono tracking-widest text-foreground-faint uppercase">
-              <span>Popular:</span>
-              <div className="flex items-center gap-2 font-sans lowercase text-foreground-muted">
-                <Link href="/tools?q=chatgpt" className="hover:text-accent transition-colors">ChatGPT</Link>
-                <span className="text-border/40">•</span>
-                <Link href="/tools?q=claude" className="hover:text-accent transition-colors">Claude</Link>
-                <span className="text-border/40">•</span>
-                <Link href="/tools?q=cursor" className="hover:text-accent transition-colors">Cursor</Link>
+              <div className="grid grid-cols-2 gap-4 my-2">
+                <div className="flex flex-col">
+                  <span className="text-[9px] font-mono tracking-wider text-foreground-faint">TOOLS</span>
+                  <span className="text-xl font-bold tracking-tight text-foreground font-sans">50K+</span>
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-[9px] font-mono tracking-wider text-foreground-faint">MODELS</span>
+                  <span className="text-xl font-bold tracking-tight text-foreground font-sans">1K+</span>
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-[9px] font-mono tracking-wider text-foreground-faint">REPOS</span>
+                  <span className="text-xl font-bold tracking-tight text-foreground font-sans">20K+</span>
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-[9px] font-mono tracking-wider text-foreground-faint">ROBOTS</span>
+                  <span className="text-xl font-bold tracking-tight text-foreground font-sans">500+</span>
+                </div>
+              </div>
+
+              <div className="text-[10px] font-mono tracking-widest text-foreground-faint uppercase">
+                UPDATED: LIVE SYNC
+              </div>
+            </div>
+
+            {/* Panel C — Directory Links */}
+            <div className="bg-surface/80 backdrop-blur-sm border border-border rounded-lg p-5 flex flex-col justify-between min-h-[170px] hover:border-neutral-700 transition-all">
+              <div className="text-[10px] font-mono tracking-widest text-foreground-faint">
+                DIRECTORY LINKS
+              </div>
+
+              <div className="grid grid-cols-2 gap-2 my-2 text-xs text-foreground-muted">
+                <Link href="#tools" className="hover:text-foreground transition-colors flex items-center gap-1">
+                  <span>→</span> <span>Tools</span>
+                </Link>
+                <Link href="#models" className="hover:text-foreground transition-colors flex items-center gap-1">
+                  <span>→</span> <span>Models</span>
+                </Link>
+                <Link href="#companies" className="hover:text-foreground transition-colors flex items-center gap-1">
+                  <span>→</span> <span>Companies</span>
+                </Link>
+                <Link href="#robotics" className="hover:text-foreground transition-colors flex items-center gap-1">
+                  <span>→</span> <span>Robotics</span>
+                </Link>
+              </div>
+
+              <div className="text-[10px] font-mono tracking-widest text-foreground-faint uppercase">
+                NODES: PAGE ANCHORS
               </div>
             </div>
           </div>
 
-          {/* Panel B — Index Telemetry */}
-          <div className="bg-surface border border-border rounded-lg p-5 flex flex-col justify-between min-h-[170px] hover:border-neutral-700 transition-all">
-            <div className="text-[10px] font-mono tracking-widest text-foreground-faint">
-              INDEX TELEMETRY
-            </div>
-
-            <div className="grid grid-cols-2 gap-4 my-2">
-              <div className="flex flex-col">
-                <span className="text-[9px] font-mono tracking-wider text-foreground-faint">TOOLS</span>
-                <span className="text-xl font-bold tracking-tight text-foreground font-sans">50K+</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-[9px] font-mono tracking-wider text-foreground-faint">MODELS</span>
-                <span className="text-xl font-bold tracking-tight text-foreground font-sans">1K+</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-[9px] font-mono tracking-wider text-foreground-faint">REPOS</span>
-                <span className="text-xl font-bold tracking-tight text-foreground font-sans">20K+</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-[9px] font-mono tracking-wider text-foreground-faint">ROBOTS</span>
-                <span className="text-xl font-bold tracking-tight text-foreground font-sans">500+</span>
-              </div>
-            </div>
-
-            <div className="text-[10px] font-mono tracking-widest text-foreground-faint uppercase">
-              UPDATED: LIVE SYNC
-            </div>
-          </div>
-
-          {/* Panel C — Directory Links */}
-          <div className="bg-surface border border-border rounded-lg p-5 flex flex-col justify-between min-h-[170px] hover:border-neutral-700 transition-all">
-            <div className="text-[10px] font-mono tracking-widest text-foreground-faint">
-              DIRECTORY LINKS
-            </div>
-
-            <div className="grid grid-cols-2 gap-2 my-2 text-xs text-foreground-muted">
-              <Link href="#tools" className="hover:text-foreground transition-colors flex items-center gap-1">
-                <span>→</span> <span>Tools</span>
-              </Link>
-              <Link href="#models" className="hover:text-foreground transition-colors flex items-center gap-1">
-                <span>→</span> <span>Models</span>
-              </Link>
-              <Link href="#companies" className="hover:text-foreground transition-colors flex items-center gap-1">
-                <span>→</span> <span>Companies</span>
-              </Link>
-              <Link href="#robotics" className="hover:text-foreground transition-colors flex items-center gap-1">
-                <span>→</span> <span>Robotics</span>
-              </Link>
-            </div>
-
-            <div className="text-[10px] font-mono tracking-widest text-foreground-faint uppercase">
-              NODES: PAGE ANCHORS
-            </div>
-          </div>
         </div>
       </section>
 
       {/* 5. Entity Navigation Bar (Text-only Horizontal Scroll) */}
-      <div className="w-full border-y border-border-subtle bg-transparent py-3">
+      <div className="w-full border-b border-border-subtle bg-transparent py-3">
         <div className="mx-auto max-w-container px-6 flex items-center gap-4 overflow-x-auto scrollbar-none">
           <span className="text-[10px] font-mono tracking-widest text-foreground-faint shrink-0 uppercase">
             BROWSE
