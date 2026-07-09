@@ -18,11 +18,7 @@ import { SortDropdown } from "@/components/SortDropdown";
 import { ToolGrid } from "@/components/ToolGrid";
 import { Pagination } from "@/components/Pagination";
 
-// Mock configuration datasets
-import {
-  STATS,
-  ENTITY_NAV,
-} from "@/lib/mockData";
+
 
 type PageProps = {
   searchParams: Promise<ToolsSearchParams>;
@@ -66,113 +62,112 @@ export default async function HomePage({ searchParams }: PageProps) {
     prisma.device.findMany({ take: 4, orderBy: { createdAt: "desc" } }),
   ]);
 
+  const ENTITY_NAV_WITH_COUNTS = [
+    { label: "AI Tools", href: "#tools", count: "50K+" },
+    { label: "Companies", href: "#companies", count: "7K+" },
+    { label: "Models", href: "#models", count: "1K+" },
+    { label: "Tasks", href: "#tasks", count: "10K+" },
+    { label: "News", href: "#news", count: "5K+" },
+    { label: "Videos", href: "#videos", count: "7K+" },
+    { label: "Collections", href: "/tools", count: null },
+    { label: "Repositories", href: "#repos", count: "20K+" },
+    { label: "Robotics", href: "#robotics", count: "500+" },
+    { label: "Devices", href: "#devices", count: "200+" },
+  ];
+
   return (
     <div className="min-h-screen flex flex-col bg-background text-foreground selection:bg-accent-muted selection:text-foreground">
       {/* 1. Sticky Header */}
       <Header />
 
       {/* Hero Section */}
-      <section className="relative mx-auto max-w-container px-6 pt-5 pb-5 text-center flex flex-col items-center">
+      <section className="relative mx-auto max-w-container w-full px-6 pt-6 pb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-6 border-b border-border/40">
         {/* Glowing Background Radial */}
         <div 
-          className="absolute top-[-20%] left-1/2 -translate-x-1/2 h-[400px] w-[400px] rounded-full bg-white/5 blur-[100px] pointer-events-none" 
+          className="absolute top-[-20%] left-1/2 -translate-x-1/2 h-[300px] w-[300px] rounded-full bg-white/5 blur-[80px] pointer-events-none" 
           aria-hidden="true" 
         />
 
-        {/* Headline */}
-        <h1 className="max-w-4xl text-xl font-black tracking-tight text-foreground sm:text-2xl lg:text-3xl/tight">
-          Where the world discovers{" "}
-          <span className="bg-gradient-to-b from-white to-neutral-400 bg-clip-text text-transparent">
-            AI Innovation
-          </span>
-        </h1>
-
-        {/* Subtitle */}
-        <p className="mt-1 max-w-2xl text-xs text-foreground-muted">
-          The premium discovery engine mapping AI tools, companies, models, workflows, robotics, and hardware.
-        </p>
-
-        {/* Large Global Search Box */}
-        <form
-          action="/tools"
-          method="GET"
-          role="search"
-          className="mt-3 w-full max-w-xl relative group"
-        >
-          <Search
-            size={16}
-            className="absolute left-4 top-1/2 -translate-y-1/2 text-foreground-faint pointer-events-none group-focus-within:text-white transition-colors"
-            aria-hidden="true"
-          />
-          <input
-            type="text"
-            name="q"
-            defaultValue={params.q}
-            placeholder="Search tools, models, news or companies..."
-            className="w-full rounded-full border border-border bg-surface/50 py-2 pl-11 pr-24 text-xs text-foreground placeholder:text-foreground-faint focus:border-neutral-500 focus:bg-surface focus:outline-none transition-all shadow-sm"
-          />
-          <div className="absolute right-2.5 top-1/2 -translate-y-1/2 flex items-center gap-1.5 pointer-events-none">
-            <kbd className="hidden sm:inline-flex h-5 select-none items-center gap-0.5 rounded border border-border bg-surface-raised px-1.5 font-mono text-[9px] font-medium text-foreground-faint">
-              <span>⌘</span>K
-            </kbd>
-            <button
-              type="submit"
-              className="rounded-full bg-white hover:bg-neutral-200 text-black text-[10px] font-semibold px-2.5 py-1 pointer-events-auto transition-colors"
-            >
-              Search
-            </button>
-          </div>
-        </form>
-
-        {/* Popular / Trending Searches */}
-        <div className="mt-2.5 flex flex-wrap justify-center items-center gap-2 text-[10px]">
-          <span className="text-foreground-faint font-medium">Popular:</span>
-          {["ChatGPT", "Claude", "Cursor", "Midjourney"].map((tag) => (
-            <Link
-              key={tag}
-              href={`/tools?q=${tag.toLowerCase()}`}
-              className="text-foreground-muted hover:text-white transition-colors bg-surface-raised/40 hover:bg-white/5 px-2 py-0.5 rounded-full border border-border/40 hover:border-neutral-600"
-            >
-              {tag}
-            </Link>
-          ))}
+        {/* Left Side: Headline & description */}
+        <div className="flex-1 text-left max-w-xl">
+          <h1 className="text-xl font-black tracking-tight text-foreground sm:text-2xl lg:text-3xl">
+            Where the world discovers{" "}
+            <span className="bg-gradient-to-b from-white to-neutral-400 bg-clip-text text-transparent block md:inline">
+              AI Innovation
+            </span>
+          </h1>
+          <p className="mt-1 text-xs text-foreground-muted leading-relaxed">
+            The premium discovery engine mapping tools, models, news, and robotics.
+          </p>
         </div>
-      </section>
 
-      {/* 3. Platform Statistics (Formatted as an elegant compact bar) */}
-      <section className="border-y border-border/40 bg-surface/10 py-3">
-        <div className="mx-auto max-w-container px-6">
-          <div className="grid grid-cols-3 gap-2 sm:grid-cols-5 lg:grid-cols-9">
-            {STATS.map((stat, i) => (
-              <div
-                key={i}
-                className="group flex flex-col justify-center rounded-lg border border-border/40 bg-surface/40 py-1.5 px-2 text-center hover:border-neutral-700 hover:bg-surface-raised transition-all duration-200"
+        {/* Right Side: Global Search Box & Popular Queries */}
+        <div className="w-full md:max-w-md lg:max-w-lg flex flex-col items-stretch shrink-0">
+          <form
+            action="/tools"
+            method="GET"
+            role="search"
+            className="relative group w-full"
+          >
+            <Search
+              size={14}
+              className="absolute left-3.5 top-1/2 -translate-y-1/2 text-foreground-faint pointer-events-none group-focus-within:text-white transition-colors"
+              aria-hidden="true"
+            />
+            <input
+              type="text"
+              name="q"
+              defaultValue={params.q}
+              placeholder="Search tools, models, news or companies..."
+              className="w-full rounded-full border border-border bg-surface/50 py-2 pl-9 pr-24 text-[11px] text-foreground placeholder:text-foreground-faint focus:border-neutral-500 focus:bg-surface focus:outline-none transition-all shadow-sm"
+            />
+            <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1 pointer-events-none">
+              <kbd className="hidden sm:inline-flex h-4.5 select-none items-center gap-0.5 rounded border border-border bg-surface-raised px-1 font-mono text-[8px] font-medium text-foreground-faint">
+                <span>⌘</span>K
+              </kbd>
+              <button
+                type="submit"
+                className="rounded-full bg-white hover:bg-neutral-200 text-black text-[9px] font-semibold px-2 py-0.5 pointer-events-auto transition-colors"
               >
-                <span className="text-xs font-bold tracking-tight text-foreground group-hover:text-white transition-colors">
-                  {stat.value}
-                </span>
-                <span className="text-[9px] font-medium text-foreground-muted lowercase">
-                  {stat.label.split(" ")[0]}
-                </span>
-              </div>
+                Search
+              </button>
+            </div>
+          </form>
+
+          {/* Popular / Trending Searches */}
+          <div className="mt-2 flex flex-wrap gap-1.5 text-[9px] items-center">
+            <span className="text-foreground-faint font-medium">Popular:</span>
+            {["ChatGPT", "Claude", "Cursor", "Midjourney"].map((tag) => (
+              <Link
+                key={tag}
+                href={`/tools?q=${tag.toLowerCase()}`}
+                className="text-foreground-muted hover:text-white transition-colors bg-surface-raised/40 hover:bg-white/5 px-2 py-0.5 rounded-full border border-border/40 hover:border-neutral-600"
+              >
+                {tag}
+              </Link>
             ))}
           </div>
         </div>
       </section>
 
-      {/* 4. Entity Navigation Sticky Bar */}
+      {/* 3. Entity Navigation Sticky Bar (Counts integrated inline) */}
       <div className="sticky top-[73px] z-40 w-full border-b border-border/80 bg-background/90 backdrop-blur-sm py-2">
-        <div className="mx-auto max-w-container px-6 flex items-center gap-3 overflow-x-auto scrollbar-none">
+        <div className="mx-auto max-w-container px-6 flex items-center gap-2 overflow-x-auto scrollbar-none">
           <span className="text-[10px] font-bold uppercase tracking-wider text-foreground-faint shrink-0 mr-1">
             Browse
           </span>
-          {ENTITY_NAV.map((nav, i) => (
+          {ENTITY_NAV_WITH_COUNTS.map((nav, i) => (
             <Link
               key={i}
               href={nav.href}
-              className="rounded-full px-3 py-1 text-xs font-medium border border-border bg-surface text-foreground-muted hover:border-neutral-600 hover:text-foreground hover:bg-surface-raised transition-all whitespace-nowrap active:scale-95"
+              className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-medium border border-border bg-surface text-foreground-muted hover:border-neutral-600 hover:text-foreground hover:bg-surface-raised transition-all whitespace-nowrap active:scale-95 group"
             >
-              {nav.label}
+              <span>{nav.label}</span>
+              {nav.count && (
+                <span className="rounded bg-surface-raised border border-border/60 px-1 py-0.2 text-[8px] font-bold text-foreground-faint group-hover:text-foreground-muted group-hover:border-neutral-700 transition-colors">
+                  {nav.count}
+                </span>
+              )}
             </Link>
           ))}
         </div>
