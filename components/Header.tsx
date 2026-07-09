@@ -3,11 +3,12 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Search, Plus, User, Compass } from "lucide-react";
+import { Search, ChevronDown } from "lucide-react";
 
 export function Header() {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
+  const [showSearchInput, setShowSearchInput] = useState(false);
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,7 +20,7 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/20 bg-background/50 backdrop-blur-md py-3.5">
       <div className="mx-auto max-w-container px-6 flex items-center justify-between gap-4">
-        {/* Logo */}
+        {/* Left: Logo & Wordmark */}
         <Link href="/" className="flex items-center gap-2 group shrink-0">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white text-black font-black text-base transition-transform group-hover:scale-105 active:scale-95 shadow-sm border border-border">
             S
@@ -29,92 +30,75 @@ export function Header() {
           </span>
         </Link>
 
-        {/* Global Search Bar (stays visible while scrolling) */}
-        <form
-          onSubmit={handleSearchSubmit}
-          className="relative max-w-[480px] flex-1 hidden md:block"
-        >
-          <Search
-            size={16}
-            className="absolute left-3 top-1/2 -translate-y-1/2 text-foreground-faint pointer-events-none"
-            aria-hidden="true"
-          />
-          <input
-            type="text"
-            placeholder="Search the AI ecosystem..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full rounded-full border border-border bg-surface py-2 pl-9 pr-4 text-xs text-foreground placeholder:text-foreground-faint focus:border-accent focus:bg-surface focus:outline-none transition-all"
-          />
-          {searchQuery && (
-            <button
-              type="submit"
-              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[10px] font-semibold text-foreground-muted hover:text-white"
-            >
-              Search
-            </button>
-          )}
-        </form>
-
-        {/* Navigation Links */}
+        {/* Center: Navigation Links */}
         <nav className="hidden lg:flex items-center gap-6">
           <Link
             href="/tools"
-            className="text-xs font-medium text-foreground-muted hover:text-foreground transition-colors"
+            className="text-xs font-semibold text-foreground-muted hover:text-foreground transition-colors"
           >
-            AI Tools
+            Category
+          </Link>
+          <button
+            className="text-xs font-semibold text-foreground-muted hover:text-foreground transition-colors flex items-center gap-1"
+          >
+            <span>Ranking</span>
+            <ChevronDown size={12} className="text-foreground-faint" />
+          </button>
+          <Link
+            href="/tools"
+            className="text-xs font-semibold text-foreground-muted hover:text-foreground transition-colors"
+          >
+            Articles
           </Link>
           <Link
-            href="#models"
-            className="text-xs font-medium text-foreground-muted hover:text-foreground transition-colors"
+            href="/tools"
+            className="text-xs font-semibold text-foreground-muted hover:text-foreground transition-colors flex items-center gap-1.5 relative group"
           >
-            Models
-          </Link>
-          <Link
-            href="#robotics"
-            className="text-xs font-medium text-foreground-muted hover:text-foreground transition-colors"
-          >
-            Robotics
-          </Link>
-          <Link
-            href="#news"
-            className="text-xs font-medium text-foreground-muted hover:text-foreground transition-colors"
-          >
-            News
-          </Link>
-          <Link
-            href="#repos"
-            className="text-xs font-medium text-foreground-muted hover:text-foreground transition-colors"
-          >
-            Repositories
+            <span>Submit & Promote</span>
+            <span className="bg-accent/20 text-accent border border-accent/20 px-1 py-0.5 rounded text-[8px] font-bold tracking-wide uppercase">
+              New
+            </span>
           </Link>
         </nav>
 
-        {/* Action Buttons */}
-        <div className="flex items-center gap-3">
-          <Link
-            href="/tools"
-            className="p-2 text-foreground-muted hover:text-foreground hover:bg-surface-raised rounded-lg lg:hidden"
-            aria-label="Browse all"
-          >
-            <Compass size={18} />
-          </Link>
-          
-          <Link
-            href="/tools"
-            className="hidden sm:inline-flex items-center gap-1.5 rounded-full bg-white px-4 py-2 text-xs font-semibold text-black hover:bg-neutral-200 transition-all active:scale-95"
-          >
-            <Plus size={12} />
-            <span>Submit Tool</span>
-          </Link>
-          
+        {/* Right: Language selection, Search Trigger, Login capsule */}
+        <div className="flex items-center gap-4">
+          {showSearchInput ? (
+            <form onSubmit={handleSearchSubmit} className="relative w-40 md:w-56">
+              <input
+                type="text"
+                placeholder="Search..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full rounded-full border border-border bg-surface py-1 pl-3 pr-8 text-xs text-foreground focus:border-accent focus:outline-none"
+                onBlur={() => setShowSearchInput(false)}
+                autoFocus
+              />
+              <Search size={12} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-foreground-faint" />
+            </form>
+          ) : (
+            <button
+              onClick={() => setShowSearchInput(true)}
+              className="p-1.5 text-foreground-muted hover:text-foreground rounded-lg transition-colors"
+              aria-label="Search site"
+            >
+              <Search size={16} />
+            </button>
+          )}
+
           <button
-            onClick={() => router.push("/tools")}
-            className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-surface-raised border border-border hover:bg-neutral-800 text-white transition-all active:scale-95 shadow-sm"
-            aria-label="Profile"
+            className="text-xs font-semibold text-foreground-muted hover:text-foreground transition-colors flex items-center gap-1"
           >
-            <User size={14} />
+            <span>English</span>
+            <ChevronDown size={12} className="text-foreground-faint" />
           </button>
+
+          <Link
+            href="/tools"
+            className="rounded-full border border-accent px-5 py-1.5 text-xs font-bold text-accent hover:bg-accent hover:text-white transition-all active:scale-95"
+          >
+            Login
+          </Link>
         </div>
       </div>
     </header>
