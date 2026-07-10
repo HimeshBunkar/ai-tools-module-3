@@ -7,7 +7,7 @@ import { Search } from "lucide-react";
 export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/20 bg-background/50 backdrop-blur-md py-4">
-      <div className="mx-auto max-w-[1440px] px-8 flex items-center justify-between gap-4">
+      <div className="mx-auto max-w-[1440px] px-8 flex items-center justify-between">
         {/* Left: The AI Signal Logo */}
         <Link href="/" className="flex items-center gap-2.5 group shrink-0">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white text-black font-black text-base transition-transform group-hover:scale-105 active:scale-95 border border-border">
@@ -18,68 +18,71 @@ export function Header() {
           </span>
         </Link>
 
-        {/* Center: Navigation Links */}
-        <nav className="hidden lg:flex items-center gap-8">
-          <Link
-            href="/tools"
-            className="text-[14px] font-medium text-foreground-muted hover:text-white transition-colors"
-          >
-            AI Tools
-          </Link>
-          <Link
-            href="/tools"
-            className="text-[14px] font-medium text-foreground-muted hover:text-white transition-colors"
-          >
-            Models
-          </Link>
-          <Link
-            href="/tools"
-            className="text-[14px] font-medium text-foreground-muted hover:text-white transition-colors"
-          >
-            Companies
-          </Link>
-          <Link
-            href="/tools"
-            className="text-[14px] font-medium text-foreground-muted hover:text-white transition-colors"
-          >
-            Collections
-          </Link>
-          <Link
-            href="/tools"
-            className="text-[14px] font-medium text-foreground-muted hover:text-white transition-colors"
-          >
-            News
-          </Link>
-          <Link
-            href="/tools"
-            className="text-[14px] font-medium text-foreground-muted hover:text-white transition-colors"
-          >
-            Repositories
-          </Link>
-        </nav>
+        {/* Right Aligned Navigation & Action Elements */}
+        <div className="flex items-center gap-8">
+          {/* Center Navigation links moved here to be right-aligned */}
+          <nav className="hidden lg:flex items-center gap-6">
+            <Link
+              href="/tools"
+              className="text-[13px] font-medium text-foreground-muted hover:text-white transition-colors"
+            >
+              AI Tools
+            </Link>
+            <Link
+              href="/tools"
+              className="text-[13px] font-medium text-foreground-muted hover:text-white transition-colors"
+            >
+              Models
+            </Link>
+            <Link
+              href="/tools"
+              className="text-[13px] font-medium text-foreground-muted hover:text-white transition-colors"
+            >
+              Companies
+            </Link>
+            <Link
+              href="/tools"
+              className="text-[13px] font-medium text-foreground-muted hover:text-white transition-colors"
+            >
+              Collections
+            </Link>
+            <Link
+              href="/tools"
+              className="text-[13px] font-medium text-foreground-muted hover:text-white transition-colors"
+            >
+              News
+            </Link>
+            <Link
+              href="/tools"
+              className="text-[13px] font-medium text-foreground-muted hover:text-white transition-colors"
+            >
+              Repositories
+            </Link>
+          </nav>
 
-        {/* Right: Search icon, Login, White rounded Submit button */}
-        <div className="flex items-center gap-6">
-          <button
-            className="p-1.5 text-foreground-muted hover:text-white rounded-lg transition-colors"
-            aria-label="Search site"
-          >
-            <Search size={18} />
-          </button>
+          {/* Action buttons */}
+          <div className="flex items-center gap-4.5">
+            <button
+              className="p-1.5 text-foreground-muted hover:text-white rounded-lg transition-colors"
+              aria-label="Search site"
+            >
+              <Search size={17} />
+            </button>
 
-          <Link
-            href="/tools"
-            className="text-[14px] font-medium text-foreground-muted hover:text-white transition-colors"
-          >
-            Login
-          </Link>
+            <Link
+              href="/tools"
+              className="text-[13px] font-medium text-foreground-muted hover:text-white transition-colors"
+            >
+              Login
+            </Link>
 
-          <Link
-            href="/tools"
-            className="rounded-full bg-white px-5 py-2 text-[14px] font-semibold text-black hover:bg-neutral-200 transition-all active:scale-95"
-          >
-            Submit Tool
-          </Link>
+            <Link
+              href="/tools"
+              className="rounded-full bg-white px-4.5 py-1.5 text-[13px] font-semibold text-black hover:bg-neutral-200 transition-all active:scale-95"
+            >
+              Submit Tool
+            </Link>
+          </div>
         </div>
       </div>
     </header>

@@ -7,9 +7,9 @@ export function HeroFeatureChips() {
 
   const FILTERS = [
     { name: "Trending", emoji: "🔥", param: "sort", value: "rating" },
-    { name: "Most Popular", emoji: "⭐", param: "sort", value: "rating" },
-    { name: "New", emoji: "💻", param: "sort", value: "newest" },
-    { name: "Free Tools", emoji: "🎁", param: "pricing", value: "FREE" },
+    { name: "Popular", emoji: "⭐", param: "sort", value: "rating" },
+    { name: "New", emoji: "🤖", param: "sort", value: "newest" },
+    { name: "Free", emoji: "🆓", param: "pricing", value: "FREE" },
     { name: "Top Rated", emoji: "🏆", param: "sort", value: "rating" },
   ];
 
@@ -31,7 +31,7 @@ export function HeroFeatureChips() {
               url.hash = "tools";
               window.location.href = url.toString();
             }}
-            className={`inline-flex items-center gap-1.5 rounded-lg px-3.5 h-[32px] text-[11px] font-semibold border transition-all duration-200 active:scale-95 ${
+            className={`inline-flex items-center gap-1.5 rounded-lg px-3 h-[32px] text-[11px] font-semibold border transition-all duration-200 active:scale-95 ${
               isActive
                 ? "bg-white text-[#000000] border-transparent font-bold"
                 : "bg-[#131316] border-[#232326] text-[#A1A1AA] hover:border-neutral-500 hover:text-white"

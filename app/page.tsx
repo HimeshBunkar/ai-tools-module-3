@@ -11,7 +11,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { DiscoverySection } from "@/components/DiscoverySection";
 import { HeroFeatureChips } from "@/components/HeroFeatureChips";
-import { CategoryNav } from "@/components/CategoryNav";
+import { HeroCategoryPills } from "@/components/HeroCategoryPills";
 
 // Existing tools components
 import { SortDropdown } from "@/components/SortDropdown";
@@ -57,9 +57,9 @@ export default async function HomePage({ searchParams }: PageProps) {
       {/* 1. Sticky Header */}
       <Header />
 
-      {/* 2. Hero Section (Height reduced by 60%, occupies the upper one-third of the fold) */}
+      {/* 2. Hero Section (Ultra-compact, occupying only upper one-third of viewport) */}
       <section 
-        className="relative w-full flex flex-col items-center pt-8 pb-6 px-6 overflow-hidden"
+        className="relative w-full flex flex-col items-center pt-8 px-6 overflow-hidden"
         style={{
           backgroundImage: 'linear-gradient(to right, rgba(35, 35, 38, 0.08) 1px, transparent 1px), linear-gradient(to bottom, rgba(35, 35, 38, 0.08) 1px, transparent 1px)',
           backgroundSize: '32px 32px',
@@ -67,26 +67,19 @@ export default async function HomePage({ searchParams }: PageProps) {
       >
         <div className="mx-auto max-w-[1440px] w-full flex flex-col items-center text-center relative z-10">
           
-          {/* Announcement Badge */}
-          <div className="inline-flex items-center gap-1.5 rounded-full border border-[#232326] bg-[#131316] px-3 py-0.5 text-[11px] font-semibold text-[#A1A1AA] hover:border-neutral-700 hover:text-white transition-all mb-3 cursor-default select-none">
-            <span>The AI Signal 2026</span>
-            <span className="text-[#232326]">|</span>
-            <span className="text-white flex items-center gap-0.5">Ecosystem Update</span>
-          </div>
-
-          {/* Headline (All White, no gradients, centered) */}
-          <h1 className="max-w-[900px] text-4xl sm:text-5xl lg:text-[52px] font-black tracking-tight leading-[1.08] mb-2 select-none text-white">
-            Where the world discovers AI innovation
+          {/* Headline (Exactly 1 line, White, centered) */}
+          <h1 className="max-w-[900px] text-3xl sm:text-4xl lg:text-[44px] font-black tracking-tight leading-none mb-5 select-none text-white whitespace-nowrap">
+            The Best AI in One Place
           </h1>
 
-          {/* Subtitle */}
-          <p className="max-w-2xl text-xs text-[#A1A1AA] leading-relaxed mb-3.5 select-none">
-            Discover and explore AI tools, companies, models, repositories, robotics and developer infrastructure from one unified platform.
+          {/* Subtitle (Exactly 1 line, centered) */}
+          <p className="max-w-3xl text-[13px] text-[#A1A1AA] leading-none mb-[30px] select-none whitespace-nowrap">
+            The AI Signal helps you find the best AI tools of 2026 easily!
           </p>
 
-          {/* Large Pill Search Input (Height compact, width wide) */}
-          <form action="/tools" method="GET" className="relative w-full max-w-[850px] mx-auto mb-3 group">
-            <div className="relative w-full rounded-lg border border-[#232326] bg-[#111113] h-[50px] flex items-center px-5 pr-20 focus-within:border-neutral-500 transition-all duration-300">
+          {/* Search Input (Wide, compact height, centered) */}
+          <form action="/tools" method="GET" className="relative w-full max-w-[900px] mx-auto mb-[22px] group">
+            <div className="relative w-full rounded-lg border border-[#232326] bg-[#111113] h-[48px] flex items-center px-5 pr-20 focus-within:border-neutral-500 transition-all duration-300">
               <input
                 type="text"
                 name="q"
@@ -103,25 +96,29 @@ export default async function HomePage({ searchParams }: PageProps) {
                   className="text-[#71717A] hover:text-white transition-colors"
                   aria-label="Search"
                 >
-                  <Search size={18} />
+                  <Search size={16} />
                 </button>
               </div>
             </div>
           </form>
 
-          {/* Compact Feature Chips */}
-          <HeroFeatureChips />
+          {/* Quick Filters row */}
+          <div className="mb-[18px]">
+            <HeroFeatureChips />
+          </div>
+
+          {/* Category Navigation Pills row */}
+          <div className="mb-[30px] w-full flex justify-center">
+            <HeroCategoryPills />
+          </div>
 
         </div>
       </section>
 
-      {/* Thin Horizontal Divider directly below the Hero Feature Chips */}
+      {/* Thin Horizontal Divider separating Hero from Content */}
       <div className="border-b border-[#232326]/40 w-full z-10 relative" />
 
-      {/* Category Navigation immediately below the Divider */}
-      <CategoryNav />
-
-      {/* 3. Main Grid Wrapper (Naturally continuing into AI directory content, denser layouts) */}
+      {/* 3. Main Grid Content Wrapper (Starts immediately after Category Nav Divider) */}
       <div className="mx-auto max-w-[1440px] px-8 py-8 flex-1 space-y-12">
         
         {/* Tools Section */}
