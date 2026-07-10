@@ -2,6 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { buildToolsUrl } from "@/lib/utils";
+import { ChevronDown } from "lucide-react";
 
 const SORT_OPTIONS = [
   { value: "newest", label: "Newest" },
@@ -17,25 +18,28 @@ export function SortDropdown() {
   const current = Object.fromEntries(searchParams.entries());
 
   return (
-    <div className="flex items-center gap-2">
-      <label htmlFor="sort-select" className="text-sm text-foreground-muted">
+    <div className="flex items-center gap-2 select-none">
+      <span className="text-xs text-[#71717A]">
         Sort by
-      </label>
-      <select
-        id="sort-select"
-        value={current.sort ?? "newest"}
-        onChange={(e) => {
-          const url = buildToolsUrl(current, { sort: e.target.value, page: null });
-          router.push(url);
-        }}
-        className="rounded-md border border-border bg-surface px-3 py-1.5 text-sm text-foreground focus:border-accent focus:outline-none"
-      >
-        {SORT_OPTIONS.map((opt) => (
-          <option key={opt.value} value={opt.value}>
-            {opt.label}
-          </option>
-        ))}
-      </select>
+      </span>
+      <div className="relative inline-flex items-center">
+        <select
+          id="sort-select"
+          value={current.sort ?? "newest"}
+          onChange={(e) => {
+            const url = buildToolsUrl(current, { sort: e.target.value, page: null });
+            router.push(url);
+          }}
+          className="appearance-none rounded-lg border border-[#232326] bg-[#131316] pl-3 pr-8 py-1 text-xs font-semibold text-white hover:border-[#6E56CF]/40 focus:outline-none transition-all cursor-pointer h-7"
+        >
+          {SORT_OPTIONS.map((opt) => (
+            <option key={opt.value} value={opt.value}>
+              {opt.label}
+            </option>
+          ))}
+        </select>
+        <ChevronDown size={11} className="absolute right-2 text-[#71717A] pointer-events-none" />
+      </div>
     </div>
   );
 }

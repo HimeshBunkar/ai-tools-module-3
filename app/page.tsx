@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Search } from "lucide-react";
 
 import { prisma } from "@/lib/prisma";
-import { getTools, getAllCategories } from "@/lib/tools";
+import { getTools } from "@/lib/tools";
 import type { ToolsSearchParams } from "@/lib/types";
 
 // Helper components
@@ -13,7 +13,7 @@ import { DiscoverySection } from "@/components/DiscoverySection";
 import { HeroCategoryPills } from "@/components/HeroCategoryPills";
 
 // Existing tools components
-import { DiscoveryFilters } from "@/components/DiscoveryFilters";
+import { SortDropdown } from "@/components/SortDropdown";
 import { ToolGrid } from "@/components/ToolGrid";
 import { Pagination } from "@/components/Pagination";
 
@@ -25,10 +25,7 @@ export default async function HomePage({ searchParams }: PageProps) {
   const params = await searchParams;
 
   // 1. Fetch AI Tools listing parameters dynamically
-  const [{ tools, page, totalPages }, categories] = await Promise.all([
-    getTools(params),
-    getAllCategories(),
-  ]);
+  const { tools, page, totalPages } = await getTools(params);
 
   // 2. Fetch Top Companies dynamically from the database
   const topCompanies = await prisma.company.findMany({
@@ -135,17 +132,18 @@ export default async function HomePage({ searchParams }: PageProps) {
         
         {/* Tools Section */}
         <div id="tools" className="scroll-mt-28 space-y-6">
-          <div className="space-y-1">
-            <h2 className="text-2xl font-bold tracking-tight text-white sm:text-[26px]">
-              Featured AI Tools
-            </h2>
-            <p className="text-sm text-[#A1A1AA] leading-relaxed">
-              Filter and sort the absolute best active AI tools in the directory database.
-            </p>
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 border-b border-[#232326]/60 pb-3">
+            <div className="space-y-1">
+              <h2 className="text-2xl font-bold tracking-tight text-white sm:text-[26px]">
+                Featured AI Tools
+              </h2>
+              <p className="text-sm text-[#A1A1AA] leading-relaxed">
+                Filter and sort the absolute best active AI tools in the directory database.
+              </p>
+            </div>
+            {/* SortDropdown aligned to the right, matching mockup exactly */}
+            <SortDropdown />
           </div>
-
-          {/* Combined Discovery Bar & Secondary Filter Row */}
-          <DiscoveryFilters categories={categories} />
 
           <div className="space-y-6 pt-2">
             <ToolGrid tools={tools} />
