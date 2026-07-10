@@ -1,4 +1,5 @@
-import type { PricingModel, BillingFrequency } from "@prisma/client";
+export type PricingModel = "FREE" | "FREEMIUM" | "PAID" | "FREE_TRIAL";
+export type BillingFrequency = "MONTHLY" | "YEARLY" | "ONE_TIME" | "NA";
 
 export type ToolCardData = {
   id: string;

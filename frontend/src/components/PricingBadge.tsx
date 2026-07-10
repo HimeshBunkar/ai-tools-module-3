@@ -1,4 +1,4 @@
-import type { PricingModel, BillingFrequency } from "@prisma/client";
+import type { PricingModel, BillingFrequency } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 const PRICING_LABEL: Record<PricingModel, string> = {

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Calculator, Hourglass, DollarSign, TrendingUp } from "lucide-react";
-import type { PricingModel } from "@prisma/client";
+import type { PricingModel } from "@/lib/types";
 
 type ROICalculatorProps = {
   pricingModel: PricingModel;

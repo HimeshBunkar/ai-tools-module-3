@@ -9,7 +9,7 @@ import { RatingHistogram } from "./RatingHistogram";
 import { ReviewForm } from "./ReviewForm";
 import { ReviewList } from "./ReviewList";
 import type { ReviewData } from "@/lib/types";
-import type { PricingModel, BillingFrequency } from "@prisma/client";
+import type { PricingModel, BillingFrequency } from "@/lib/types";
 
 type ToolTabsProps = {
   tool: {

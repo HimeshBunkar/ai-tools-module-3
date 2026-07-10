@@ -4,7 +4,6 @@ import { Search } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
-import { prisma } from "@/lib/prisma";
 import { getTools } from "@/lib/tools";
 import type { ToolsSearchParams } from "@/lib/types";
 
@@ -24,35 +23,32 @@ type PageProps = {
   searchParams: Promise<ToolsSearchParams>;
 };
 
+const API_URL = (process.env.NEXT_PUBLIC_API_URL || 'https://api.aiorbit.club').replace(/\/$/, '');
+
 export default async function HomePage({ searchParams }: PageProps) {
   const params = await searchParams;
 
   // 1. Fetch AI Tools listing parameters dynamically
   const { tools, page, totalPages } = await getTools(params);
 
-  // 2. Fetch Top Companies dynamically from the database
-  const topCompanies = await prisma.company.findMany({
-    take: 4,
-    orderBy: { createdAt: "desc" },
-  });
+  // 2. Fetch directory sections in a single request from Hono backend
+  let topCompanies: any[] = [];
+  let topModels: any[] = [];
+  let topRepos: any[] = [];
+  let topNews: any[] = [];
 
-  // 3. Fetch Top Models dynamically
-  const topModels = await prisma.aIModel.findMany({
-    take: 4,
-    orderBy: { createdAt: "desc" },
-  });
-
-  // 4. Fetch Top Repositories dynamically
-  const topRepos = await prisma.repository.findMany({
-    take: 4,
-    orderBy: { createdAt: "desc" },
-  });
-
-  // 5. Fetch Top News dynamically
-  const topNews = await prisma.news.findMany({
-    take: 4,
-    orderBy: { createdAt: "desc" },
-  });
+  try {
+    const res = await fetch(`${API_URL}/api/v1/homepage`, { cache: "no-store" });
+    if (res.ok) {
+      const data = await res.json();
+      topCompanies = data.topCompanies || [];
+      topModels = data.topModels || [];
+      topRepos = data.topRepos || [];
+      topNews = data.topNews || [];
+    }
+  } catch (error) {
+    console.error("Failed to fetch homepage lists:", error);
+  }
 
   return (
     <div className="min-h-screen flex flex-col bg-[#000000] text-white selection:bg-neutral-800 selection:text-white">

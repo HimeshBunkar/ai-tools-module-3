@@ -4,8 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowUpRight } from "lucide-react";
-import { getToolBySlug, getSimilarTools, getToolReviews } from "@/lib/tools";
-import { isToolBookmarked } from "@/lib/actions";
+import { getToolDetails, getToolBySlug } from "@/lib/tools";
+import type { ToolDetailData, ToolCardData, ReviewData } from "@/lib/types";
 import { PricingBadge } from "@/components/PricingBadge";
 import { CategoryChip } from "@/components/CategoryChip";
 import { RatingStars } from "@/components/RatingStars";
@@ -37,14 +37,15 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function ToolDetailPage({ params }: PageProps) {
   const { slug } = await params;
-  const tool = await getToolBySlug(slug);
-  if (!tool) notFound();
+  const details = await getToolDetails(slug);
+  if (!details) notFound();
 
-  const [similarTools, reviews, bookmarked] = await Promise.all([
-    getSimilarTools(tool.id, 4),
-    getToolReviews(tool.id),
-    isToolBookmarked(tool.id),
-  ]);
+  const { tool, similarTools, reviews, bookmarked } = details as {
+    tool: ToolDetailData;
+    similarTools: ToolCardData[];
+    reviews: ReviewData[];
+    bookmarked: boolean;
+  };
 
   const jsonLd = {
     "@context": "https://schema.org",
