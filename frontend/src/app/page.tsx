@@ -2,6 +2,8 @@ import React from "react";
 import Link from "next/link";
 import { Search } from "lucide-react";
 
+export const dynamic = "force-dynamic";
+
 import { prisma } from "@/lib/prisma";
 import { getTools } from "@/lib/tools";
 import type { ToolsSearchParams } from "@/lib/types";
