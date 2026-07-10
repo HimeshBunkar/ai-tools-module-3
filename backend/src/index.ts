@@ -1,0 +1,34 @@
+import { Hono } from 'hono'
+import { PrismaClient } from '@prisma/client'
+import { PrismaNeon } from '@prisma/adapter-neon'
+
+type Bindings = {
+  DATABASE_URL: string
+}
+
+const app = new Hono<{ Bindings: Bindings }>()
+
+app.get('/', async (c) => {
+  // We instantiate Prisma per request (or via middleware) because the DB URL is in c.env
+  const adapter = new PrismaNeon({ connectionString: c.env.DATABASE_URL })
+  const prisma = new PrismaClient({ adapter })
+
+  return c.text('Hello Hono on Cloudflare Workers with Prisma!')
+})
+
+app.get('/health', async (c) => {
+  try {
+    const adapter = new PrismaNeon({ connectionString: c.env.DATABASE_URL })
+    const prisma = new PrismaClient({ adapter })
+    
+    // Attempt a simple query to verify DB connectivity
+    await prisma.$queryRaw`SELECT 1`
+    
+    return c.json({ status: 'ok', db: 'connected', timestamp: new Date().toISOString() })
+  } catch (error) {
+    console.error('Database connection failed:', error)
+    return c.json({ status: 'error', db: 'disconnected', timestamp: new Date().toISOString() }, 500)
+  }
+})
+
+export default app
