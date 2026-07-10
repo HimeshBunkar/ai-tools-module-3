@@ -1,16 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { 
-  Search, 
-  Cpu, 
-  Building2, 
-  Terminal, 
-  Newspaper, 
-  Layers, 
-  Video, 
-  Bot, 
-  Flame 
-} from "lucide-react";
+import { Search } from "lucide-react";
 
 import { prisma } from "@/lib/prisma";
 import { getTools, getAllCategories } from "@/lib/tools";
@@ -20,6 +10,7 @@ import type { ToolsSearchParams } from "@/lib/types";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { DiscoverySection } from "@/components/DiscoverySection";
+import { HeroCategoryPills } from "@/components/HeroCategoryPills";
 
 // Existing tools components
 import { DiscoveryFilters } from "@/components/DiscoveryFilters";
@@ -63,19 +54,7 @@ export default async function HomePage({ searchParams }: PageProps) {
     orderBy: { createdAt: "desc" },
   });
 
-  // Determine active category pill based on search params
-  const activeCategory = params.category ? "AI Tools" : "AI Tools";
 
-  const CATEGORIES = [
-    { name: "AI Tools", icon: Cpu, href: "#tools" },
-    { name: "Models", icon: Layers, href: "#models" },
-    { name: "Companies", icon: Building2, href: "#companies" },
-    { name: "Repositories", icon: Terminal, href: "#repos" },
-    { name: "News", icon: Newspaper, href: "#news" },
-    { name: "Collections", icon: Flame, href: "/tools" },
-    { name: "Videos", icon: Video, href: "/tools" },
-    { name: "Agents", icon: Bot, href: "/tools?category=agents" },
-  ];
 
   return (
     <div className="min-h-screen flex flex-col bg-[#0B0B0E] text-white selection:bg-[#6E56CF]/30 selection:text-white">
@@ -106,7 +85,7 @@ export default async function HomePage({ searchParams }: PageProps) {
           </div>
 
           {/* Headline (72px - 80px) */}
-          <h1 className="max-w-[900px] text-5xl sm:text-6xl lg:text-[76px] font-black tracking-tight leading-[1.05] mb-4 select-none text-white">
+          <h1 className="max-w-[900px] text-5xl sm:text-6xl lg:text-[76px] font-black tracking-tight leading-[1.05] mb-4 select-none">
             <span className="bg-gradient-to-b from-white to-neutral-300 bg-clip-text text-transparent">Where the world discovers</span>{" "}
             <br className="hidden sm:inline" />
             <span className="text-[#6E56CF]">AI innovation</span>
@@ -143,26 +122,7 @@ export default async function HomePage({ searchParams }: PageProps) {
           </form>
 
           {/* Compact Category Pills directly under the search bar (height 34-38px) */}
-          <div className="flex flex-wrap items-center justify-center gap-2.5 max-w-4xl relative z-10">
-            {CATEGORIES.map((cat) => {
-              const Icon = cat.icon;
-              const isActive = activeCategory === cat.name;
-              return (
-                <a
-                  key={cat.name}
-                  href={cat.href}
-                  className={`inline-flex items-center gap-1.5 rounded-full px-4 h-[36px] text-xs font-semibold border transition-all duration-200 active:scale-95 ${
-                    isActive
-                      ? "bg-white text-[#0B0B0E] border-transparent shadow-sm"
-                      : "bg-transparent border-[#232326] text-[#A1A1AA] hover:border-[#6E56CF]/40 hover:text-white"
-                  }`}
-                >
-                  <Icon size={11} />
-                  <span>{cat.name}</span>
-                </a>
-              );
-            })}
-          </div>
+          <HeroCategoryPills />
 
         </div>
       </section>
