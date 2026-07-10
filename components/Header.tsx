@@ -61,7 +61,7 @@ export function Header() {
           </nav>
 
           {/* Action buttons */}
-          <div className="flex items-center gap-4.5">
+          <div className="flex items-center gap-5">
             <button
               className="p-1.5 text-foreground-muted hover:text-white rounded-lg transition-colors"
               aria-label="Search site"
@@ -78,7 +78,7 @@ export function Header() {
 
             <Link
               href="/tools"
-              className="rounded-full bg-white px-4.5 py-1.5 text-[13px] font-semibold text-black hover:bg-neutral-200 transition-all active:scale-95"
+              className="rounded-full bg-white px-4 py-1.5 text-[13px] font-semibold text-black hover:bg-neutral-200 transition-all active:scale-95 whitespace-nowrap"
             >
               Submit Tool
             </Link>
