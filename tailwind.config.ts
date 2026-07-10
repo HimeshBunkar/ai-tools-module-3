@@ -10,7 +10,7 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "#0B0B0E",
+        background: "#000000",
         surface: {
           DEFAULT: "#131316",
           raised: "#18181C",
@@ -25,15 +25,15 @@ const config: Config = {
           faint: "#71717A",
         },
         accent: {
-          DEFAULT: "#6E56CF",
-          hover: "#8B7DFF",
-          muted: "#1C1C24",
+          DEFAULT: "#FFFFFF",
+          hover: "#A1A1AA",
+          muted: "#18181C",
         },
         pricing: {
-          free: "#4CC38A",
-          freemium: "#5B9EE8",
-          paid: "#6E56CF",
-          trial: "#E8A64C",
+          free: "#71717A",
+          freemium: "#71717A",
+          paid: "#52525B",
+          trial: "#3F3F46",
         },
         success: "#22C55E",
         danger: "#E5484D",

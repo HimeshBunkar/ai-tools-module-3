@@ -33,8 +33,8 @@ export function HeroFeatureChips() {
             }}
             className={`inline-flex items-center gap-1.5 rounded-lg px-3.5 h-[32px] text-[11px] font-semibold border transition-all duration-200 active:scale-95 ${
               isActive
-                ? "bg-[#6E56CF] text-white border-transparent shadow-[0_0_15px_rgba(110,86,207,0.3)]"
-                : "bg-[#131316]/80 border-[#232326] text-[#A1A1AA] hover:border-[#6E56CF]/40 hover:text-white"
+                ? "bg-white text-[#000000] border-transparent font-bold"
+                : "bg-[#131316] border-[#232326] text-[#A1A1AA] hover:border-neutral-500 hover:text-white"
             }`}
           >
             <span className="text-xs">{f.emoji}</span>

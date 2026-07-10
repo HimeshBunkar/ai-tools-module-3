@@ -30,7 +30,7 @@ export function SortDropdown() {
             const url = buildToolsUrl(current, { sort: e.target.value, page: null });
             router.push(url);
           }}
-          className="appearance-none rounded-lg border border-[#232326] bg-[#131316] pl-3 pr-8 py-1 text-xs font-semibold text-white hover:border-[#6E56CF]/40 focus:outline-none transition-all cursor-pointer h-7"
+          className="appearance-none rounded-lg border border-[#232326] bg-[#131316] pl-3 pr-8 py-1 text-xs font-semibold text-white hover:border-neutral-500 focus:outline-none transition-all cursor-pointer h-7"
         >
           {SORT_OPTIONS.map((opt) => (
             <option key={opt.value} value={opt.value}>

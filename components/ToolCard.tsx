@@ -12,7 +12,7 @@ export function ToolCard({ tool }: { tool: ToolCardData }) {
   return (
     <Link
       href={`/tools/${tool.slug}`}
-      className="group flex h-full flex-col gap-3 rounded-lg border border-border bg-surface p-4 transition-all hover:-translate-y-[2px] hover:border-accent/40 hover:shadow-[0_8px_24px_-8px_rgba(110,86,207,0.35)] focus-visible:outline-2 focus-visible:outline-accent/50"
+      className="group flex h-full flex-col gap-3 rounded-lg border border-border bg-surface p-4 transition-all hover:-translate-y-[2px] hover:border-neutral-500 focus-visible:outline-2 focus-visible:outline-white/50"
     >
       <div className="flex items-start justify-between gap-3">
         <div className="flex min-w-0 items-center gap-3">

@@ -53,71 +53,63 @@ export default async function HomePage({ searchParams }: PageProps) {
   });
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#0B0B0E] text-white selection:bg-[#6E56CF]/30 selection:text-white">
+    <div className="min-h-screen flex flex-col bg-[#000000] text-white selection:bg-neutral-800 selection:text-white">
       {/* 1. Sticky Header */}
       <Header />
 
-      {/* 2. Hero Section (Significantly reduced height, occupies ~75-80% viewport fold) */}
+      {/* 2. Hero Section (Height reduced by 60%, occupies the upper one-third of the fold) */}
       <section 
-        className="relative w-full flex flex-col items-center pt-10 pb-10 px-6 overflow-hidden"
+        className="relative w-full flex flex-col items-center pt-8 pb-6 px-6 overflow-hidden"
         style={{
-          backgroundImage: 'linear-gradient(to right, rgba(35, 35, 38, 0.12) 1px, transparent 1px), linear-gradient(to bottom, rgba(35, 35, 38, 0.12) 1px, transparent 1px)',
+          backgroundImage: 'linear-gradient(to right, rgba(35, 35, 38, 0.08) 1px, transparent 1px), linear-gradient(to bottom, rgba(35, 35, 38, 0.08) 1px, transparent 1px)',
           backgroundSize: '32px 32px',
         }}
       >
-        {/* Subtle Radial Spotlight behind the Hero */}
-        <div 
-          className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[#6E56CF]/5 blur-[120px] rounded-full pointer-events-none z-0" 
-          aria-hidden="true"
-        />
-
         <div className="mx-auto max-w-[1440px] w-full flex flex-col items-center text-center relative z-10">
           
           {/* Announcement Badge */}
-          <div className="inline-flex items-center gap-1.5 rounded-full border border-[#232326] bg-[#131316] px-3.5 py-1 text-xs font-semibold text-[#A1A1AA] hover:border-neutral-700 hover:text-white transition-all mb-4 cursor-default select-none">
+          <div className="inline-flex items-center gap-1.5 rounded-full border border-[#232326] bg-[#131316] px-3 py-0.5 text-[11px] font-semibold text-[#A1A1AA] hover:border-neutral-700 hover:text-white transition-all mb-3 cursor-default select-none">
             <span>The AI Signal 2026</span>
             <span className="text-[#232326]">|</span>
-            <span className="text-[#6E56CF] flex items-center gap-0.5">Ecosystem Update</span>
+            <span className="text-white flex items-center gap-0.5">Ecosystem Update</span>
           </div>
 
-          {/* Headline (Spaced & aligned to proportions of reference) */}
-          <h1 className="max-w-[900px] text-4xl sm:text-5xl lg:text-[56px] font-black tracking-tight leading-[1.08] mb-3 select-none">
-            <span className="bg-gradient-to-b from-white to-neutral-300 bg-clip-text text-transparent">Where the world discovers</span>{" "}
-            <br className="hidden sm:inline" />
-            <span className="text-[#6E56CF]">AI innovation</span>
+          {/* Headline (All White, no gradients, centered) */}
+          <h1 className="max-w-[900px] text-4xl sm:text-5xl lg:text-[52px] font-black tracking-tight leading-[1.08] mb-2 select-none text-white">
+            Where the world discovers AI innovation
           </h1>
 
           {/* Subtitle */}
-          <p className="max-w-2xl text-xs sm:text-sm text-[#A1A1AA] leading-relaxed mb-5 select-none">
+          <p className="max-w-2xl text-xs text-[#A1A1AA] leading-relaxed mb-3.5 select-none">
             Discover and explore AI tools, companies, models, repositories, robotics and developer infrastructure from one unified platform.
           </p>
 
-          {/* Large Pill Search Input */}
-          <form action="/tools" method="GET" className="relative w-full max-w-[800px] mx-auto mb-5 group">
-            <div className="relative w-full rounded-full border border-[#232326] bg-[#131316] h-[58px] flex items-center px-6 pr-24 focus-within:border-[#6E56CF] focus-within:shadow-[0_0_24px_rgba(110,86,207,0.15)] transition-all duration-300">
+          {/* Large Pill Search Input (Height compact, width wide) */}
+          <form action="/tools" method="GET" className="relative w-full max-w-[850px] mx-auto mb-3 group">
+            <div className="relative w-full rounded-lg border border-[#232326] bg-[#111113] h-[50px] flex items-center px-5 pr-20 focus-within:border-neutral-500 transition-all duration-300">
               <input
                 type="text"
                 name="q"
                 defaultValue={params.q}
                 placeholder="Search AI tools, models, companies..."
-                className="w-full bg-transparent text-base text-white placeholder:text-[#71717A] focus:outline-none"
+                className="w-full bg-transparent text-sm text-white placeholder:text-[#71717A] focus:outline-none"
               />
-              <div className="absolute right-6 top-1/2 -translate-y-1/2 flex items-center gap-2">
+              <div className="absolute right-5 top-1/2 -translate-y-1/2 flex items-center gap-2">
                 <kbd className="hidden sm:inline-flex h-5 select-none items-center gap-0.5 rounded border border-[#232326] bg-[#18181C] px-1.5 font-mono text-[9px] text-[#71717A] pointer-events-none">
                   <span>⌘</span>K
                 </kbd>
                 <button 
                   type="submit" 
-                  className="text-[#71717A] hover:text-[#6E56CF] transition-colors"
+                  className="text-[#71717A] hover:text-white transition-colors"
                   aria-label="Search"
                 >
-                  <Search size={20} />
+                  <Search size={18} />
                 </button>
               </div>
             </div>
           </form>
 
-          {/* Compact Feature Chips directly under the search bar */}
+          {/* Compact Feature Chips */}
           <HeroFeatureChips />
 
         </div>
@@ -129,17 +121,17 @@ export default async function HomePage({ searchParams }: PageProps) {
       {/* Category Navigation immediately below the Divider */}
       <CategoryNav />
 
-      {/* 3. Main Grid Wrapper (Naturally continuing into AI directory content) */}
-      <div className="mx-auto max-w-[1440px] px-8 py-10 flex-1 space-y-16">
+      {/* 3. Main Grid Wrapper (Naturally continuing into AI directory content, denser layouts) */}
+      <div className="mx-auto max-w-[1440px] px-8 py-8 flex-1 space-y-12">
         
         {/* Tools Section */}
-        <div id="tools" className="scroll-mt-28 space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 border-b border-[#232326]/60 pb-3">
+        <div id="tools" className="scroll-mt-28 space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 border-b border-[#232326]/60 pb-2">
             <div className="space-y-1">
-              <h2 className="text-2xl font-bold tracking-tight text-white sm:text-[26px]">
+              <h2 className="text-xl font-bold tracking-tight text-white sm:text-2xl">
                 Featured AI Tools
               </h2>
-              <p className="text-sm text-[#A1A1AA] leading-relaxed">
+              <p className="text-xs text-[#A1A1AA] leading-relaxed">
                 Filter and sort the absolute best active AI tools in the directory database.
               </p>
             </div>
@@ -147,7 +139,7 @@ export default async function HomePage({ searchParams }: PageProps) {
             <SortDropdown />
           </div>
 
-          <div className="space-y-6 pt-2">
+          <div className="space-y-4 pt-1">
             <ToolGrid tools={tools} />
 
             <Pagination page={page} totalPages={totalPages} params={params} />
@@ -166,7 +158,7 @@ export default async function HomePage({ searchParams }: PageProps) {
               <Link 
                 key={c.id}
                 href={`/tools?q=${encodeURIComponent(c.name)}`}
-                className="flex flex-col justify-between gap-3 rounded-[24px] border border-[#232326] bg-[#131316] p-5 hover:border-[#6E56CF]/40 hover:bg-[#18181C]/40 transition-all group"
+                className="flex flex-col justify-between gap-3 rounded-[24px] border border-[#232326] bg-[#131316] p-5 hover:border-neutral-500 hover:bg-[#18181C]/40 transition-all group"
               >
                 <div className="flex items-center gap-3">
                   <div className="h-9 w-9 rounded-lg bg-[#18181C] flex items-center justify-center font-bold text-white uppercase border border-[#232326]/60">
@@ -197,7 +189,7 @@ export default async function HomePage({ searchParams }: PageProps) {
               <Link 
                 key={m.id}
                 href={`/tools?q=${encodeURIComponent(m.name)}`}
-                className="flex flex-col justify-between gap-3 rounded-[24px] border border-[#232326] bg-[#131316] p-5 hover:border-[#6E56CF]/40 hover:bg-[#18181C]/40 transition-all group"
+                className="flex flex-col justify-between gap-3 rounded-[24px] border border-[#232326] bg-[#131316] p-5 hover:border-neutral-500 hover:bg-[#18181C]/40 transition-all group"
               >
                 <div className="flex items-center gap-3">
                   <div className="h-9 w-9 rounded-lg bg-[#18181C] flex items-center justify-center font-bold text-white uppercase border border-[#232326]/60">
@@ -234,7 +226,7 @@ export default async function HomePage({ searchParams }: PageProps) {
                 href={repo.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex flex-col justify-between gap-3 rounded-[24px] border border-[#232326] bg-[#131316] p-5 hover:border-[#6E56CF]/40 hover:bg-[#18181C]/40 transition-all group"
+                className="flex flex-col justify-between gap-3 rounded-[24px] border border-[#232326] bg-[#131316] p-5 hover:border-neutral-500 hover:bg-[#18181C]/40 transition-all group"
               >
                 <div className="flex items-center gap-3">
                   <div className="h-9 w-9 rounded-lg bg-[#18181C] flex items-center justify-center font-bold text-white uppercase border border-[#232326]/60">
@@ -271,7 +263,7 @@ export default async function HomePage({ searchParams }: PageProps) {
                 href={n.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex flex-col justify-between gap-3 rounded-[24px] border border-[#232326] bg-[#131316] p-5 hover:border-[#6E56CF]/40 hover:bg-[#18181C]/40 transition-all group"
+                className="flex flex-col justify-between gap-3 rounded-[24px] border border-[#232326] bg-[#131316] p-5 hover:border-neutral-500 hover:bg-[#18181C]/40 transition-all group"
               >
                 <div className="flex items-center gap-3">
                   <div className="h-9 w-9 rounded-lg bg-[#18181C] flex items-center justify-center font-bold text-white uppercase border border-[#232326]/60">

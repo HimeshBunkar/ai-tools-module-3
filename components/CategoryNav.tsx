@@ -17,7 +17,7 @@ export function CategoryNav() {
   ];
 
   return (
-    <div className="w-full border-b border-[#232326]/40 bg-[#0B0B0E] py-4 sticky top-[68px] z-30 select-none">
+    <div className="w-full border-b border-[#232326]/40 bg-[#000000] py-4 sticky top-[68px] z-30 select-none">
       <div className="mx-auto max-w-[1440px] px-8">
         <div className="flex flex-nowrap gap-2 overflow-x-auto scrollbar-none pb-1 w-full">
           {CATEGORIES.map((cat) => {
@@ -33,8 +33,8 @@ export function CategoryNav() {
                 }}
                 className={`inline-flex items-center rounded-lg px-3.5 h-[30px] text-[11px] font-semibold border transition-all duration-200 active:scale-95 whitespace-nowrap ${
                   isActive
-                    ? "bg-white text-[#0B0B0E] border-transparent shadow-sm"
-                    : "bg-transparent border-[#232326] text-[#A1A1AA] hover:border-[#6E56CF]/40 hover:text-white"
+                    ? "bg-white text-[#000000] border-transparent shadow-sm"
+                    : "bg-transparent border-[#232326] text-[#A1A1AA] hover:border-neutral-500 hover:text-white"
                 }`}
               >
                 <span>{cat.name}</span>

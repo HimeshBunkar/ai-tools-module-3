@@ -19,7 +19,7 @@ export function RatingStars({ rating, reviewCount, size = "sm", className }: Rat
 
   return (
     <span className={cn("inline-flex items-center gap-1", className)}>
-      <Star size={iconSize} className="fill-pricing-trial text-pricing-trial" aria-hidden="true" />
+      <Star size={iconSize} className="fill-white text-white" aria-hidden="true" />
       <span className="text-sm font-medium text-foreground">{rating.toFixed(1)}</span>
       {typeof reviewCount === "number" && (
         <span className="text-xs text-foreground-faint">({reviewCount})</span>
