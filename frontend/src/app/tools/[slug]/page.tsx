@@ -69,7 +69,6 @@ export default async function ToolDetailPage({ params }: PageProps) {
       {/* Background Radial Glow */}
       <div className="absolute top-0 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-accent/5 rounded-full blur-3xl pointer-events-none z-0"></div>
 
-      {/* eslint-disable-next-line react/no-danger */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{

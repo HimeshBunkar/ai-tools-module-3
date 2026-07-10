@@ -8,7 +8,7 @@ const globalForPrisma = globalThis as unknown as {
 let prismaInstance: PrismaClient;
 
 // Use Neon serverless adapter on Edge/Cloudflare deployment runtime to prevent TCP socket crashes
-if (process.env.NODE_ENV === "production" || typeof (globalThis as any).EdgeRuntime === "string") {
+if (process.env.NODE_ENV === "production" || typeof (globalThis as typeof globalThis & { EdgeRuntime?: string }).EdgeRuntime === "string") {
   const connectionString = process.env.DATABASE_URL;
   if (!connectionString) {
     throw new Error("DATABASE_URL is required in production environment");
