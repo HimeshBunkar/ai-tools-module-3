@@ -1,5 +1,5 @@
 import { Hono } from 'hono';
-import { PrismaClient } from './generated/prisma/client.js';
+import { PrismaClient } from '@prisma/client';
 import { PrismaNeon } from '@prisma/adapter-neon';
 const app = new Hono();
 app.get('/', async (c) => {
@@ -7,5 +7,18 @@ app.get('/', async (c) => {
     const adapter = new PrismaNeon({ connectionString: c.env.DATABASE_URL });
     const prisma = new PrismaClient({ adapter });
     return c.text('Hello Hono on Cloudflare Workers with Prisma!');
+});
+app.get('/health', async (c) => {
+    try {
+        const adapter = new PrismaNeon({ connectionString: c.env.DATABASE_URL });
+        const prisma = new PrismaClient({ adapter });
+        // Attempt a simple query to verify DB connectivity
+        await prisma.$queryRaw `SELECT 1`;
+        return c.json({ status: 'ok', db: 'connected', timestamp: new Date().toISOString() });
+    }
+    catch (error) {
+        console.error('Database connection failed:', error);
+        return c.json({ status: 'error', db: 'disconnected', timestamp: new Date().toISOString() }, 500);
+    }
 });
 export default app;
