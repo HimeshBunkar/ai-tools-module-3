@@ -4,7 +4,8 @@
   "scripts": {
     "dev": "wrangler dev",
     "build": "prisma generate && tsc",
-    "deploy": "wrangler deploy"
+    "deploy": "wrangler deploy",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",
