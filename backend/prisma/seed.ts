@@ -1,15 +1,6 @@
 import { PrismaClient, PricingModel, BillingFrequency } from "@prisma/client";
-import { PrismaNeon } from "@prisma/adapter-neon";
-import dotenv from "dotenv";
 
-dotenv.config();
-
-const connectionString = process.env.DATABASE_URL;
-if (!connectionString) {
-  throw new Error("DATABASE_URL is not set");
-}
-const adapter = new PrismaNeon({ connectionString });
-const prisma = new PrismaClient({ adapter });
+const prisma = new PrismaClient();
 
 const logoFor = (domain: string) => `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
 

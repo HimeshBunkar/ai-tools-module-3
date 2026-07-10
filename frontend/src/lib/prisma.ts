@@ -1,28 +1,28 @@
 import { PrismaClient } from "@prisma/client";
 import { PrismaNeon } from "@prisma/adapter-neon";
-import { neonConfig } from "@neondatabase/serverless";
 
 const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
 };
 
-// Configure Neon WebSocket constructor for Node.js environments to prevent ErrorEvent connections
-if (typeof window === "undefined") {
-  const ws = require("ws");
-  neonConfig.webSocketConstructor = ws;
-}
+let prismaInstance: PrismaClient;
 
-const getPrismaInstance = (): PrismaClient => {
+// Use Neon serverless adapter on Edge/Cloudflare deployment runtime to prevent TCP socket crashes
+if (process.env.NODE_ENV === "production" || typeof (globalThis as typeof globalThis & { EdgeRuntime?: string }).EdgeRuntime === "string") {
   const connectionString = process.env.DATABASE_URL;
   if (!connectionString) {
-    throw new Error("DATABASE_URL is required to initialize Prisma Client");
+    throw new Error("DATABASE_URL is required in production environment");
   }
   const adapter = new PrismaNeon({ connectionString });
-  return new PrismaClient({ adapter });
-};
-
-export const prisma = globalForPrisma.prisma ?? getPrismaInstance();
-
-if (process.env.NODE_ENV !== "production") {
-  globalForPrisma.prisma = prisma;
+  prismaInstance = new PrismaClient({ adapter });
+} else {
+  // Use standard Prisma Client in local Node.js environment
+  prismaInstance =
+    globalForPrisma.prisma ??
+    new PrismaClient({
+      log: ["error"],
+    });
+  globalForPrisma.prisma = prismaInstance;
 }
+
+export const prisma = prismaInstance;

@@ -58,12 +58,6 @@ export function Header() {
             >
               Repositories
             </Link>
-            <Link
-              href="/leaderboard"
-              className="text-[13px] font-medium text-foreground-muted hover:text-white transition-colors"
-            >
-              Leaderboard
-            </Link>
           </nav>
 
           {/* Action buttons */}
