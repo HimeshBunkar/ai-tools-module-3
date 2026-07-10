@@ -13,6 +13,7 @@ export type ToolCardData = {
   tags: { tag: { slug: string; name: string } }[];
   _count: { reviews: number; bookmarks: number };
   avgRating: number | null;
+  company: { slug: string; name: string } | null;
 };
 
 export type SortOption = "newest" | "oldest" | "name-asc" | "name-desc" | "rating";

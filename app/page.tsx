@@ -22,8 +22,7 @@ import { Footer } from "@/components/Footer";
 import { DiscoverySection } from "@/components/DiscoverySection";
 
 // Existing tools components
-import { TopFilters } from "@/components/TopFilters";
-import { SortDropdown } from "@/components/SortDropdown";
+import { DiscoveryFilters } from "@/components/DiscoveryFilters";
 import { ToolGrid } from "@/components/ToolGrid";
 import { Pagination } from "@/components/Pagination";
 
@@ -83,9 +82,9 @@ export default async function HomePage({ searchParams }: PageProps) {
       {/* 1. Sticky Header */}
       <Header />
 
-      {/* 2. Hero Section with CSS Grid Overlay */}
+      {/* 2. Hero Section with CSS Grid Overlay (Height reduced by 30%, spacing brought closer) */}
       <section 
-        className="relative w-full flex flex-col items-center pt-[60px] pb-20 px-6 overflow-hidden border-b border-[#232326]/40"
+        className="relative w-full flex flex-col items-center pt-[45px] pb-12 px-6 overflow-hidden"
         style={{
           backgroundImage: 'linear-gradient(to right, rgba(35, 35, 38, 0.12) 1px, transparent 1px), linear-gradient(to bottom, rgba(35, 35, 38, 0.12) 1px, transparent 1px)',
           backgroundSize: '32px 32px',
@@ -93,33 +92,33 @@ export default async function HomePage({ searchParams }: PageProps) {
       >
         {/* Subtle Radial Spotlight behind the Hero */}
         <div 
-          className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-[#6E56CF]/5 blur-[120px] rounded-full pointer-events-none z-0" 
+          className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[450px] bg-[#6E56CF]/5 blur-[120px] rounded-full pointer-events-none z-0" 
           aria-hidden="true"
         />
 
         <div className="mx-auto max-w-[1440px] w-full flex flex-col items-center text-center relative z-10">
           
           {/* Announcement Badge */}
-          <div className="inline-flex items-center gap-1.5 rounded-full border border-[#232326] bg-[#131316] px-3.5 py-1 text-xs font-semibold text-[#A1A1AA] hover:border-neutral-700 hover:text-white transition-all mb-8 cursor-default select-none">
+          <div className="inline-flex items-center gap-1.5 rounded-full border border-[#232326] bg-[#131316] px-3.5 py-1 text-xs font-semibold text-[#A1A1AA] hover:border-neutral-700 hover:text-white transition-all mb-5 cursor-default select-none">
             <span>The AI Signal 2026</span>
             <span className="text-[#232326]">|</span>
             <span className="text-[#6E56CF] flex items-center gap-0.5">Ecosystem Update</span>
           </div>
 
           {/* Headline (72px - 80px) */}
-          <h1 className="max-w-[900px] text-5xl sm:text-6xl lg:text-[76px] font-black tracking-tight leading-[1.05] mb-6 select-none text-white">
-            <span className="bg-gradient-to-b from-white to-neutral-400 bg-clip-text text-transparent">Where the world discovers </span>
+          <h1 className="max-w-[900px] text-5xl sm:text-6xl lg:text-[76px] font-black tracking-tight leading-[1.05] mb-4 select-none text-white">
+            <span className="bg-gradient-to-b from-white to-neutral-300 bg-clip-text text-transparent">Where the world discovers</span>{" "}
             <br className="hidden sm:inline" />
             <span className="text-[#6E56CF]">AI innovation</span>
           </h1>
 
           {/* Subtitle */}
-          <p className="max-w-2xl text-base sm:text-xl text-[#A1A1AA] leading-relaxed mb-10 select-none">
+          <p className="max-w-2xl text-base sm:text-xl text-[#A1A1AA] leading-relaxed mb-7 select-none">
             Discover and explore AI tools, companies, models, repositories, robotics and developer infrastructure from one unified platform.
           </p>
 
           {/* Large Pill Search Input (760px - 820px) */}
-          <form action="/tools" method="GET" className="relative w-full max-w-[800px] mx-auto mb-10 group">
+          <form action="/tools" method="GET" className="relative w-full max-w-[800px] mx-auto mb-7 group">
             <div className="relative w-full rounded-full border border-[#232326] bg-[#131316] px-6 py-4.5 pr-24 focus-within:border-[#6E56CF] focus-within:shadow-[0_0_24px_rgba(110,86,207,0.15)] transition-all duration-300">
               <input
                 type="text"
@@ -143,24 +142,24 @@ export default async function HomePage({ searchParams }: PageProps) {
             </div>
           </form>
 
-          {/* Category Pills directly under the search bar */}
-          <div className="flex flex-wrap items-center justify-center gap-3.5 max-w-4xl relative z-10">
+          {/* Compact Category Pills directly under the search bar (height 34-38px) */}
+          <div className="flex flex-wrap items-center justify-center gap-2.5 max-w-4xl relative z-10">
             {CATEGORIES.map((cat) => {
               const Icon = cat.icon;
               const isActive = activeCategory === cat.name;
               return (
-                <Link
+                <a
                   key={cat.name}
                   href={cat.href}
-                  className={`inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-xs font-semibold border transition-all duration-200 active:scale-95 ${
+                  className={`inline-flex items-center gap-1.5 rounded-full px-4 h-[36px] text-xs font-semibold border transition-all duration-200 active:scale-95 ${
                     isActive
                       ? "bg-white text-[#0B0B0E] border-transparent shadow-sm"
-                      : "bg-[#131316] border-[#232326] text-[#A1A1AA] hover:border-[#6E56CF]/40 hover:text-white"
+                      : "bg-transparent border-[#232326] text-[#A1A1AA] hover:border-[#6E56CF]/40 hover:text-white"
                   }`}
                 >
-                  <Icon size={12} />
+                  <Icon size={11} />
                   <span>{cat.name}</span>
-                </Link>
+                </a>
               );
             })}
           </div>
@@ -168,30 +167,27 @@ export default async function HomePage({ searchParams }: PageProps) {
         </div>
       </section>
 
+      {/* Thin Horizontal Divider directly after Hero */}
+      <div className="border-b border-[#232326]/40 w-full z-10 relative" />
+
       {/* 3. Main Grid Wrapper (Naturally continuing into AI directory content) */}
       <div className="mx-auto max-w-[1440px] px-8 py-16 flex-1 space-y-20">
         
         {/* Tools Section */}
         <div id="tools" className="scroll-mt-28 space-y-6">
-          <div className="flex items-end justify-between border-b border-[#232326]/60 pb-3">
-            <div className="space-y-1">
-              <h2 className="text-2xl font-semibold tracking-tight text-white sm:text-[26px]">
-                Featured AI Tools
-              </h2>
-              <p className="text-sm text-[#A1A1AA] leading-relaxed">
-                Filter and sort the absolute best active AI tools in the directory database.
-              </p>
-            </div>
+          <div className="space-y-1">
+            <h2 className="text-2xl font-bold tracking-tight text-white sm:text-[26px]">
+              Featured AI Tools
+            </h2>
+            <p className="text-sm text-[#A1A1AA] leading-relaxed">
+              Filter and sort the absolute best active AI tools in the directory database.
+            </p>
           </div>
 
-          {/* Top Filters (Category tags) */}
-          <TopFilters categories={categories} params={params} />
+          {/* Combined Discovery Bar & Secondary Filter Row */}
+          <DiscoveryFilters categories={categories} />
 
-          <div className="space-y-6">
-            <div className="flex items-center justify-end">
-              <SortDropdown />
-            </div>
-
+          <div className="space-y-6 pt-2">
             <ToolGrid tools={tools} />
 
             <Pagination page={page} totalPages={totalPages} params={params} />
@@ -205,7 +201,7 @@ export default async function HomePage({ searchParams }: PageProps) {
           description="Explore leading AI companies, labs, and startups building the future."
           viewAllHref="/tools"
         >
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {topCompanies.map((c) => (
               <Link 
                 key={c.id}
@@ -236,7 +232,7 @@ export default async function HomePage({ searchParams }: PageProps) {
           description="Discover state-of-the-art open source and proprietary AI models."
           viewAllHref="/tools"
         >
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {topModels.map((m) => (
               <Link 
                 key={m.id}
@@ -271,7 +267,7 @@ export default async function HomePage({ searchParams }: PageProps) {
           description="Explore popular open-source repositories pushing AI boundaries on GitHub."
           viewAllHref="/tools"
         >
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {topRepos.map((repo) => (
               <a 
                 key={repo.id}
@@ -308,7 +304,7 @@ export default async function HomePage({ searchParams }: PageProps) {
           description="Stay informed with critical announcements and ecosystem coverage."
           viewAllHref="/tools"
         >
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {topNews.map((n) => (
               <a 
                 key={n.id}

@@ -72,6 +72,7 @@ export async function getTools(rawParams: ToolsSearchParams) {
         categories: { select: { category: { select: { slug: true, name: true } } } },
         tags: { select: { tag: { select: { slug: true, name: true } } } },
         _count: { select: { reviews: true, bookmarks: true } },
+        company: { select: { slug: true, name: true } },
       },
     }),
     prisma.tool.count({ where }),
@@ -168,6 +169,7 @@ export async function getSimilarTools(toolId: string, limit = 4) {
     categories: { select: { category: { select: { slug: true, name: true } } } },
     tags: { select: { tag: { select: { slug: true, name: true } } } },
     _count: { select: { reviews: true, bookmarks: true } },
+    company: { select: { slug: true, name: true } },
   } as const;
 
   const curated = alternativeIds.length
