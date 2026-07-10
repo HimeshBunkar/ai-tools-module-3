@@ -1,0 +1,11 @@
+{
+  "name": "ai-orbit-monorepo",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "build": "npm run build --workspace=frontend"
+  }
+}
