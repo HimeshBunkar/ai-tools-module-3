@@ -84,27 +84,27 @@ export default async function HomePage({ searchParams }: PageProps) {
             <span className="text-[#6E56CF] flex items-center gap-0.5">Ecosystem Update</span>
           </div>
 
-          {/* Headline (72px - 80px) */}
-          <h1 className="max-w-[900px] text-5xl sm:text-6xl lg:text-[76px] font-black tracking-tight leading-[1.05] mb-4 select-none">
+          {/* Headline (72px - 80px style refined to matches AIOrbit proportions) */}
+          <h1 className="max-w-[900px] text-4xl sm:text-5xl lg:text-[56px] font-black tracking-tight leading-[1.08] mb-3 select-none">
             <span className="bg-gradient-to-b from-white to-neutral-300 bg-clip-text text-transparent">Where the world discovers</span>{" "}
             <br className="hidden sm:inline" />
             <span className="text-[#6E56CF]">AI innovation</span>
           </h1>
 
           {/* Subtitle */}
-          <p className="max-w-2xl text-base sm:text-xl text-[#A1A1AA] leading-relaxed mb-7 select-none">
+          <p className="max-w-2xl text-xs sm:text-sm text-[#A1A1AA] leading-relaxed mb-6 select-none">
             Discover and explore AI tools, companies, models, repositories, robotics and developer infrastructure from one unified platform.
           </p>
 
-          {/* Large Pill Search Input (760px - 820px) */}
-          <form action="/tools" method="GET" className="relative w-full max-w-[800px] mx-auto mb-7 group">
-            <div className="relative w-full rounded-full border border-[#232326] bg-[#131316] px-6 py-4.5 pr-24 focus-within:border-[#6E56CF] focus-within:shadow-[0_0_24px_rgba(110,86,207,0.15)] transition-all duration-300">
+          {/* Large Pill Search Input (760px - 820px, height fixed to h-[58px] to prevent shrunk vertical state) */}
+          <form action="/tools" method="GET" className="relative w-full max-w-[800px] mx-auto mb-6 group">
+            <div className="relative w-full rounded-full border border-[#232326] bg-[#131316] h-[58px] flex items-center px-6 pr-24 focus-within:border-[#6E56CF] focus-within:shadow-[0_0_24px_rgba(110,86,207,0.15)] transition-all duration-300">
               <input
                 type="text"
                 name="q"
                 defaultValue={params.q}
                 placeholder="Search AI tools, models, companies..."
-                className="w-full bg-transparent text-sm text-white placeholder:text-[#71717A] focus:outline-none"
+                className="w-full bg-transparent text-base text-white placeholder:text-[#71717A] focus:outline-none"
               />
               <div className="absolute right-6 top-1/2 -translate-y-1/2 flex items-center gap-2">
                 <kbd className="hidden sm:inline-flex h-5 select-none items-center gap-0.5 rounded border border-[#232326] bg-[#18181C] px-1.5 font-mono text-[9px] text-[#71717A] pointer-events-none">
