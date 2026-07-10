@@ -1,95 +1,64 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
-import { Bookmark, Star, ArrowUpRight } from "lucide-react";
+import { Bookmark } from "lucide-react";
+import { PricingBadge } from "@/components/PricingBadge";
+import { CategoryChip } from "@/components/CategoryChip";
+import { RatingStars } from "@/components/RatingStars";
 import type { ToolCardData } from "@/lib/types";
 
 export function ToolCard({ tool }: { tool: ToolCardData }) {
   const primaryCategory = tool.categories[0]?.category;
-  const pricingLabel = tool.pricingModel.replace("_", " ");
 
   return (
     <Link
       href={`/tools/${tool.slug}`}
-      className="group relative flex flex-col justify-between rounded-[24px] border border-[#232326] bg-[#131316] p-6 transition-all duration-250 hover:-translate-y-1.5 hover:border-[#6E56CF] hover:shadow-[0_0_30px_rgba(110,86,207,0.15)] focus-visible:outline-2 focus-visible:outline-[#6E56CF]/50 h-full"
+      className="group flex h-full flex-col gap-3 rounded-lg border border-border bg-surface p-4 transition-all hover:-translate-y-[2px] hover:border-accent/40 hover:shadow-[0_8px_24px_-8px_rgba(110,86,207,0.35)] focus-visible:outline-2 focus-visible:outline-accent/50"
     >
-      <div className="space-y-4">
-        {/* Top Row: Logo & Bookmark */}
-        <div className="flex items-center justify-between">
-          <div className="h-12 w-12 shrink-0 overflow-hidden rounded-2xl border border-[#232326] bg-[#18181C] p-2 flex items-center justify-center">
+      <div className="flex items-start justify-between gap-3">
+        <div className="flex min-w-0 items-center gap-3">
+          <div className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-md border border-border bg-white p-1.5">
             {tool.logoUrl ? (
               <Image
                 src={tool.logoUrl}
                 alt={`${tool.name} logo`}
-                width={48}
-                height={48}
+                width={44}
+                height={44}
                 className="h-full w-full object-contain"
               />
             ) : (
-              <span className="text-base font-bold text-white uppercase select-none">
+              <span className="text-sm font-semibold text-neutral-900">
                 {tool.name.charAt(0)}
               </span>
             )}
           </div>
-
-          <button 
-            type="button"
-            className="p-2 rounded-full bg-[#18181C] border border-[#232326] text-[#71717A] hover:text-[#8B7DFF] hover:border-[#6E56CF]/40 transition-colors z-10"
-            aria-label="Bookmark tool"
-            onClick={(e) => {
-              e.preventDefault();
-              // Prevents link navigation click trigger
-            }}
-          >
-            <Bookmark size={15} />
-          </button>
-        </div>
-
-        {/* Title, Developer & Description */}
-        <div className="space-y-1.5">
-          <div>
-            <h3 className="text-[15px] font-bold text-white tracking-tight truncate group-hover:text-[#8B7DFF] transition-colors">
+          <div className="min-w-0">
+            <h3 className="truncate font-medium text-foreground transition-colors group-hover:text-white">
               {tool.name}
             </h3>
-            <p className="text-[11px] text-[#71717A] mt-0.5 select-none">
-              by {tool.company?.name || primaryCategory?.name || "Independent"}
-            </p>
+            {primaryCategory && (
+              <span className="text-xs text-foreground-faint">{primaryCategory.name}</span>
+            )}
           </div>
-          <p className="text-xs text-[#A1A1AA] leading-relaxed line-clamp-1">
-            {tool.description}
-          </p>
         </div>
-
-        {/* Pricing & Categories Tags */}
-        <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
-          <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-[#18181C] border border-[#232326] text-[#A1A1AA] uppercase tracking-wide select-none">
-            {pricingLabel}
-          </span>
-          {tool.categories.slice(0, 2).map(({ category }) => (
-            <span 
-              key={category.slug} 
-              className="text-[10px] font-medium px-2.5 py-0.5 rounded-full bg-[#18181C] border border-[#232326]/60 text-[#71717A] select-none"
-            >
-              {category.name}
-            </span>
-          ))}
-        </div>
+        <Bookmark size={18} className="shrink-0 text-foreground-faint group-hover:text-accent transition-colors" aria-hidden="true" />
       </div>
 
-      {/* Bottom Row: Rating & Launch */}
-      <div className="mt-5 pt-3 border-t border-[#232326]/40 flex items-center justify-between text-[11px] text-[#71717A] select-none">
-        {/* Rating display */}
-        <div className="flex items-center gap-1 font-mono text-[#A1A1AA]">
-          <Star size={12} className="fill-[#6E56CF] text-[#6E56CF]" />
-          <span>{tool.avgRating ? tool.avgRating.toFixed(1) : "5.0"}</span>
-        </div>
+      <p className="line-clamp-2 min-h-[2.5rem] text-sm text-foreground-muted">{tool.description}</p>
 
-        {/* Launch Button */}
-        <span className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-[#18181C] border border-[#232326] text-[10px] font-bold text-white group-hover:bg-[#6E56CF] group-hover:border-transparent transition-all duration-200">
-          <span>Launch</span>
-          <ArrowUpRight size={11} />
-        </span>
+      <div className="flex flex-wrap items-center gap-2">
+        <PricingBadge
+          pricingModel={tool.pricingModel}
+          pricingAmount={tool.pricingAmount}
+          billingFrequency={tool.billingFrequency}
+        />
+        {tool.categories.slice(0, 2).map(({ category }) => (
+          <CategoryChip key={category.slug} label={category.name} />
+        ))}
+      </div>
+
+      <div className="mt-auto flex items-center justify-between border-t border-border pt-3">
+        <RatingStars rating={tool.avgRating} reviewCount={tool._count.reviews} />
+        <span className="text-xs text-foreground-faint">{tool._count.bookmarks} saves</span>
       </div>
     </Link>
   );
