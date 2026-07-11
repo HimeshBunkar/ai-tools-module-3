@@ -1882,43 +1882,12 @@ async function main() {
   ];
   await prisma.repository.createMany({ data: seedRepos });
 
-  console.log("Seeding Videos...");
-  await prisma.video.deleteMany({});
-  const seedVideos = [
-    {
-      title: "Cursor AI Editor Tutorial: Build a Full App in 10 Minutes",
-      channel: "CodeCraft",
-      duration: "10:24",
-      views: "120K views",
-      publishedAt: "2 weeks ago",
-      url: "https://youtube.com",
-    },
-    {
-      title: "Midjourney v6 Advanced Prompting: Master the New Aesthetic Parameters",
-      channel: "DesignVibe",
-      duration: "15:45",
-      views: "85K views",
-      publishedAt: "1 month ago",
-      url: "https://youtube.com",
-    },
-    {
-      title: "How Next.js 15 Server Actions Work: A Deep Dive Guide",
-      channel: "Vercel Community",
-      duration: "21:12",
-      views: "60K views",
-      publishedAt: "3 weeks ago",
-      url: "https://youtube.com",
-    },
-    {
-      title: "Inside Figure 01: The OpenAI-Powered Humanoid Robot at Work",
-      channel: "TechFuture",
-      duration: "8:50",
-      views: "230K views",
-      publishedAt: "2 months ago",
-      url: "https://youtube.com",
-    },
-  ];
-  await prisma.video.createMany({ data: seedVideos });
+  // Video seeding removed — the Videos + Models module (Module 9) now owns
+  // this table via backend/crawler/ingest.ts, which writes real crawled data
+  // matching the extended schema. Seeding stub rows here caused repeated
+  // conflicts with required columns added for that module. Run the crawler
+  // to populate real data: `npx tsx crawler/ingest.ts`
+
 
   console.log("Seeding Robots...");
   await prisma.robot.deleteMany({});
