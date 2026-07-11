@@ -1,0 +1,1 @@
+This folder contains the built output assets for the worker "backend" generated at 2026-07-11T07:05:45.324Z.

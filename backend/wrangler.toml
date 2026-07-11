@@ -1,4 +1,4 @@
-name = "backend"
+name = "ai-orbit"
 main = "src/index.ts"
 compatibility_date = "2024-09-23"
 
