@@ -52,9 +52,6 @@ export const metadata: Metadata = {
     "Discover, compare, and explore the best AI tools, companies, models, and repositories in the global ecosystem.",
 };
 
-import ReactQueryProvider from "@/components/providers/ReactQueryProvider";
-import { ThemeProvider } from "@/components/providers/ThemeProvider";
-
 export default function RootLayout({
   children,
 }: {
@@ -63,11 +60,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className={`${geistSans.variable} ${geistMono.variable} font-sans`}>
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
-          <ReactQueryProvider>
-            {children}
-          </ReactQueryProvider>
-        </ThemeProvider>
+        {children}
       </body>
     </html>
   );

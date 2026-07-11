@@ -41,10 +41,6 @@ model User {
   id        String   @id @default(cuid())
   email     String   @unique
   name      String?
-  password  String?
-  image     String?
-  emailVerified DateTime?
-  verificationToken String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
@@ -289,12 +285,4 @@ model LeaderboardCompany {
   saves         Int
   description   String
   visits         String
-}
-
-model VerificationToken {
-  identifier String
-  token      String   @unique
-  expires    DateTime
-
-  @@unique([identifier, token])
 }
