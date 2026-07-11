@@ -14,7 +14,7 @@ if (fs.existsSync(nextDir)) {
 try {
   if (isCloudflare) {
     console.log('Building for Cloudflare Pages (next-on-pages)...');
-    execSync('npx @cloudflare/next-on-pages', { stdio: 'inherit' });
+    execSync('npx -y @cloudflare/next-on-pages', { stdio: 'inherit' });
   } else {
     console.log('Building locally (next build)...');
     execSync('next build', { stdio: 'inherit' });
