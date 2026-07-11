@@ -1,7 +1,9 @@
 name = "ai-orbit"
-compatibility_date = "2024-03-20"
-compatibility_flags = ["nodejs_compat"]
 main = "src/index.ts"
+compatibility_date = "2024-09-23"
+
+# Enable node compatibility for bcryptjs and nodemailer
+compatibility_flags = ["nodejs_compat"]
 
 [observability]
 enabled = true

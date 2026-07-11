@@ -31,4 +31,4 @@ lerna-debug.log*
 .dev.vars
 .wrangler/
 .wrangler
-
+dist/
