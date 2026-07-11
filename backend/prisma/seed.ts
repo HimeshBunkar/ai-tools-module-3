@@ -1,6 +1,20 @@
 import { PrismaClient, PricingModel, BillingFrequency } from "@prisma/client";
+import { PrismaNeon } from "@prisma/adapter-neon";
+import { neonConfig } from "@neondatabase/serverless";
+import ws from "ws";
+import * as dotenv from "dotenv";
 
-const prisma = new PrismaClient();
+dotenv.config();
+
+neonConfig.webSocketConstructor = ws;
+
+const connectionString = process.env.DATABASE_URL;
+if (!connectionString) {
+  throw new Error("DATABASE_URL environment variable is required to seed database");
+}
+
+const adapter = new PrismaNeon({ connectionString });
+const prisma = new PrismaClient({ adapter });
 
 const logoFor = (domain: string) => `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
 

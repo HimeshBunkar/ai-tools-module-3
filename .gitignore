@@ -1,6 +1,0 @@
-node_modules/
-.next/
-dist/
-.env
-.dev.vars
-package-lock.json
