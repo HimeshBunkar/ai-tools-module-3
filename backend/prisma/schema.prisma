@@ -202,15 +202,29 @@ model Repository {
 }
 
 model Video {
-  id          String   @id @default(cuid())
-  title       String
-  channel     String
-  duration    String
-  views       String
-  url         String
-  publishedAt String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @default(now()) @updatedAt
+  id              String   @id @default(cuid())
+  slug            String   @unique
+  title           String
+  description     String
+  toolName        String
+  toolCategory    String   // "multimodal-ai" | "robotics" | "agents" | "llm" | "general-ai"
+  youtubeId       String   @unique
+  thumbnail       String
+  durationSeconds Int
+  views           Int
+  likes           Int
+  publishedAt     String   // ISO date, YYYY-MM-DD (slice(0,10) at ingest time)
+  authorName      String
+  authorAvatar    String
+  tags            String[] @default([])
+  accent          String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@index([toolCategory])
+  @@index([publishedAt])
+  @@index([views])
 }
 
 model Robot {
