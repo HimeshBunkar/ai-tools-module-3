@@ -2,6 +2,7 @@ import { Hono } from 'hono'
 import { cors } from 'hono/cors'
 import { PrismaClient, PricingModel, Prisma } from '@prisma/client'
 import { PrismaNeon } from '@prisma/adapter-neon'
+import { videosRouter } from './modules/videos/videos.routes.js'
 
 type Bindings = {
   DATABASE_URL: string
@@ -11,6 +12,7 @@ const app = new Hono<{ Bindings: Bindings }>()
 
 // Enable CORS middleware so the frontend Next.js can make HTTP calls
 app.use('*', cors())
+app.route('/api/videos', videosRouter)
 
 // Helper to get Prisma Client instance with Neon edge adapters
 function getPrisma(c: any) {

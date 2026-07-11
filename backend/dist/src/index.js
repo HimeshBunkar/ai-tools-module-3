@@ -2,13 +2,9 @@ import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { PrismaClient, PricingModel, Prisma } from '@prisma/client';
 import { PrismaNeon } from '@prisma/adapter-neon';
-import { leaderboardRouter } from './modules/leaderboard/leaderboard.routes.js';
-import { videosRouter } from './modules/videos/videos.routes.js';
 const app = new Hono();
 // Enable CORS middleware so the frontend Next.js can make HTTP calls
 app.use('*', cors());
-app.route('/api/leaderboard', leaderboardRouter);
-app.route('/api/videos', videosRouter);
 // Helper to get Prisma Client instance with Neon edge adapters
 function getPrisma(c) {
     const adapter = new PrismaNeon({ connectionString: c.env.DATABASE_URL });

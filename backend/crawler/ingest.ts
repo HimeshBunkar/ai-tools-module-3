@@ -1,3 +1,4 @@
+import { pathToFileURL } from "node:url";
 import "dotenv/config";
 import { PrismaClient } from "@prisma/client";
 import { PrismaNeon } from "@prisma/adapter-neon";
@@ -63,7 +64,7 @@ export async function runIngest() {
   }
 }
 
-if (require.main === module) {
+if (import.meta.url === pathToFileURL(process.argv[1] ?? "").href) {
   runIngest()
     .then((result) => {
       console.log("[ingest] done:", result);
