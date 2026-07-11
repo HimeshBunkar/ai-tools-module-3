@@ -12,6 +12,17 @@ const app = new Hono<{ Bindings: Bindings }>()
 // Enable CORS middleware so the frontend Next.js can make HTTP calls
 app.use('*', cors())
 
+app.get('/', (c) => {
+  return c.json({
+    message: "AI Orbit API is fully operational",
+    endpoints: {
+      health: "/health",
+      homepage: "/api/v1/homepage",
+      tools: "/api/v1/tools"
+    }
+  })
+})
+
 // Helper to get Prisma Client instance with Neon edge adapters
 function getPrisma(c: any) {
   const adapter = new PrismaNeon({ connectionString: c.env.DATABASE_URL })
