@@ -5,6 +5,10 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       { protocol: "https", hostname: "i.ytimg.com" },
       { protocol: "https", hostname: "yt3.ggpht.com" }, // channel/author avatars
+      {
+        protocol: "https",
+        hostname: "www.google.com",
+      },
     ],
   },
 };

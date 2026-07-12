@@ -3,9 +3,20 @@ import { cors } from 'hono/cors'
 import { PrismaClient, PricingModel, Prisma } from '@prisma/client'
 import { PrismaNeon } from '@prisma/adapter-neon'
 import { videosRouter } from './modules/videos/videos.routes.js'
+import type { ScheduledController, ExecutionContext } from '@cloudflare/workers-types'
+import newsRouter from './modules/news/news.routes.js'
+import ingestionRouter from './modules/ingestion/ingestion.routes.js'
+import logosRouter from './modules/ingestion/logos.routes.js'
+import { runIngestion } from './modules/ingestion/ingestion.service.js'
+import type { IngestionContext } from './modules/ingestion/pipeline.js'
 
 type Bindings = {
   DATABASE_URL: string
+  GEMINI_API_KEY: string
+  GROQ_API_KEY: string
+  CLOUDINARY_CLOUD_NAME: string
+  CLOUDINARY_API_KEY: string
+  CLOUDINARY_API_SECRET: string
 }
 
 const app = new Hono<{ Bindings: Bindings }>()
@@ -13,6 +24,22 @@ const app = new Hono<{ Bindings: Bindings }>()
 // Enable CORS middleware so the frontend Next.js can make HTTP calls
 app.use('*', cors())
 app.route('/api/videos', videosRouter)
+
+app.route('/api/news', newsRouter)
+app.route('/api/ingestion', ingestionRouter)
+app.route('/logos/publishers', logosRouter)
+
+app.get('/', (c) => {
+  return c.json({
+    message: "AI Orbit API is fully operational",
+    endpoints: {
+      health: "/health",
+      homepage: "/api/v1/homepage",
+      tools: "/api/v1/tools",
+      news: "/api/news"
+    }
+  })
+})
 
 // Helper to get Prisma Client instance with Neon edge adapters
 function getPrisma(c: any) {
@@ -61,6 +88,13 @@ app.get('/api/v1/homepage', async (c) => {
       prisma.news.findMany({
         take: 4,
         orderBy: { createdAt: "desc" },
+        select: {
+          id: true,
+          slug: true,
+          title: true,
+          publishedAt: true,
+          publisher: { select: { name: true } },
+        },
       }),
     ])
 
@@ -382,4 +416,33 @@ app.post('/api/v1/tools/:slug/bookmark', async (c) => {
   }
 })
 
-export default app
+export default {
+  fetch: app.fetch,
+
+  // Real Cron Trigger entry point (see wrangler.toml's [triggers] — every
+  // 12 hours). Wrapped in ctx.waitUntil() so the invocation stays alive for
+  // the full run, up to Cloudflare's confirmed 15-minute wall-clock ceiling
+  // per invocation (see ingestion.service.ts / pipeline.ts for how the
+  // pipeline stays within that). Workers Free plan does not fire Cron
+  // Triggers reliably in production — ingestion is run manually
+  // (`npm run ingest`) for now; this handler is otherwise unused.
+  async scheduled(_controller: ScheduledController, env: Bindings, ctx: ExecutionContext) {
+    const adapter = new PrismaNeon({ connectionString: env.DATABASE_URL })
+    const prisma = new PrismaClient({ adapter })
+    const ingestionCtx: IngestionContext = {
+      prisma,
+      llmKeys: { geminiKey: env.GEMINI_API_KEY, groqKey: env.GROQ_API_KEY },
+      cloudinary: { cloudName: env.CLOUDINARY_CLOUD_NAME, apiKey: env.CLOUDINARY_API_KEY, apiSecret: env.CLOUDINARY_API_SECRET },
+    }
+
+    ctx.waitUntil(
+      runIngestion(ingestionCtx)
+        .then((summary) => {
+          console.log(`[cron] ingestion complete: created=${summary.totalCreated} pruned=${summary.pruned}`)
+        })
+        .catch((err) => {
+          console.error('[cron] ingestion failed:', err)
+        })
+    )
+  },
+}

@@ -73,3 +73,40 @@ export type SimilarToolData = {
   pricingModel: PricingModel;
   avgRating: number | null;
 };
+
+// ============================================================
+// APPEND THIS to the END of frontend/src/lib/types.ts
+// Do not remove or modify any existing type above it (ToolCardData,
+// ToolDetailData, etc. belong to Module 3).
+// ============================================================
+
+export type CollectionsSearchParams = {
+  category?: string;
+  page?: string;
+};
+
+export type CollectionListItem = {
+  id: string;
+  slug: string;
+  title: string;
+  description: string;
+  curatedBy: string;
+  category: string;
+  featured: boolean;
+  updatedAt: string;
+  toolCount: number;
+  previewLogos: (string | null)[];
+};
+
+export type CollectionDetailData = {
+  id: string;
+  slug: string;
+  title: string;
+  description: string;
+  curatedBy: string;
+  category: string;
+  featured: boolean;
+  updatedAt: string;
+  toolCount: number;
+  tools: ToolCardData[]; // reuses Module 3's existing ToolCardData shape
+};
