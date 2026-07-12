@@ -80,7 +80,10 @@ export async function enrichVideos(videoIds: string[]): Promise<Video[]> {
         toolCategory,
         youtubeId: videoId,
         thumbnail:
-          item.snippet.thumbnails?.maxres?.url ??
+          // maxres is intentionally excluded: YouTube's API sometimes
+          // reports a maxres thumbnail in metadata even when the file
+          // doesn't actually exist at that URL, causing 404s downstream.
+          // high/default are reliably present for every video.
           item.snippet.thumbnails?.high?.url ??
           item.snippet.thumbnails?.default?.url ??
           "",

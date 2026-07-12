@@ -17,6 +17,15 @@ function getPrisma(c: Context) {
   return new PrismaClient({ adapter });
 }
 
+// Prisma stores authorName/authorAvatar as flat columns, but the frontend
+// (ported as-is from Video_section) expects a nested `author: {name, avatar}`
+// object. Reshape at the API boundary so frontend components stay untouched.
+function toApiShape(video: any) {
+  if (!video) return video;
+  const { authorName, authorAvatar, ...rest } = video;
+  return { ...rest, author: { name: authorName, avatar: authorAvatar } };
+}
+
 // GET /api/videos?sort=latest|trending&limit=N
 export async function listVideos(c: Context) {
   const prisma = getPrisma(c);
@@ -28,7 +37,7 @@ export async function listVideos(c: Context) {
 
     const { sort, limit } = result.data;
     const videos = await fetchVideos(prisma, sort, limit);
-    return c.json(videos);
+    return c.json(videos.map(toApiShape));
   } catch (error: any) {
     console.error("Videos API Controller Error:", error);
     return c.json({ error: "Internal server error.", message: error.message }, 500);
@@ -49,7 +58,7 @@ export async function getVideoBySlug(c: Context) {
     const video = await fetchVideoBySlug(prisma, parsed.data.slug);
     if (!video) return c.json({ error: "Not found" }, 404);
 
-    return c.json(video);
+    return c.json(toApiShape(video));
   } catch (error: any) {
     console.error("Videos API Controller Error:", error);
     return c.json({ error: "Internal server error.", message: error.message }, 500);
@@ -76,7 +85,7 @@ export async function getRelatedVideos(c: Context) {
     if (!video) return c.json({ error: "Not found" }, 404);
 
     const related = await fetchRelatedVideos(prisma, video, queryParsed.data.limit);
-    return c.json(related);
+    return c.json(related.map(toApiShape));
   } catch (error: any) {
     console.error("Videos API Controller Error:", error);
     return c.json({ error: "Internal server error.", message: error.message }, 500);
