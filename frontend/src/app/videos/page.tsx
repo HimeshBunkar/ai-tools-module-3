@@ -2,6 +2,7 @@ import Link from "next/link";
 import { VideosPageClient } from "@/components/videos/VideosPageClient";
 import { VideosShell } from "@/components/videos/VideosShell";
 import { getAllVideos } from "@/lib/videos-data";
+export const runtime = 'edge';
 
 export const dynamic = "force-dynamic";
 

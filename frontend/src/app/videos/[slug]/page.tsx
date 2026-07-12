@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { VideoPlayer } from "@/components/videos/VideoPlayer";
 import { getVideoBySlug } from "@/lib/videos-data";
 
+export const runtime = 'edge';
 export const dynamic = "force-dynamic";
 
 export default async function VideoDetailsPage({ params }: { params: { slug: string } }) {
