@@ -47,7 +47,7 @@ export function Header() {
               Collections
             </Link>
             <Link
-              href="/tools"
+              href="/news"
               className="text-[13px] font-medium text-foreground-muted hover:text-white transition-colors"
             >
               News

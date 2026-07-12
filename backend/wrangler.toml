@@ -1,7 +1,22 @@
 name = "ai-orbit"
-compatibility_date = "2024-03-20"
+compatibility_date = "2024-09-23"
 compatibility_flags = ["nodejs_compat"]
 main = "src/index.ts"
 
 [observability]
 enabled = true
+
+# Every 12 hours (00:00 and 12:00 UTC). Wall-clock duration per invocation is
+# capped at 15 minutes by Cloudflare regardless of plan - see
+# SUMMARIZATION_BUDGET_MS and HN_DISCOVERY_LIMIT in the ingestion module for
+# how the pipeline stays within that. Workers Free plan does not reliably
+# fire Cron Triggers in production; ingestion is run manually
+# (`npm run ingest`) until that's resolved. Harmless to leave configured.
+[triggers]
+crons = ["0 */12 * * *"]
+
+# Publisher logo storage: Cloudinary (CLOUDINARY_CLOUD_NAME/API_KEY/
+# API_SECRET), not R2 - no bucket binding needed here. Like
+# GEMINI_API_KEY/GROQ_API_KEY, these are plain vars set via
+# backend/.dev.vars locally and Cloudflare's dashboard secrets in
+# production - nothing to declare in this file.
