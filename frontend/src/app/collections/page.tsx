@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 export const dynamic = "force-dynamic";
+export const runtime = "edge";
 import { getCollections } from "@/lib/collections";
 import { CategoryMenu } from "@/components/CategoryMenu";
 import { CollectionGrid } from "@/components/CollectionGrid";
