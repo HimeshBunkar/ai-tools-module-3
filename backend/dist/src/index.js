@@ -1,11 +1,7 @@
 import { Hono } from 'hono';
-import { cors } from 'hono/cors';
 import { PrismaClient } from '@prisma/client';
 import { PrismaNeon } from '@prisma/adapter-neon';
-import { leaderboardRouter } from './modules/leaderboard/leaderboard.routes.js';
 const app = new Hono();
-app.use('*', cors());
-app.route('/api/leaderboard', leaderboardRouter);
 app.get('/', async (c) => {
     // We instantiate Prisma per request (or via middleware) because the DB URL is in c.env
     const adapter = new PrismaNeon({ connectionString: c.env.DATABASE_URL });
