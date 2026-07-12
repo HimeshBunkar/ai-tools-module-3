@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 export const dynamic = "force-dynamic";
+export const runtime = "edge";
 import { getTools, getAllCategories } from "@/lib/tools";
 import { SearchBar } from "@/components/SearchBar";
 import { TopFilters } from "@/components/TopFilters";
