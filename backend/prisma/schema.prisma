@@ -176,17 +176,96 @@ model AIModel {
   updatedAt     DateTime @default(now()) @updatedAt
 }
 
+// ---- News module ----
+
+model Publisher {
+  id               String   @id @default(cuid())
+  name             String
+  domain           String   @unique
+  website          String
+  logoUrl          String?
+  faviconUrl       String?
+  colorHex         String?
+  followersLabel   String?
+  credibilityScore Float    @default(0.8)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  articles News[]
+
+  @@index([name])
+}
+
+model Topic {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  createdAt DateTime @default(now())
+
+  articles News[]
+}
+
 model News {
-  id          String   @id @default(cuid())
-  title       String
-  source      String
-  category    String
-  summary     String
-  url         String
-  readTime    String
-  publishedAt String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @default(now()) @updatedAt
+  id         String   @id @default(cuid())
+  slug       String   @unique
+  title      String
+  dek        String
+  aiSummary  String
+  articleUrl String   @unique
+
+  publisherId String
+  publisher   Publisher @relation(fields: [publisherId], references: [id])
+
+  category   String
+  filterTags String[] @default([])
+  topics     Topic[]
+
+  publishedAt DateTime
+  upvotes     Int      @default(0)
+  downvotes   Int      @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  bookmarks NewsBookmark[]
+  votes     NewsVote[]
+  comments  NewsComment[]
+
+  @@index([publishedAt])
+  @@index([publisherId])
+  @@index([category])
+}
+
+model NewsBookmark {
+  id        String   @id @default(cuid())
+  articleId String
+  article   News     @relation(fields: [articleId], references: [id])
+  clientId  String
+  createdAt DateTime @default(now())
+
+  @@unique([articleId, clientId])
+}
+
+model NewsVote {
+  id        String   @id @default(cuid())
+  articleId String
+  article   News     @relation(fields: [articleId], references: [id])
+  clientId  String
+  value     Int
+  createdAt DateTime @default(now())
+
+  @@unique([articleId, clientId])
+}
+
+model NewsComment {
+  id         String   @id @default(cuid())
+  articleId  String
+  article    News     @relation(fields: [articleId], references: [id])
+  clientId   String
+  authorName String   @default("Anonymous")
+  body       String
+  createdAt  DateTime @default(now())
+
+  @@index([articleId])
 }
 
 model Repository {
@@ -201,16 +280,32 @@ model Repository {
   updatedAt   DateTime @default(now()) @updatedAt
 }
 
+// Synced from live production DB via `prisma db pull` on 2026-07-12 — this
+// model was migrated directly to prod by another module without ever being
+// committed here. Kept verbatim; not owned by this module, do not alter.
 model Video {
-  id          String   @id @default(cuid())
-  title       String
-  channel     String
-  duration    String
-  views       String
-  url         String
-  publishedAt String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @default(now()) @updatedAt
+  id              String   @id @default(cuid())
+  title           String
+  publishedAt     String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @default(now()) @updatedAt
+  accent          String
+  authorAvatar    String
+  authorName      String
+  description     String
+  durationSeconds Int
+  likes           Int
+  slug            String   @unique
+  tags            String[] @default([])
+  thumbnail       String
+  toolCategory    String
+  toolName        String
+  youtubeId       String   @unique
+  views           Int
+
+  @@index([publishedAt])
+  @@index([toolCategory])
+  @@index([views])
 }
 
 model Robot {

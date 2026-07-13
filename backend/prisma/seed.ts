@@ -1802,47 +1802,9 @@ async function main() {
   ];
   await prisma.aIModel.createMany({ data: seedModels });
 
-  console.log("Seeding News...");
-  await prisma.news.deleteMany({});
-  const seedNews = [
-    {
-      title: "OpenAI Announces SearchGPT Prototype",
-      source: "TechCrunch",
-      category: "Search & Retrieval",
-      publishedAt: "2 hours ago",
-      readTime: "3 min read",
-      summary: "OpenAI is testing a new search tool designed to give users fast, timely answers with cited links to web publications.",
-      url: "https://openai.com/blog/searchgpt-prototype",
-    },
-    {
-      title: "Next.js 15 Released with Turbopack and React 19 Support",
-      source: "Vercel Blog",
-      category: "Web Development",
-      publishedAt: "1 day ago",
-      readTime: "5 min read",
-      summary: "Vercel brings Next.js 15 to production with default caching updates, compiler changes, and React Server Components improvements.",
-      url: "https://nextjs.org/blog/next-15",
-    },
-    {
-      title: "Anthropic Introduces Claude 3.5 Sonnet Artifacts on Mobile Apps",
-      source: "VentureBeat",
-      category: "LLM Interface",
-      publishedAt: "3 days ago",
-      readTime: "4 min read",
-      summary: "Users can now interact with, view, and edit React layouts, SVGs, and documents built by Claude inside their mobile phone app.",
-      url: "https://anthropic.com/news/claude-3-5-sonnet",
-    },
-    {
-      title: "Boston Dynamics Spotlights New Fully Electric Atlas Humanoid",
-      source: "Robotics World",
-      category: "Robotics",
-      publishedAt: "1 week ago",
-      readTime: "6 min read",
-      summary: "Boston Dynamics retires the hydraulic Atlas and debuts a completely electric model with advanced range of motion and joint pivots.",
-      url: "https://bostondynamics.com",
-    },
-  ];
-  await prisma.news.createMany({ data: seedNews });
+  // News is no longer static-seeded — the news module gets its data from
+  // real RSS ingestion (`npm run ingest`), not mock rows. See
+  // src/modules/ingestion/.
 
   console.log("Seeding Repositories...");
   await prisma.repository.deleteMany({});
@@ -1882,43 +1844,14 @@ async function main() {
   ];
   await prisma.repository.createMany({ data: seedRepos });
 
-  console.log("Seeding Videos...");
-  await prisma.video.deleteMany({});
-  const seedVideos = [
-    {
-      title: "Cursor AI Editor Tutorial: Build a Full App in 10 Minutes",
-      channel: "CodeCraft",
-      duration: "10:24",
-      views: "120K views",
-      publishedAt: "2 weeks ago",
-      url: "https://youtube.com",
-    },
-    {
-      title: "Midjourney v6 Advanced Prompting: Master the New Aesthetic Parameters",
-      channel: "DesignVibe",
-      duration: "15:45",
-      views: "85K views",
-      publishedAt: "1 month ago",
-      url: "https://youtube.com",
-    },
-    {
-      title: "How Next.js 15 Server Actions Work: A Deep Dive Guide",
-      channel: "Vercel Community",
-      duration: "21:12",
-      views: "60K views",
-      publishedAt: "3 weeks ago",
-      url: "https://youtube.com",
-    },
-    {
-      title: "Inside Figure 01: The OpenAI-Powered Humanoid Robot at Work",
-      channel: "TechFuture",
-      duration: "8:50",
-      views: "230K views",
-      publishedAt: "2 months ago",
-      url: "https://youtube.com",
-    },
-  ];
-  await prisma.video.createMany({ data: seedVideos });
+  // Video is owned by another module and already has 218 real rows in
+  // production via its own ingestion path (confirmed via `prisma db pull`
+  // during the news-module port). This mock-data block used the old flat
+  // Video shape and, if ever run against production, its
+  // `prisma.video.deleteMany({})` would have wiped that real data before
+  // failing to reinsert (shape mismatch with the actual production
+  // schema). Removed rather than fixed with fabricated data — not this
+  // module's data to seed.
 
   console.log("Seeding Robots...");
   await prisma.robot.deleteMany({});

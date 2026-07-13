@@ -250,15 +250,13 @@ export default async function HomePage({ searchParams }: PageProps) {
           id="news"
           title="Latest AI News & Insights"
           description="Stay informed with critical announcements and ecosystem coverage."
-          viewAllHref="/tools"
+          viewAllHref="/news"
         >
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {topNews.map((n) => (
-              <a 
+              <a
                 key={n.id}
-                href={n.url}
-                target="_blank"
-                rel="noopener noreferrer"
+                href={`/news/${n.slug}`}
                 className="flex flex-col justify-between gap-3 rounded-[24px] border border-[#232326] bg-[#131316] p-5 hover:border-neutral-500 hover:bg-[#18181C]/40 transition-all group"
               >
                 <div className="flex items-center gap-3">
@@ -267,15 +265,14 @@ export default async function HomePage({ searchParams }: PageProps) {
                   </div>
                   <div className="flex-1 min-w-0">
                     <h3 className="text-sm font-bold text-white truncate">{n.title}</h3>
-                    <p className="text-[11px] text-[#A1A1AA] truncate">{n.source}</p>
+                    <p className="text-[11px] text-[#A1A1AA] truncate">{n.publisher?.name}</p>
                   </div>
                 </div>
-                <p className="text-xs text-[#A1A1AA] line-clamp-2 mt-1 min-h-[32px]">
-                  {n.summary}
-                </p>
                 <div className="mt-2 pt-2 border-t border-[#232326]/60 flex items-center justify-between text-[10px] font-mono text-[#71717A]">
                   <span>PUBLISHED</span>
-                  <span className="text-white">{n.publishedAt}</span>
+                  <span className="text-white">
+                    {new Date(n.publishedAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                  </span>
                 </div>
               </a>
             ))}
