@@ -7,6 +7,7 @@ import { getCollectionDetail } from "@/lib/collections";
 import { CollectionGrid } from "@/components/CollectionGrid";
 
 export const dynamic = "force-dynamic";
+export const runtime = "edge";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
