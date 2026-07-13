@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { PageShell } from "@/components/news/PageShell";
 import { NewsListingClient } from "@/components/news/NewsListingClient";
-import { API_URL } from "@/lib/api";
+import { SERVER_API_URL } from "@/lib/api";
 import type { NewsArticle, NewsCategory, NewsFilterChip, NewsSource } from "@/types/news";
 
 export const dynamic = "force-dynamic";
@@ -26,7 +26,7 @@ interface NewsPageProps {
 export default async function NewsPage({ searchParams }: NewsPageProps) {
   const { category, topic } = await searchParams;
 
-  const res = await fetch(`${API_URL}/api/news`, { cache: "no-store" });
+  const res = await fetch(`${SERVER_API_URL}/api/news`, { cache: "no-store" });
   if (!res.ok) throw new Error(`Failed to load news: ${res.status}`);
   const { articles, sources, categories, filterChips }: NewsListingResponse = await res.json();
 

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { PageShell } from "@/components/news/PageShell";
 import { ArticleDetail } from "@/components/news/ArticleDetail";
-import { API_URL } from "@/lib/api";
+import { SERVER_API_URL } from "@/lib/api";
 import type { NewsArticle, NewsComment, NewsSource } from "@/types/news";
 
 export const dynamic = "force-dynamic";
@@ -26,7 +26,7 @@ interface NewsDetailResponse {
 // API_URL). Every slug renders on first request instead; functionally
 // identical, just without that build-time optimization.
 async function fetchArticle(slug: string): Promise<NewsDetailResponse | null> {
-  const res = await fetch(`${API_URL}/api/news/${encodeURIComponent(slug)}`, { cache: "no-store" });
+  const res = await fetch(`${SERVER_API_URL}/api/news/${encodeURIComponent(slug)}`, { cache: "no-store" });
   if (res.status === 404) return null;
   if (!res.ok) throw new Error(`Failed to load article: ${res.status}`);
   return res.json();
