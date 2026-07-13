@@ -1,4 +1,5 @@
 import { cookies } from 'next/headers';
+import { API_URL } from "@/lib/api";
 
 export async function auth() {
   const cookieStore = await cookies();
@@ -7,7 +8,7 @@ export async function auth() {
   if (!token) return null;
 
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8787'}/api/auth/me`, {
+    const res = await fetch(`${API_URL}/api/auth/me`, {
       headers: { Cookie: `auth_token=${token}` }
     });
     

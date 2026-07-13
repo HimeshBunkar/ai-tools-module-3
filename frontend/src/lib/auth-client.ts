@@ -1,6 +1,8 @@
+import { API_URL } from "@/lib/api";
+
 export async function signOut({ callbackUrl = '/auth/signin' } = {}) {
   try {
-    await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8787'}/api/auth/logout`, {
+    await fetch(`${API_URL}/api/auth/logout`, {
       method: 'POST',
       credentials: 'include'
     });

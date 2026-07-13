@@ -10,7 +10,11 @@
  * production as a result.
  */
 function resolveApiUrl(): string {
-  return (process.env.NEXT_PUBLIC_API_URL || "https://api.aiorbit.club").replace(/\/$/, "");
+  const url = process.env.NEXT_PUBLIC_API_URL;
+  if (url && url.startsWith("http") && url !== "undefined") {
+    return url.replace(/\/$/, "");
+  }
+  return "https://api.aiorbit.club";
 }
 
 export const API_URL = resolveApiUrl();
