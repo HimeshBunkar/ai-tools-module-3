@@ -1,0 +1,185 @@
+import { Context } from 'hono';
+import { setCookie, deleteCookie } from 'hono/cookie';
+import { sign } from 'jsonwebtoken';
+import { AuthService } from './auth.service.js';
+import { signupSchema, loginSchema, verifyEmailSchema, emailOnlySchema, resetPasswordSchema } from './auth.schema.js';
+import { rateLimit, getIp } from '../../lib/rate-limit.js';
+const authService = new AuthService();
+export class AuthController {
+    async signup(c) {
+        const ip = getIp(c.req.raw) || 'unknown';
+        const { success, retryAfter } = rateLimit(`signup:${ip}`, 5, 60000);
+        if (!success) {
+            return c.json({ error: `Too many requests. Please try again in ${retryAfter} seconds.` }, 429);
+        }
+        try {
+            const body = await c.req.json();
+            const result = signupSchema.safeParse(body);
+            if (!result.success) {
+                return c.json({ error: result.error.issues[0].message }, 400);
+            }
+            await authService.signup(result.data);
+            return c.json({ success: true, message: 'Verification email sent.' }, 201);
+        }
+        catch (error) {
+            if (error.message === 'Email is already in use.') {
+                return c.json({ error: error.message }, 409);
+            }
+            return c.json({ error: 'Failed to create account.' }, 500);
+        }
+    }
+    async login(c) {
+        const ip = getIp(c.req.raw) || 'unknown';
+        const { success, retryAfter } = rateLimit(`login:${ip}`, 10, 60000);
+        if (!success) {
+            return c.json({ error: `Too many requests. Please try again in ${retryAfter} seconds.` }, 429);
+        }
+        try {
+            const body = await c.req.json();
+            const result = loginSchema.safeParse(body);
+            if (!result.success) {
+                return c.json({ error: result.error.issues[0].message }, 400);
+            }
+            const user = await authService.login(result.data);
+            const token = sign({ id: user.id, email: user.email, name: user.name }, process.env.JWT_SECRET, { expiresIn: '7d' });
+            setCookie(c, 'auth_token', token, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
+                path: '/',
+                maxAge: 60 * 60 * 24 * 7
+            });
+            return c.json({ success: true, user: { id: user.id, name: user.name, email: user.email } });
+        }
+        catch (error) {
+            if (error.message === 'Invalid email or password.') {
+                return c.json({ error: error.message }, 401);
+            }
+            if (error.message === 'Please verify your email before logging in.') {
+                return c.json({ error: error.message }, 403);
+            }
+            return c.json({ error: 'Failed to login.' }, 500);
+        }
+    }
+    async logout(c) {
+        deleteCookie(c, 'auth_token', {
+            path: '/',
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
+        });
+        return c.json({ success: true, message: 'Logged out successfully.' });
+    }
+    async getMe(c) {
+        try {
+            const user = c.get('user');
+            const dbUser = await authService.getMe(user.id);
+            return c.json({ success: true, user: dbUser });
+        }
+        catch (error) {
+            return c.json({ error: 'User not found' }, 404);
+        }
+    }
+    async verifyEmail(c) {
+        try {
+            const body = await c.req.json();
+            const result = verifyEmailSchema.safeParse(body);
+            if (!result.success) {
+                return c.json({ error: result.error.issues[0].message }, 400);
+            }
+            const user = await authService.verifyEmail(result.data);
+            const token = sign({ id: user.id, email: user.email, name: user.name }, process.env.JWT_SECRET, { expiresIn: '7d' });
+            setCookie(c, 'auth_token', token, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
+                path: '/',
+                maxAge: 60 * 60 * 24 * 7
+            });
+            return c.json({ success: true, message: 'Email verified successfully.' });
+        }
+        catch (error) {
+            if (error.message.includes('expired') || error.message.includes('Invalid') || error.message.includes('not found')) {
+                return c.json({ error: error.message }, 400);
+            }
+            return c.json({ error: 'An unexpected error occurred during verification.' }, 500);
+        }
+    }
+    async resendVerification(c) {
+        const ip = getIp(c.req.raw) || 'unknown';
+        const { success, retryAfter } = rateLimit(`resend-verification:${ip}`, 3, 60000);
+        if (!success) {
+            return c.json({ error: `Too many requests. Please try again in ${retryAfter} seconds.` }, 429);
+        }
+        try {
+            const body = await c.req.json();
+            const result = emailOnlySchema.safeParse(body);
+            if (!result.success) {
+                return c.json({ error: result.error.issues[0].message }, 400);
+            }
+            const response = await authService.resendVerification(result.data);
+            return c.json({ success: true, message: response.message });
+        }
+        catch (error) {
+            if (error.message === 'Email is already verified.') {
+                return c.json({ error: error.message }, 400);
+            }
+            return c.json({ error: 'Failed to resend verification email.' }, 500);
+        }
+    }
+    async forgotPassword(c) {
+        const ip = getIp(c.req.raw) || 'unknown';
+        const { success, retryAfter } = rateLimit(`forgot-password:${ip}`, 3, 60000);
+        if (!success) {
+            return c.json({ error: `Too many requests. Please try again in ${retryAfter} seconds.` }, 429);
+        }
+        try {
+            const body = await c.req.json();
+            const result = emailOnlySchema.safeParse(body);
+            if (!result.success) {
+                return c.json({ error: result.error.issues[0].message }, 400);
+            }
+            const response = await authService.forgotPassword(result.data);
+            return c.json({ success: true, message: response.message });
+        }
+        catch (error) {
+            return c.json({ error: 'Failed to send password reset email.' }, 500);
+        }
+    }
+    async resetPassword(c) {
+        const ip = getIp(c.req.raw) || 'unknown';
+        const { success, retryAfter } = rateLimit(`reset-password:${ip}`, 3, 60000);
+        if (!success) {
+            return c.json({ error: `Too many requests. Please try again in ${retryAfter} seconds.` }, 429);
+        }
+        try {
+            const body = await c.req.json();
+            const result = resetPasswordSchema.safeParse(body);
+            if (!result.success) {
+                return c.json({ error: result.error.issues[0].message }, 400);
+            }
+            await authService.resetPassword(result.data);
+            return c.json({ success: true, message: 'Password has been reset successfully.' });
+        }
+        catch (error) {
+            if (error.message.includes('Invalid') || error.message.includes('expired')) {
+                return c.json({ error: error.message }, 400);
+            }
+            return c.json({ error: 'Failed to reset password.' }, 500);
+        }
+    }
+    async deleteAccount(c) {
+        try {
+            const user = c.get('user');
+            await authService.deleteAccount(user.id);
+            deleteCookie(c, 'auth_token', {
+                path: '/',
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
+            });
+            return c.json({ success: true, message: 'Account deleted successfully' });
+        }
+        catch (error) {
+            return c.json({ error: 'Failed to delete account' }, 500);
+        }
+    }
+}
