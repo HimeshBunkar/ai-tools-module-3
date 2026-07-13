@@ -1,3 +1,4 @@
+export const runtime = 'edge';
 import { auth } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import { Card } from '@/components/ui/card';
@@ -43,3 +44,4 @@ export default async function HistoryPage() {
     </Shell>
   );
 }
+

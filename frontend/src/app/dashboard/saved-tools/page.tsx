@@ -1,3 +1,4 @@
+export const runtime = 'edge';
 import { auth } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import { Shell } from '@/components/ui/shell';
@@ -13,3 +14,4 @@ export default async function SavedToolsPage() {
     </Shell>
   );
 }
+
