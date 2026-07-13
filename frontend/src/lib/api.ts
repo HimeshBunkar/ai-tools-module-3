@@ -17,6 +17,89 @@ function resolveApiUrl(): string {
 /** Used by the client components (CommentBox, PublisherIcon, SaveButton, VoteButtons) — unchanged. */
 export const API_URL = resolveApiUrl();
 
+// ---------------------------------------------------------------------------
+// Leaderboard API helpers
+// ---------------------------------------------------------------------------
+
+export async function fetchLeaderboardTools(category?: string): Promise<any[]> {
+  const url = new URL(`${API_URL}/api/v1/leaderboard/tools`);
+  if (category && category !== "All Categories") url.searchParams.set("category", category);
+  const res = await fetch(url.toString(), { next: { revalidate: 60 } } as RequestInit);
+  if (!res.ok) return [];
+  return res.json();
+}
+
+export async function fetchLeaderboardModels(category?: string): Promise<any[]> {
+  const url = new URL(`${API_URL}/api/v1/leaderboard/models`);
+  if (category && category !== "All Categories") url.searchParams.set("category", category);
+  const res = await fetch(url.toString(), { next: { revalidate: 60 } } as RequestInit);
+  if (!res.ok) return [];
+  return res.json();
+}
+
+export async function fetchLeaderboardCompanies(): Promise<any[]> {
+  const url = `${API_URL}/api/v1/leaderboard/companies`;
+  const res = await fetch(url, { next: { revalidate: 60 } } as RequestInit);
+  if (!res.ok) return [];
+  return res.json();
+}
+
+export async function fetchAllCompanies(): Promise<any[]> {
+  const url = `${API_URL}/api/v1/companies`;
+  const res = await fetch(url, { next: { revalidate: 60 } } as RequestInit);
+  if (!res.ok) return [];
+  return res.json();
+}
+
+export async function fetchCompanyDetails(slug: string): Promise<any> {
+  const url = `${API_URL}/api/v1/companies/${slug}`;
+  const res = await fetch(url, { next: { revalidate: 60 } } as RequestInit);
+  if (!res.ok) return null;
+  return res.json();
+}
+
+export async function fetchAllModels(): Promise<any[]> {
+  const url = `${API_URL}/api/v1/models`;
+  const res = await fetch(url, { next: { revalidate: 60 } } as RequestInit);
+  if (!res.ok) return [];
+  return res.json();
+}
+
+export async function fetchAllNews(): Promise<any[]> {
+  const url = `${API_URL}/api/v1/news`;
+  const res = await fetch(url, { next: { revalidate: 60 } } as RequestInit);
+  if (!res.ok) return [];
+  return res.json();
+}
+
+export async function fetchAllRepos(): Promise<any[]> {
+  const url = `${API_URL}/api/v1/repositories`;
+  const res = await fetch(url, { next: { revalidate: 60 } } as RequestInit);
+  if (!res.ok) return [];
+  return res.json();
+}
+
+export async function fetchAllVideos(): Promise<any[]> {
+  const url = `${API_URL}/api/v1/videos`;
+  const res = await fetch(url, { next: { revalidate: 60 } } as RequestInit);
+  if (!res.ok) return [];
+  return res.json();
+}
+
+export async function fetchAllRobots(): Promise<any[]> {
+  const url = `${API_URL}/api/v1/robots`;
+  const res = await fetch(url, { next: { revalidate: 60 } } as RequestInit);
+  if (!res.ok) return [];
+  return res.json();
+}
+
+export async function fetchAllDevices(): Promise<any[]> {
+  const url = `${API_URL}/api/v1/devices`;
+  const res = await fetch(url, { next: { revalidate: 60 } } as RequestInit);
+  if (!res.ok) return [];
+  return res.json();
+}
+
 /**
  * Server-side-only origin, for the two News page.tsx server components.
  * api.aiorbit.club is a Cloudflare-proxied custom domain; a Pages Function
