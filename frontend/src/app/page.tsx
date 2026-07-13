@@ -24,7 +24,7 @@ type PageProps = {
   searchParams: Promise<ToolsSearchParams>;
 };
 
-const API_URL = (process.env.NEXT_PUBLIC_API_URL || 'https://api.aiorbit.club').replace(/\/$/, '');
+import { API_URL } from "@/lib/api";
 
 export default async function HomePage({ searchParams }: PageProps) {
   const params = await searchParams;

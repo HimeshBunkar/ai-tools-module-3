@@ -5,6 +5,7 @@ import { PrismaNeon } from '@prisma/adapter-neon';
 import newsRouter from './modules/news/news.routes.js';
 import ingestionRouter from './modules/ingestion/ingestion.routes.js';
 import logosRouter from './modules/ingestion/logos.routes.js';
+import authRoutes from './modules/auth/auth.routes.js';
 import { runIngestion } from './modules/ingestion/ingestion.service.js';
 const app = new Hono();
 // Enable CORS middleware so the frontend Next.js can make HTTP calls
@@ -12,6 +13,7 @@ app.use('*', cors());
 app.route('/api/news', newsRouter);
 app.route('/api/ingestion', ingestionRouter);
 app.route('/logos/publishers', logosRouter);
+app.route('/api/auth', authRoutes);
 app.get('/', (c) => {
     return c.json({
         message: "AI Orbit API is fully operational",
