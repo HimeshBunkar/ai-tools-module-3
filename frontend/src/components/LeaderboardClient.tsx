@@ -455,7 +455,51 @@ export function LeaderboardClient() {
       domain = `${name.toLowerCase().replace(/\s+/g, "").replace(/[^a-z0-9]/g, "")}.com`;
     }
     
-    return `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
+    return `https://logo.clearbit.com/${domain}`;
+  };
+
+  const handleLogoError = (e: React.SyntheticEvent<HTMLImageElement, Event>, name: string) => {
+    const target = e.currentTarget;
+    if (target.src.startsWith("https://logo.clearbit.com/")) {
+      const n = name.toLowerCase();
+      let domain = "";
+      if (n.includes("chatgpt") || n.includes("gpt") || n.includes("o1-") || n.includes("openai")) {
+        domain = "openai.com";
+      } else if (n.includes("claude") || n.includes("anthropic")) {
+        domain = "anthropic.com";
+      } else if (n.includes("gemini") || n.includes("google") || n.includes("deepmind")) {
+        domain = "google.com";
+      } else if (n.includes("llama") || n.includes("meta")) {
+        domain = "meta.com";
+      } else if (n.includes("mistral")) {
+        domain = "mistral.ai";
+      } else if (n.includes("cohere")) {
+        domain = "cohere.com";
+      } else if (n.includes("ai21")) {
+        domain = "ai21.com";
+      } else if (n.includes("cursor")) {
+        domain = "cursor.com";
+      } else if (n.includes("v0")) {
+        domain = "vercel.com";
+      } else if (n.includes("midjourney")) {
+        domain = "midjourney.com";
+      } else if (n.includes("copilot") || n.includes("github")) {
+        domain = "github.com";
+      } else if (n.includes("replit")) {
+        domain = "replit.com";
+      } else if (n.includes("ollama")) {
+        domain = "ollama.com";
+      } else if (n.includes("alibaba")) {
+        domain = "alibabacloud.com";
+      } else if (n.includes("deepseek")) {
+        domain = "deepseek.com";
+      } else {
+        domain = `${name.toLowerCase().replace(/\s+/g, "").replace(/[^a-z0-9]/g, "")}.com`;
+      }
+      target.src = `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
+    } else {
+      target.style.display = "none";
+    }
   };
 
   return (
@@ -659,9 +703,7 @@ export function LeaderboardClient() {
                                 src={getLogoUrl(tool.name)}
                                 alt={tool.name}
                                 className="h-full w-full object-contain absolute z-10 p-1.5 bg-[#18181C]"
-                                onError={(e) => {
-                                  (e.currentTarget as HTMLElement).style.display = "none";
-                                }}
+                                onError={(e) => handleLogoError(e, tool.name)}
                               />
                             </div>
                             <div className="min-w-0">
@@ -755,9 +797,7 @@ export function LeaderboardClient() {
                                 src={getLogoUrl(model.name)}
                                 alt={model.name}
                                 className="h-full w-full object-contain absolute z-10 p-1.5 bg-[#18181C]"
-                                onError={(e) => {
-                                  (e.currentTarget as HTMLElement).style.display = "none";
-                                }}
+                                onError={(e) => handleLogoError(e, model.name)}
                               />
                             </div>
                             <div className="min-w-0">
@@ -844,9 +884,7 @@ export function LeaderboardClient() {
                                 src={getLogoUrl(company.name)}
                                 alt={company.name}
                                 className="h-full w-full object-contain absolute z-10 p-1.5 bg-[#18181C]"
-                                onError={(e) => {
-                                  (e.currentTarget as HTMLElement).style.display = "none";
-                                }}
+                                onError={(e) => handleLogoError(e, company.name)}
                               />
                             </div>
                             <div className="min-w-0">
