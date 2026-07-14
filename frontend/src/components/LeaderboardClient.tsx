@@ -528,23 +528,14 @@ export function LeaderboardClient() {
 
   const handleLogoError = (e: React.SyntheticEvent<HTMLImageElement, Event>, name: string) => {
     const target = e.currentTarget;
-    if (target.src.includes("logo.clearbit.com")) {
-      try {
-        const domain = new URL(target.src).pathname.substring(1);
-        if (domain) {
-          target.src = `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
-          return;
-        }
-      } catch (err) {}
-    }
-    // Final fallback: styled initial avatar
+    // Hide the broken image immediately
     target.style.display = "none";
     const parent = target.parentElement;
     if (parent && !parent.querySelector(".logo-fallback-initial")) {
       const span = document.createElement("span");
       span.className = "logo-fallback-initial";
       span.textContent = getInitials(name);
-      span.style.cssText = "display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:18px;font-weight:700;color:#fff;background:linear-gradient(135deg,#3b3b4f,#1a1a2e);border-radius:8px;";
+      span.style.cssText = "display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:18px;font-weight:700;color:#fff;background:linear-gradient(135deg,#1f1f2e,#3b3b4f);border-radius:0px;";
       parent.appendChild(span);
     }
   };
