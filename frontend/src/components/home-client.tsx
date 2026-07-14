@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { Search } from "lucide-react";
+import Search from 'lucide-react/dist/esm/icons/search';
 
 import { API_URL } from "@/lib/api";
 

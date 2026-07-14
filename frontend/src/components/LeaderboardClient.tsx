@@ -2,7 +2,15 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { ArrowUpRight, Star, ChevronDown, Bookmark, Sparkles, Building, Play, Brain, Globe } from "lucide-react";
+import ArrowUpRight from 'lucide-react/dist/esm/icons/arrow-up-right';
+import Star from 'lucide-react/dist/esm/icons/star';
+import ChevronDown from 'lucide-react/dist/esm/icons/chevron-down';
+import Bookmark from 'lucide-react/dist/esm/icons/bookmark';
+import Sparkles from 'lucide-react/dist/esm/icons/sparkles';
+import Building from 'lucide-react/dist/esm/icons/building';
+import Play from 'lucide-react/dist/esm/icons/play';
+import Brain from 'lucide-react/dist/esm/icons/brain';
+import Globe from 'lucide-react/dist/esm/icons/globe';
 import { cn } from "@/lib/utils";
 import { fetchLeaderboardTools, fetchLeaderboardModels, fetchLeaderboardCompanies } from "@/lib/api";
 

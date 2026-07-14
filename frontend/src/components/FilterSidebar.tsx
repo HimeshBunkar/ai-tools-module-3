@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { X } from "lucide-react";
+import X from 'lucide-react/dist/esm/icons/x';
 import { buildToolsUrl, cn } from "@/lib/utils";
 import type { ToolsSearchParams } from "@/lib/types";
 

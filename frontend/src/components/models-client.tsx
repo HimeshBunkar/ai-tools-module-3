@@ -1,7 +1,11 @@
 'use client';
 
 import React, { useEffect, useState } from "react";
-import { Sparkles, Cpu, Layers, Maximize, Calendar } from "lucide-react";
+import Sparkles from 'lucide-react/dist/esm/icons/sparkles';
+import Cpu from 'lucide-react/dist/esm/icons/cpu';
+import Layers from 'lucide-react/dist/esm/icons/layers';
+import Maximize from 'lucide-react/dist/esm/icons/maximize';
+import Calendar from 'lucide-react/dist/esm/icons/calendar';
 import { AIModel } from "@/lib/types";
 import { fetchAllModels } from "@/lib/api";
 

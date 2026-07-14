@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { ArrowUpRight, Star } from "lucide-react";
+import ArrowUpRight from 'lucide-react/dist/esm/icons/arrow-up-right';
+import Star from 'lucide-react/dist/esm/icons/star';
 
 type StickyCTAProps = {
   name: string;

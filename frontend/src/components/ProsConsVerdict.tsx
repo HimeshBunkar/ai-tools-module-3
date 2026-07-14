@@ -1,4 +1,6 @@
-import { Check, X, Sparkles } from "lucide-react";
+import Check from 'lucide-react/dist/esm/icons/check';
+import X from 'lucide-react/dist/esm/icons/x';
+import Sparkles from 'lucide-react/dist/esm/icons/sparkles';
 
 type ProsConsVerdictProps = {
   name: string;

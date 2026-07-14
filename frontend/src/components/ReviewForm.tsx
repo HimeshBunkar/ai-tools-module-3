@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState, useState } from "react";
-import { Star } from "lucide-react";
+import Star from 'lucide-react/dist/esm/icons/star';
 import { submitReview, type ReviewFormState } from "@/lib/actions";
 import { cn } from "@/lib/utils";
 

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams, notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+import ArrowUpRight from 'lucide-react/dist/esm/icons/arrow-up-right';
 import { API_URL } from "@/lib/api";
 import type { ToolDetailData, ToolCardData, ReviewData } from "@/lib/types";
 import { PricingBadge } from "@/components/PricingBadge";

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from "react";
-import { Smartphone } from "lucide-react";
+import Smartphone from 'lucide-react/dist/esm/icons/smartphone';
 import { Device } from "@/lib/types";
 import { fetchAllDevices } from "@/lib/api";
 

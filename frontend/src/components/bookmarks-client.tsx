@@ -7,7 +7,8 @@ import { Card } from '@/components/ui/card';
 import { EmptyState } from '@/components/ui/empty-state';
 import { Modal } from '@/components/ui/modal';
 import { Input } from '@/components/ui/input';
-import { Trash2, ExternalLink } from 'lucide-react';
+import Trash2 from 'lucide-react/dist/esm/icons/trash-2';
+import ExternalLink from 'lucide-react/dist/esm/icons/external-link';
 import { toast } from 'sonner';
 
 interface Bookmark {

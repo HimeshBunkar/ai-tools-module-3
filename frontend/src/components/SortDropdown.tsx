@@ -2,7 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { buildToolsUrl } from "@/lib/utils";
-import { ChevronDown } from "lucide-react";
+import ChevronDown from 'lucide-react/dist/esm/icons/chevron-down';
 
 const SORT_OPTIONS = [
   { value: "newest", label: "Newest" },

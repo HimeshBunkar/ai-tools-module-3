@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Bookmark } from "lucide-react";
+import Bookmark from 'lucide-react/dist/esm/icons/bookmark';
 import { PricingBadge } from "@/components/PricingBadge";
 import { CategoryChip } from "@/components/CategoryChip";
 import { RatingStars } from "@/components/RatingStars";
