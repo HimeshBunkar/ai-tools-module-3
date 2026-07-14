@@ -10,8 +10,11 @@
  * production as a result.
  */
 function resolveApiUrl(): string {
-  const raw = process.env.NEXT_PUBLIC_API_URL || "https://ai-orbit.palamrendra-pm.workers.dev";
-  return raw.trim().replace(/\/$/, "");
+  const url = process.env.NEXT_PUBLIC_API_URL;
+  if (url && url.startsWith("http") && url !== "undefined") {
+    return url.replace(/\/$/, "");
+  }
+  return "https://ai-orbit.palamrendra-pm.workers.dev";
 }
 
 /** Used by the client components (CommentBox, PublisherIcon, SaveButton, VoteButtons) — unchanged. */
@@ -113,9 +116,12 @@ export async function fetchAllDevices(): Promise<any[]> {
  * same-account Cloudflare-to-Cloudflare hop — so they're left untouched.
  */
 function resolveServerApiUrl(): string {
-  const raw = (process.env.NEWS_SERVER_API_URL || "ai-orbit.palamrendra-pm.workers.dev").trim();
-  const withScheme = /^https?:\/\//.test(raw) ? raw : `https://${raw}`;
-  return withScheme.replace(/\/$/, "");
+  const raw = process.env.NEWS_SERVER_API_URL;
+  if (raw && raw !== "undefined") {
+    const withScheme = /^https?:\/\//.test(raw) ? raw : `https://${raw}`;
+    return withScheme.replace(/\/$/, "");
+  }
+  return "https://ai-orbit.palamrendra-pm.workers.dev";
 }
 
 export const SERVER_API_URL = resolveServerApiUrl();
