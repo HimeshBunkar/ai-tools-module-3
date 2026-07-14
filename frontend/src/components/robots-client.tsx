@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from "react";
-import { Cpu } from "lucide-react";
+import Cpu from 'lucide-react/dist/esm/icons/cpu';
 import { Robot } from "@/lib/types";
 import { fetchAllRobots } from "@/lib/api";
 

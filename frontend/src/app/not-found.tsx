@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { FileQuestion } from "lucide-react";
+import FileQuestion from 'lucide-react/dist/esm/icons/file-question';
 
 export default function NotFound() {
   return (

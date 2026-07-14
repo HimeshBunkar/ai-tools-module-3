@@ -2,7 +2,10 @@
 
 import React from "react";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
-import { LayoutGrid, List, SlidersHorizontal, ChevronDown } from "lucide-react";
+import LayoutGrid from 'lucide-react/dist/esm/icons/layout-grid';
+import List from 'lucide-react/dist/esm/icons/list';
+import SlidersHorizontal from 'lucide-react/dist/esm/icons/sliders-horizontal';
+import ChevronDown from 'lucide-react/dist/esm/icons/chevron-down';
 
 type CategoryData = {
   slug: string;

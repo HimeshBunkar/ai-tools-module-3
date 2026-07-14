@@ -28,7 +28,6 @@ app.route('/api/v1/devices', devicesRouter);
 app.route('/api/v1/models', modelsRouter);
 app.route('/api/v1/repositories', repositoriesRouter);
 app.route('/api/v1/robots', robotsRouter);
-app.route('/api/v1/videos', videosRouter);
 app.get('/', (c) => {
     return c.json({
         message: "AI Orbit API is fully operational",

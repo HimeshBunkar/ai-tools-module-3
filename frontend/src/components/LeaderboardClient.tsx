@@ -2,7 +2,15 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { ArrowUpRight, Star, ChevronDown, Bookmark, Sparkles, Building, Play, Brain, Globe } from "lucide-react";
+import ArrowUpRight from 'lucide-react/dist/esm/icons/arrow-up-right';
+import Star from 'lucide-react/dist/esm/icons/star';
+import ChevronDown from 'lucide-react/dist/esm/icons/chevron-down';
+import Bookmark from 'lucide-react/dist/esm/icons/bookmark';
+import Sparkles from 'lucide-react/dist/esm/icons/sparkles';
+import Building from 'lucide-react/dist/esm/icons/building';
+import Play from 'lucide-react/dist/esm/icons/play';
+import Brain from 'lucide-react/dist/esm/icons/brain';
+import Globe from 'lucide-react/dist/esm/icons/globe';
 import { cn } from "@/lib/utils";
 import { fetchLeaderboardTools, fetchLeaderboardModels, fetchLeaderboardCompanies } from "@/lib/api";
 
@@ -21,6 +29,7 @@ type LeaderboardTool = {
   pricing: string;
   visits: string;
   addedDate: string;
+  logoUrl?: string;
 };
 
 type LeaderboardModel = {
@@ -40,6 +49,7 @@ type LeaderboardModel = {
   saves: number;
   description: string;
   visits: string;
+  logoUrl?: string;
 };
 
 type LeaderboardCompany = {
@@ -56,6 +66,7 @@ type LeaderboardCompany = {
   saves: number;
   description: string;
   visits: string;
+  logoUrl?: string;
 };
 
 // Hindi Translation dictionary
@@ -378,29 +389,21 @@ export function LeaderboardClient() {
     return <span className="text-[#71717A] text-xs font-semibold">#{rankNum}</span>;
   };
 
-  // Safe Tags parsing function to handle stringified JSON brackets/quotes
+  // Safe Tags parsing
   const renderTags = (tagsStr: string) => {
     let tagList: string[] = [];
     if (tagsStr) {
       try {
         const parsed = JSON.parse(tagsStr);
-        if (Array.isArray(parsed)) {
-          tagList = parsed;
-        } else {
-          tagList = [parsed.toString()];
-        }
+        tagList = Array.isArray(parsed) ? parsed : [parsed.toString()];
       } catch {
         tagList = tagsStr.split(",").map((t) => t.trim());
       }
     }
-
     return (
       <div className="flex flex-row flex-nowrap gap-1.5 overflow-hidden max-w-[200px]">
         {tagList.slice(0, 2).map((tag) => (
-          <span
-            key={tag}
-            className="px-2 py-0.5 rounded bg-[#18181C] text-[10px] text-[#A1A1AA] border border-[#232326] whitespace-nowrap"
-          >
+          <span key={tag} className="px-2 py-0.5 rounded bg-[#18181C] text-[10px] text-[#A1A1AA] border border-[#232326] whitespace-nowrap">
             {tag}
           </span>
         ))}
@@ -408,23 +411,133 @@ export function LeaderboardClient() {
     );
   };
 
-  // Logo Domain Generator
-  const getLogoUrl = (name: string) => {
-    const domainMap: Record<string, string> = {
-      "Cursor": "cursor.sh",
-      "GitHub Copilot": "github.com",
-      "Replit Agent": "replit.com",
-      "OpenAI": "openai.com",
-      "Anthropic": "anthropic.com",
-      "Ollama Inc": "ollama.com",
-      "Alibaba Cloud": "alibabacloud.com",
-      "DeepSeek-V3": "deepseek.com",
-      "Gemini 2.0 Flash": "google.com",
-      "o1-pro": "openai.com",
-      "o1-preview": "openai.com",
-    };
-    const domain = domainMap[name] || `${name.toLowerCase().replace(/\s+/g, "")}.com`;
-    return `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
+  // Comprehensive real-tool logo domain map
+  const LOGO_DOMAIN_MAP: Record<string, string> = {
+    "chatgpt": "openai.com", "openai": "openai.com", "gpt-4": "openai.com",
+    "gpt-4o": "openai.com", "gpt-3.5": "openai.com", "dall-e": "openai.com", "dalle": "openai.com",
+    "o1-": "openai.com", "o3-": "openai.com", "o4-": "openai.com", "gpt-": "openai.com",
+    "claude": "anthropic.com", "anthropic": "anthropic.com",
+    "gemini": "google.com", "google": "google.com", "deepmind": "google.com", "bard": "google.com", "gemma": "google.com",
+    "llama": "meta.com", "meta ai": "meta.com",
+    "mistral": "mistral.ai", "mixtral": "mistral.ai", "le chat": "mistral.ai",
+    "cohere": "cohere.com", "command r": "cohere.com",
+    "ai21": "ai21.com", "jamba": "ai21.com", "jurassic": "ai21.com",
+    "deepseek": "deepseek.com",
+    "grok": "x.ai", "xai": "x.ai",
+    "qwen": "alibabacloud.com", "alibaba": "alibabacloud.com",
+    "groq": "groq.com",
+    "together ai": "together.ai", "together": "together.ai",
+    "replicate": "replicate.com",
+    "hugging face": "huggingface.co", "huggingface": "huggingface.co",
+    "perplexity": "perplexity.ai",
+    "inflection": "inflection.ai",
+    "zhipu": "zhipuai.cn", "chatglm": "zhipuai.cn",
+    "moonshot": "moonshot.cn", "kimi": "moonshot.cn",
+    "baidu": "baidu.com", "ernie": "baidu.com",
+    "cursor": "cursor.com",
+    "github copilot": "github.com", "copilot": "github.com",
+    "replit": "replit.com",
+    "tabnine": "tabnine.com",
+    "codeium": "codeium.com", "windsurf": "codeium.com",
+    "devin": "cognition.ai", "cognition": "cognition.ai",
+    "bolt": "bolt.new",
+    "lovable": "lovable.dev",
+    "v0": "v0.dev",
+    "midjourney": "midjourney.com",
+    "stable diffusion": "stability.ai", "stability": "stability.ai", "dreamstudio": "stability.ai",
+    "leonardo": "leonardo.ai",
+    "adobe firefly": "adobe.com", "firefly": "adobe.com", "adobe": "adobe.com",
+    "craiyon": "craiyon.com",
+    "canva": "canva.com",
+    "pika": "pika.art",
+    "kling": "klingai.com",
+    "haiper": "haiper.ai",
+    "runway": "runwayml.com", "runwayml": "runwayml.com", "gen-3": "runwayml.com",
+    "elevenlabs": "elevenlabs.io", "eleven labs": "elevenlabs.io",
+    "lovo": "lovo.ai", "genny": "lovo.ai",
+    "play.ht": "play.ht", "playht": "play.ht",
+    "murf": "murf.ai",
+    "suno": "suno.com",
+    "udio": "udio.com",
+    "heygen": "heygen.com",
+    "descript": "descript.com",
+    "synthesia": "synthesia.io",
+    "d-id": "d-id.com",
+    "voicemaker": "voicemaker.in",
+    "resemble": "resemble.ai",
+    "natural readers": "naturalreaders.com",
+    "wellsaid": "wellsaidlabs.com",
+    "soundraw": "soundraw.io",
+    "chatbase": "chatbase.co",
+    "framer": "framer.com",
+    "screaming frog": "screamingfrog.co.uk",
+    "blackbox": "blackbox.ai",
+    "cody": "sourcegraph.com",
+    "warp": "warp.dev",
+    "continue": "continue.dev",
+    "sweep": "sweep.dev",
+    "sourcery": "sourcery.ai",
+    "clipdrop": "clipdrop.co",
+    "recraft": "recraft.ai",
+    "pixelcut": "pixelcut.ai",
+    "remove.bg": "remove.bg", "remove-bg": "remove.bg",
+    "playground": "playground.com",
+    "nightcafe": "nightcafe.studio",
+    "ultimate.ai": "ultimate.ai", "ultimate-ai": "ultimate.ai",
+    "julius": "julius.ai",
+    "harvey": "harvey.ai",
+    "feathery": "feathery.io",
+    "rewind": "rewind.ai",
+    "luma": "lumalabs.ai",
+    "jasper": "jasper.ai",
+    "copy.ai": "copy.ai", "copyai": "copy.ai",
+    "writesonic": "writesonic.com",
+    "grammarly": "grammarly.com",
+    "notion": "notion.so",
+    "beautiful.ai": "beautiful.ai", "beautiful ai": "beautiful.ai",
+    "tome": "tome.app",
+    "gamma": "gamma.app",
+    "figma": "figma.com",
+    "otter": "otter.ai",
+    "fireflies": "fireflies.ai",
+    "mem": "mem.ai",
+    "character.ai": "character.ai", "character ai": "character.ai",
+    "poe": "poe.com",
+    "you.com": "you.com",
+    "amazon": "aws.amazon.com", "alexa": "aws.amazon.com", "bedrock": "aws.amazon.com",
+    "microsoft": "microsoft.com", "azure": "microsoft.com", "bing": "microsoft.com",
+    "apple": "apple.com", "siri": "apple.com",
+    "samsung": "samsung.com", "gauss": "samsung.com",
+    "nvidia": "nvidia.com",
+    "ibm": "ibm.com", "watson": "ibm.com",
+    "salesforce": "salesforce.com", "einstein": "salesforce.com",
+  };
+
+  const getLogoUrl = (name: string): string => {
+    const n = name.toLowerCase().trim();
+    for (const [key, domain] of Object.entries(LOGO_DOMAIN_MAP)) {
+      if (n === key || n.includes(key)) {
+        return `https://logo.clearbit.com/${domain}`;
+      }
+    }
+    const slug = n.replace(/\s+/g, "").replace(/[^a-z0-9]/g, "");
+    return `https://logo.clearbit.com/${slug}.com`;
+  };
+
+  const getInitials = (name: string) => name.trim().charAt(0).toUpperCase();
+
+  const handleLogoError = (e: React.SyntheticEvent<HTMLImageElement, Event>, name: string) => {
+    const target = e.currentTarget;
+    // Hide the broken image immediately
+    target.style.display = "none";
+    const parent = target.parentElement;
+    if (parent && !parent.querySelector(".logo-fallback-initial")) {
+      const span = document.createElement("span");
+      span.className = "logo-fallback-initial";
+      span.textContent = getInitials(name);
+      span.style.cssText = "display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:18px;font-weight:700;color:#fff;background:linear-gradient(135deg,#1f1f2e,#3b3b4f);border-radius:0px;";
+      parent.appendChild(span);
+    }
   };
 
   return (
@@ -625,12 +738,10 @@ export function LeaderboardClient() {
                                 {tool.name.charAt(0)}
                               </span>
                               <img
-                                src={getLogoUrl(tool.name)}
+                                src={tool.logoUrl || getLogoUrl(tool.name)}
                                 alt={tool.name}
                                 className="h-full w-full object-contain absolute z-10 p-1.5 bg-[#18181C]"
-                                onError={(e) => {
-                                  (e.currentTarget as HTMLElement).style.display = "none";
-                                }}
+                                onError={(e) => handleLogoError(e, tool.name)}
                               />
                             </div>
                             <div className="min-w-0">
@@ -721,12 +832,10 @@ export function LeaderboardClient() {
                                 {model.name.charAt(0)}
                               </span>
                               <img
-                                src={getLogoUrl(model.name)}
+                                src={model.logoUrl || getLogoUrl(model.name)}
                                 alt={model.name}
                                 className="h-full w-full object-contain absolute z-10 p-1.5 bg-[#18181C]"
-                                onError={(e) => {
-                                  (e.currentTarget as HTMLElement).style.display = "none";
-                                }}
+                                onError={(e) => handleLogoError(e, model.name)}
                               />
                             </div>
                             <div className="min-w-0">
@@ -810,12 +919,10 @@ export function LeaderboardClient() {
                                 {company.name.charAt(0)}
                               </span>
                               <img
-                                src={getLogoUrl(company.name)}
+                                src={company.logoUrl || getLogoUrl(company.name)}
                                 alt={company.name}
                                 className="h-full w-full object-contain absolute z-10 p-1.5 bg-[#18181C]"
-                                onError={(e) => {
-                                  (e.currentTarget as HTMLElement).style.display = "none";
-                                }}
+                                onError={(e) => handleLogoError(e, company.name)}
                               />
                             </div>
                             <div className="min-w-0">

@@ -1,7 +1,10 @@
 'use client';
 
 import React, { useEffect, useState } from "react";
-import { Github, Star, Code, ExternalLink } from "lucide-react";
+import Github from 'lucide-react/dist/esm/icons/github';
+import Star from 'lucide-react/dist/esm/icons/star';
+import Code from 'lucide-react/dist/esm/icons/code';
+import ExternalLink from 'lucide-react/dist/esm/icons/external-link';
 import { Repository } from "@/lib/types";
 import { fetchAllRepos } from "@/lib/api";
 

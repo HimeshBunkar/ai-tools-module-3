@@ -4,7 +4,9 @@ import { useEffect, useState } from "react";
 import { useParams, notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowLeft, Star, ExternalLink } from "lucide-react";
+import ArrowLeft from 'lucide-react/dist/esm/icons/arrow-left';
+import Star from 'lucide-react/dist/esm/icons/star';
+import ExternalLink from 'lucide-react/dist/esm/icons/external-link';
 import { CollectionGrid } from "@/components/CollectionGrid";
 import { API_URL } from "@/lib/api";
 

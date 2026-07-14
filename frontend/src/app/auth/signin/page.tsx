@@ -5,6 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/shadcn-button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
+import { API_URL } from '@/lib/api';
 
 function SignInForm() {
   const searchParams = useSearchParams();
@@ -27,7 +28,7 @@ function SignInForm() {
     setError(null);
     
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8787'}/api/auth/login`, {
+      const res = await fetch(`${API_URL}/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
@@ -50,7 +51,7 @@ function SignInForm() {
   const handleOAuth = (provider: 'google' | 'github') => {
     if (provider === 'google') setIsLoadingGoogle(true);
     if (provider === 'github') setIsLoadingGithub(true);
-    window.location.href = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8787'}/api/auth/${provider}`;
+    window.location.href = `${API_URL}/api/auth/${provider}`;
   };
 
   return (
@@ -60,7 +61,7 @@ function SignInForm() {
         <div className="space-y-1">
           <Input label="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
           <div className="flex justify-end">
-            <a href="/forgot-password" className="text-xs text-[#A1A1AA] hover:text-white transition-colors">
+            <a href="/auth/forgot-password" className="text-xs text-[#A1A1AA] hover:text-white transition-colors">
               Forgot Password?
             </a>
           </div>

@@ -10,8 +10,11 @@
  * production as a result.
  */
 function resolveApiUrl(): string {
-  const raw = process.env.NEXT_PUBLIC_API_URL || "https://ai-orbit.palamrendra-pm.workers.dev";
-  return raw.trim().replace(/\/$/, "");
+  const url = process.env.NEXT_PUBLIC_API_URL;
+  if (url && url.startsWith("http") && url !== "undefined") {
+    return url.replace(/\/$/, "");
+  }
+  return "https://ai-orbit.palamrendra-pm.workers.dev";
 }
 
 /** Used by the client components (CommentBox, PublisherIcon, SaveButton, VoteButtons) — unchanged. */
@@ -99,3 +102,26 @@ export async function fetchAllDevices(): Promise<any[]> {
   if (!res.ok) return [];
   return res.json();
 }
+
+/**
+ * Server-side-only origin, for the two News page.tsx server components.
+ * api.aiorbit.club is a Cloudflare-proxied custom domain; a Pages Function
+ * (this app's server-side render) fetching another Cloudflare-proxied zone
+ * on the same account hits Cloudflare's same-account loop-prevention and
+ * fails — confirmed via the news module's own build succeeding while every
+ * server-side render of it failed in production. The Worker's own
+ * `*.workers.dev` subdomain bypasses that proxy layer entirely (same
+ * pattern already proven working in GraphOne's production app). Client-side
+ * calls (API_URL above) are unaffected — a real browser request, not a
+ * same-account Cloudflare-to-Cloudflare hop — so they're left untouched.
+ */
+function resolveServerApiUrl(): string {
+  const raw = process.env.NEWS_SERVER_API_URL;
+  if (raw && raw !== "undefined") {
+    const withScheme = /^https?:\/\//.test(raw) ? raw : `https://${raw}`;
+    return withScheme.replace(/\/$/, "");
+  }
+  return "https://ai-orbit.palamrendra-pm.workers.dev";
+}
+
+export const SERVER_API_URL = resolveServerApiUrl();

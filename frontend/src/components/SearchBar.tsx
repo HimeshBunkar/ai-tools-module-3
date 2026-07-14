@@ -1,4 +1,4 @@
-import { Search } from "lucide-react";
+import Search from 'lucide-react/dist/esm/icons/search';
 
 export function SearchBar({ defaultValue }: { defaultValue?: string }) {
   return (

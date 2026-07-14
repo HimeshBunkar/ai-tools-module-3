@@ -1,12 +1,20 @@
-import { prisma } from '../../lib/prisma.js';
+import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcryptjs';
 import { generateVerificationToken, hashToken } from '../../lib/tokens.js';
 import { sendVerificationLinkEmail, sendPasswordResetEmail } from '../../lib/mailer.js';
 
 export class AuthService {
+  private prisma: PrismaClient;
+  private env: any;
+
+  constructor(prisma: PrismaClient, env: any) {
+    this.prisma = prisma;
+    this.env = env;
+  }
+
   async signup(data: any) {
     const email = data.email.trim().toLowerCase();
-    const existingUser = await prisma.user.findFirst({
+    const existingUser = await this.prisma.user.findFirst({
       where: { email: { equals: email, mode: 'insensitive' } }
     });
     
@@ -15,7 +23,7 @@ export class AuthService {
     }
 
     const hashedPassword = await bcrypt.hash(data.password, 12);
-    const user = await prisma.user.create({
+    const user = await this.prisma.user.create({
       data: {
         email,
         name: data.name || email,
@@ -29,20 +37,20 @@ export class AuthService {
     const identifier = `verify:${email}`;
     const expires = new Date(Date.now() + 60 * 60 * 1000);
 
-    await prisma.$transaction([
-      prisma.verificationToken.deleteMany({ where: { identifier } }),
-      prisma.verificationToken.create({
+    await this.prisma.$transaction([
+      this.prisma.verificationToken.deleteMany({ where: { identifier } }),
+      this.prisma.verificationToken.create({
         data: { identifier, token: hashedToken, expires },
       }),
     ]);
 
-    await sendVerificationLinkEmail(email, rawToken);
+    await sendVerificationLinkEmail(email, rawToken, this.env);
     return user;
   }
 
   async login(data: any) {
     const email = data.email.trim().toLowerCase();
-    const user = await prisma.user.findFirst({
+    const user = await this.prisma.user.findFirst({
       where: { email: { equals: email, mode: 'insensitive' } }
     });
 
@@ -67,7 +75,7 @@ export class AuthService {
     const identifier = `verify:${email}`;
     const hashedToken = hashToken(data.token);
 
-    const verificationToken = await prisma.verificationToken.findUnique({
+    const verificationToken = await this.prisma.verificationToken.findUnique({
       where: { identifier_token: { identifier, token: hashedToken } },
     });
 
@@ -76,23 +84,23 @@ export class AuthService {
     }
 
     if (new Date() > verificationToken.expires) {
-      await prisma.verificationToken.delete({
+      await this.prisma.verificationToken.delete({
         where: { identifier_token: { identifier, token: hashedToken } },
       });
       throw new Error('This verification link has expired. Please request a new one.');
     }
 
-    const user = await prisma.user.findUnique({ where: { email } });
+    const user = await this.prisma.user.findUnique({ where: { email } });
     if (!user) {
       throw new Error('User not found.');
     }
 
-    await prisma.$transaction([
-      prisma.user.update({
+    await this.prisma.$transaction([
+      this.prisma.user.update({
         where: { email },
         data: { emailVerified: new Date() },
       }),
-      prisma.verificationToken.delete({
+      this.prisma.verificationToken.delete({
         where: { identifier_token: { identifier, token: hashedToken } },
       }),
     ]);
@@ -102,7 +110,7 @@ export class AuthService {
 
   async resendVerification(data: any) {
     const email = data.email.trim().toLowerCase();
-    const user = await prisma.user.findFirst({
+    const user = await this.prisma.user.findFirst({
       where: { email: { equals: email, mode: 'insensitive' } }
     });
 
@@ -119,20 +127,20 @@ export class AuthService {
     const identifier = `verify:${email}`;
     const expires = new Date(Date.now() + 60 * 60 * 1000);
 
-    await prisma.$transaction([
-      prisma.verificationToken.deleteMany({ where: { identifier } }),
-      prisma.verificationToken.create({
+    await this.prisma.$transaction([
+      this.prisma.verificationToken.deleteMany({ where: { identifier } }),
+      this.prisma.verificationToken.create({
         data: { identifier, token: hashedToken, expires },
       }),
     ]);
 
-    await sendVerificationLinkEmail(email, rawToken);
+    await sendVerificationLinkEmail(email, rawToken, this.env);
     return { message: 'Verification email resent.' };
   }
 
   async forgotPassword(data: any) {
     const email = data.email.trim().toLowerCase();
-    const user = await prisma.user.findFirst({
+    const user = await this.prisma.user.findFirst({
       where: { email: { equals: email, mode: 'insensitive' } }
     });
     
@@ -145,14 +153,14 @@ export class AuthService {
     const identifier = `reset:${email}`;
     const expires = new Date(Date.now() + 60 * 60 * 1000);
 
-    await prisma.$transaction([
-      prisma.verificationToken.deleteMany({ where: { identifier } }),
-      prisma.verificationToken.create({
+    await this.prisma.$transaction([
+      this.prisma.verificationToken.deleteMany({ where: { identifier } }),
+      this.prisma.verificationToken.create({
         data: { identifier, token: hashedToken, expires },
       }),
     ]);
 
-    await sendPasswordResetEmail(email, rawToken);
+    await sendPasswordResetEmail(email, rawToken, this.env);
     return { message: 'Password reset email sent.' };
   }
 
@@ -161,7 +169,7 @@ export class AuthService {
     const identifier = `reset:${email}`;
     const hashedToken = hashToken(data.token);
 
-    const verificationToken = await prisma.verificationToken.findUnique({
+    const verificationToken = await this.prisma.verificationToken.findUnique({
       where: { identifier_token: { identifier, token: hashedToken } },
     });
 
@@ -170,7 +178,7 @@ export class AuthService {
     }
 
     if (new Date() > verificationToken.expires) {
-      await prisma.verificationToken.delete({
+      await this.prisma.verificationToken.delete({
         where: { identifier_token: { identifier, token: hashedToken } },
       });
       throw new Error('This reset link has expired. Please request a new one.');
@@ -178,25 +186,25 @@ export class AuthService {
 
     const hashedPassword = await bcrypt.hash(data.newPassword, 12);
 
-    await prisma.$transaction([
-      prisma.user.update({
+    await this.prisma.$transaction([
+      this.prisma.user.update({
         where: { email },
         data: { password: hashedPassword },
       }),
-      prisma.verificationToken.delete({
+      this.prisma.verificationToken.delete({
         where: { identifier_token: { identifier, token: hashedToken } },
       }),
     ]);
   }
 
   async deleteAccount(userId: string) {
-    await prisma.user.delete({
+    await this.prisma.user.delete({
       where: { id: userId }
     });
   }
 
   async getMe(userId: string) {
-    const dbUser = await prisma.user.findUnique({
+    const dbUser = await this.prisma.user.findUnique({
       where: { id: userId },
       select: { id: true, name: true, email: true, image: true, emailVerified: true }
     });

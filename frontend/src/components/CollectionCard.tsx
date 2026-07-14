@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowUpRight } from "lucide-react";
+import ArrowUpRight from 'lucide-react/dist/esm/icons/arrow-up-right';
 import type { CollectionListItem } from "@/lib/types";
 
 export function CollectionCard({ collection }: { collection: CollectionListItem }) {

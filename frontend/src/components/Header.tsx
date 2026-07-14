@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { Search } from "lucide-react";
+import Search from 'lucide-react/dist/esm/icons/search';
 
 export function Header() {
   return (
@@ -27,6 +27,12 @@ export function Header() {
               className="text-[13px] font-medium text-foreground-muted hover:text-white transition-colors"
             >
               AI Tools
+            </Link>
+            <Link
+              href="/leaderboard"
+              className="text-[13px] font-medium text-[#6E56CF] hover:text-white transition-colors font-semibold"
+            >
+              Leaderboard
             </Link>
             <Link
               href="/models"

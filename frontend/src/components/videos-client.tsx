@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from "react";
-import { Play } from "lucide-react";
+import Play from 'lucide-react/dist/esm/icons/play';
 import { Video } from "@/lib/types";
 import { fetchAllVideos } from "@/lib/api";
 

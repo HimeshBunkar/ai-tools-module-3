@@ -1,7 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { Calculator, Hourglass, DollarSign, TrendingUp } from "lucide-react";
+import Calculator from 'lucide-react/dist/esm/icons/calculator';
+import Hourglass from 'lucide-react/dist/esm/icons/hourglass';
+import DollarSign from 'lucide-react/dist/esm/icons/dollar-sign';
+import TrendingUp from 'lucide-react/dist/esm/icons/trending-up';
 import type { PricingModel } from "@/lib/types";
 
 type ROICalculatorProps = {
