@@ -1712,6 +1712,10 @@ async function main() {
 
   const allTools = TOOLS;
 
+  console.log("Cleaning up old companies...");
+  const activeCompanySlugs = COMPANIES.map((c) => c.slug);
+  await prisma.company.deleteMany({ where: { slug: { notIn: activeCompanySlugs } } });
+
   console.log("Upserting companies...");
   for (const c of COMPANIES) {
     const company = await prisma.company.upsert({
@@ -1764,6 +1768,10 @@ async function main() {
     )
   );
   console.log(`Upserted ${users.length} demo users.`);
+
+  console.log("Cleaning up old tools...");
+  const activeToolSlugs = allTools.map((t) => t.slug);
+  await prisma.tool.deleteMany({ where: { slug: { notIn: activeToolSlugs } } });
 
   console.log("Upserting tools...");
   const toolBySlug = new Map<string, { id: string }>();
