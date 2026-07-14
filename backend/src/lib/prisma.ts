@@ -12,7 +12,7 @@ export function getPrisma(env: { DATABASE_URL: string } | any) {
     throw new Error('DATABASE_URL is not configured');
   }
   const neonPool = new NeonPool({ connectionString: dbUrl });
-  const adapter = new PrismaNeon(neonPool);
+  const adapter = new PrismaNeon(neonPool as any);
   return new PrismaClient({ adapter });
 }
 
