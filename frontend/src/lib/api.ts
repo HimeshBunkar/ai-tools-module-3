@@ -10,7 +10,8 @@
  * production as a result.
  */
 function resolveApiUrl(): string {
-  return (process.env.NEXT_PUBLIC_API_URL || "https://ai-orbit.palamrendra-pm.workers.dev").replace(/\/$/, "");
+  const raw = process.env.NEXT_PUBLIC_API_URL || "https://ai-orbit.palamrendra-pm.workers.dev";
+  return raw.trim().replace(/\/$/, "");
 }
 
 /** Used by the client components (CommentBox, PublisherIcon, SaveButton, VoteButtons) — unchanged. */
@@ -29,7 +30,7 @@ export const API_URL = resolveApiUrl();
  * same-account Cloudflare-to-Cloudflare hop — so they're left untouched.
  */
 function resolveServerApiUrl(): string {
-  const raw = process.env.NEWS_SERVER_API_URL || "ai-orbit.palamrendra-pm.workers.dev";
+  const raw = (process.env.NEWS_SERVER_API_URL || "ai-orbit.palamrendra-pm.workers.dev").trim();
   const withScheme = /^https?:\/\//.test(raw) ? raw : `https://${raw}`;
   return withScheme.replace(/\/$/, "");
 }
