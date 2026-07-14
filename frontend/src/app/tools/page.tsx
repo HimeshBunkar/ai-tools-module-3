@@ -1,13 +1,6 @@
 import type { Metadata } from "next";
-export const dynamic = "force-dynamic";
-export const runtime = "edge";
-import { getTools, getAllCategories } from "@/lib/tools";
-import { SearchBar } from "@/components/SearchBar";
-import { TopFilters } from "@/components/TopFilters";
-import { SortDropdown } from "@/components/SortDropdown";
-import { ToolGrid } from "@/components/ToolGrid";
-import { Pagination } from "@/components/Pagination";
-import type { ToolsSearchParams } from "@/lib/types";
+import { Suspense } from "react";
+import { ToolsClient } from "@/components/tools-client";
 
 export const metadata: Metadata = {
   title: "AI Tools — Browse the Full Directory",
@@ -29,41 +22,18 @@ export const metadata: Metadata = {
   },
 };
 
-type PageProps = {
-  searchParams: Promise<ToolsSearchParams>;
-};
-
-export default async function ToolsPage({ searchParams }: PageProps) {
-  const params = await searchParams;
-  const [{ tools, total, page, totalPages }, categories] = await Promise.all([
-    getTools(params),
-    getAllCategories(),
-  ]);
-
+export default function ToolsPage() {
   return (
-    <main className="mx-auto max-w-container px-6 py-10">
-      <header className="mb-8 flex flex-col gap-4">
-        <div>
-          <h1 className="text-2xl font-semibold text-foreground">AI Tools</h1>
-          <p className="mt-1 text-sm text-foreground-muted">
-            {total} tool{total === 1 ? "" : "s"} across every category
-          </p>
+    <Suspense fallback={
+      <main className="mx-auto max-w-container px-6 py-10">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {[1,2,3,4,5,6,7,8].map((i) => (
+            <div key={i} className="h-48 animate-pulse rounded-xl border border-[#232326] bg-[#131316]" />
+          ))}
         </div>
-        <SearchBar defaultValue={params.q} />
-      </header>
-
-      {/* Horizontal Category & Pricing tag filters on top */}
-      <TopFilters categories={categories} params={params} />
-
-      <div className="space-y-6">
-        <div className="flex items-center justify-end">
-          <SortDropdown />
-        </div>
-
-        <ToolGrid tools={tools} />
-
-        <Pagination page={page} totalPages={totalPages} params={params} />
-      </div>
-    </main>
+      </main>
+    }>
+      <ToolsClient />
+    </Suspense>
   );
 }

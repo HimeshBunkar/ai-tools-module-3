@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-const API_URL = (process.env.NEXT_PUBLIC_API_URL || 'https://api.aiorbit.club').replace(/\/$/, '');
+import { API_URL } from "@/lib/api";
 
 export async function toggleBookmark(toolId: string, toolSlug: string) {
   try {

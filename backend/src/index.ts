@@ -7,6 +7,7 @@ import type { ScheduledController, ExecutionContext } from '@cloudflare/workers-
 import newsRouter from './modules/news/news.routes.js'
 import ingestionRouter from './modules/ingestion/ingestion.routes.js'
 import logosRouter from './modules/ingestion/logos.routes.js'
+import authRoutes from './modules/auth/auth.routes.js'
 import { runIngestion } from './modules/ingestion/ingestion.service.js'
 import type { IngestionContext } from './modules/ingestion/pipeline.js'
 
@@ -28,6 +29,7 @@ app.route('/api/videos', videosRouter)
 app.route('/api/news', newsRouter)
 app.route('/api/ingestion', ingestionRouter)
 app.route('/logos/publishers', logosRouter)
+app.route('/api/auth', authRoutes)
 
 app.get('/', (c) => {
   return c.json({
