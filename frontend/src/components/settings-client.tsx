@@ -1,20 +1,27 @@
 'use client';
 
 import { useState } from 'react';
-import { useMutation } from '@tanstack/react-query';
+import { useQuery, useMutation } from '@tanstack/react-query';
 import { Button } from '@/components/ui/shadcn-button';
 import { Input } from '@/components/ui/input';
 import { signOut } from '@/lib/auth-client';
 import { toast } from 'sonner';
 import { LogOut } from 'lucide-react';
 
-export function SettingsClient({ 
-  connectedProviders = [], 
-  hasPassword = false 
-}: { 
-  connectedProviders?: string[];
-  hasPassword?: boolean;
-}) {
+export function SettingsClient() {
+  const { data: settingsData } = useQuery({
+    queryKey: ['user-settings'],
+    queryFn: async () => {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8787'}/api/user/settings`, {
+        credentials: 'include',
+      });
+      if (!res.ok) return { connectedProviders: [], hasPassword: true };
+      return res.json();
+    },
+  });
+
+  const connectedProviders: string[] = settingsData?.connectedProviders || [];
+  const hasPassword: boolean = settingsData?.hasPassword ?? true;
   // Password state
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');

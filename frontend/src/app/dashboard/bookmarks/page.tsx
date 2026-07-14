@@ -1,17 +1,13 @@
-export const runtime = 'edge';
-import { auth } from '@/lib/auth';
-import { redirect } from 'next/navigation';
 import { Shell } from '@/components/ui/shell';
+import { AuthGuard } from '@/components/auth-guard';
 import { BookmarksClient } from '@/components/bookmarks-client';
 
-export default async function BookmarksPage() {
-  const session = await auth();
-  if (!session?.user) redirect('/auth/signin');
-
+export default function BookmarksPage() {
   return (
-    <Shell title="Bookmarks" description="Organize important links in one place.">
-      <BookmarksClient />
-    </Shell>
+    <AuthGuard>
+      <Shell title="Bookmarks" description="Organize important links in one place.">
+        <BookmarksClient />
+      </Shell>
+    </AuthGuard>
   );
 }
-

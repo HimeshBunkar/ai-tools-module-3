@@ -1,10 +1,6 @@
 import type { Metadata } from "next";
-export const dynamic = "force-dynamic";
-export const runtime = "edge";
-import { getCollections } from "@/lib/collections";
-import { CategoryMenu } from "@/components/CategoryMenu";
-import { CollectionGrid } from "@/components/CollectionGrid";
-import type { CollectionsSearchParams } from "@/lib/types";
+import { Suspense } from "react";
+import { CollectionsClient } from "@/components/collections-client";
 
 export const metadata: Metadata = {
   title: "Collections — Curated AI Tool Bundles",
@@ -20,28 +16,18 @@ export const metadata: Metadata = {
   },
 };
 
-type PageProps = {
-  searchParams: Promise<CollectionsSearchParams>;
-};
-
-export default async function CollectionsPage({ searchParams }: PageProps) {
-  const params = await searchParams;
-  const { items, pagination, categoryCounts } = await getCollections(params);
-
+export default function CollectionsPage() {
   return (
-    <main className="mx-auto max-w-container px-6 py-10">
-      <header className="mb-8">
-        <h1 className="text-2xl font-semibold text-foreground">Collections</h1>
-        <p className="mt-1 text-sm text-foreground-muted">
-          {pagination.total} curated bundle{pagination.total === 1 ? "" : "s"} of the best AI tools
-        </p>
-      </header>
-
-      <div className="mb-8 rounded-lg border border-border bg-surface p-5">
-        <CategoryMenu categoryCounts={categoryCounts ?? {}} />
-      </div>
-
-      <CollectionGrid collections={items} />
-    </main>
+    <Suspense fallback={
+      <main className="mx-auto max-w-container px-6 py-10">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {[1, 2, 3, 4].map((i) => (
+            <div key={i} className="h-40 animate-pulse rounded-xl border border-[#232326] bg-[#131316]" />
+          ))}
+        </div>
+      </main>
+    }>
+      <CollectionsClient />
+    </Suspense>
   );
 }
