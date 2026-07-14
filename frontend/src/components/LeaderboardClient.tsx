@@ -518,7 +518,7 @@ export function LeaderboardClient() {
     const n = name.toLowerCase().trim();
     if (n.includes("phind")) return "https://avatars.githubusercontent.com/u/144394874?v=4";
     if (n.includes("beatoven")) return "https://avatars.githubusercontent.com/u/85035121?v=4";
-    if (n.includes("dreamstudio")) return "https://avatars.githubusercontent.com/u/100950301?v=4";
+    if (n.includes("dreamstudio") || n.includes("stability")) return "https://avatars.githubusercontent.com/u/100950301?v=4";
     if (n.includes("podcastle")) return "https://avatars.githubusercontent.com/u/19472846?v=4";
 
     for (const [key, domain] of Object.entries(LOGO_DOMAIN_MAP)) {
@@ -531,6 +531,17 @@ export function LeaderboardClient() {
   };
 
   const resolveLogoUrl = (url: string | undefined | null, name: string) => {
+    const n = name.toLowerCase().trim();
+    if (
+      n.includes("phind") ||
+      n.includes("beatoven") ||
+      n.includes("dreamstudio") ||
+      n.includes("stability") ||
+      n.includes("podcastle")
+    ) {
+      return getLogoUrl(name);
+    }
+
     if (url && url.includes("logo.clearbit.com")) {
       const domain = url.split("logo.clearbit.com/")[1];
       return `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
