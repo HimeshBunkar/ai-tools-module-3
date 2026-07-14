@@ -7,10 +7,24 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "www.google.com",
       },
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+      },
     ],
   },
+
+  // ---- Bundle size reduction for Cloudflare Pages 3 MiB Worker limit ----
+  // Tree-shake large libraries so ONLY the symbols actually used are
+  // included in each edge-function bundle (critical on free plan: 3 MiB cap).
   experimental: {
-    optimizePackageImports: ["lucide-react", "react-hook-form", "zod", "clsx", "tailwind-merge"],
+    optimizePackageImports: [
+      "lucide-react",          // 1000+ icons — biggest win: ~1 MiB per function
+      "@tanstack/react-query",
+      "sonner",
+      "clsx",
+      "tailwind-merge",
+    ],
   },
 };
 
