@@ -4,6 +4,8 @@ import { useState, useMemo } from "react";
 import type { Video } from "@/types/video";
 import { VideoCard } from "./VideoCard";
 
+const PER_PAGE = 8;
+
 const FILTER_CHIPS = [
   { id: "all", label: "All Videos" },
   { id: "trending", label: "Trending" },
@@ -19,6 +21,7 @@ interface VideoListingClientProps {
 export function VideoListingClient({ videos }: VideoListingClientProps) {
   const [filter, setFilter] = useState("all");
   const [query, setQuery] = useState("");
+  const [page, setPage] = useState(1);
 
   const filtered = useMemo(() => {
     let list = videos.slice();
@@ -37,6 +40,10 @@ export function VideoListingClient({ videos }: VideoListingClientProps) {
     }
     return list;
   }, [videos, filter, query]);
+
+  const total = filtered.length;
+  const pages = Math.ceil(total / PER_PAGE);
+  const paged = filtered.slice((page - 1) * PER_PAGE, page * PER_PAGE);
 
   return (
     <div
@@ -142,7 +149,7 @@ export function VideoListingClient({ videos }: VideoListingClientProps) {
         {FILTER_CHIPS.map((chip) => (
           <button
             key={chip.id}
-            onClick={() => setFilter(chip.id)}
+            onClick={() => { setFilter(chip.id); setPage(1); }}
             data-active={filter === chip.id ? true : undefined}
             className="tas-chip"
             style={{
@@ -176,19 +183,19 @@ export function VideoListingClient({ videos }: VideoListingClientProps) {
           marginBottom: 20,
         }}
       >
-        Showing {filtered.length} {filtered.length === 1 ? "video" : "videos"}
+        Showing {total} {total === 1 ? "video" : "videos"}
       </div>
 
       {/* Video grid */}
-      {filtered.length > 0 ? (
+      {paged.length > 0 ? (
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
-            gap: 20,
+            gridTemplateColumns: "repeat(5, 1fr)",
+            gap: 16,
           }}
         >
-          {filtered.map((video) => (
+          {paged.map((video) => (
             <VideoCard key={video.id} video={video} />
           ))}
         </div>
@@ -203,6 +210,73 @@ export function VideoListingClient({ videos }: VideoListingClientProps) {
           }}
         >
           No videos found. Try a different search or filter.
+        </div>
+      )}
+
+      {/* Pagination */}
+      {pages > 1 && (
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 8,
+            marginTop: 40,
+          }}
+        >
+          <button
+            onClick={() => setPage((p) => Math.max(1, p - 1))}
+            disabled={page === 1}
+            style={{
+              width: 32,
+              height: 32,
+              borderRadius: "50%",
+              border: "1px solid var(--border-default)",
+              background: "transparent",
+              color: "var(--text-secondary)",
+              cursor: page === 1 ? "not-allowed" : "pointer",
+              opacity: page === 1 ? 0.4 : 1,
+            }}
+          >
+            ‹
+          </button>
+
+          {Array.from({ length: pages }, (_, i) => i + 1).map((p) => (
+            <button
+              key={p}
+              onClick={() => setPage(p)}
+              style={{
+                width: 32,
+                height: 32,
+                borderRadius: "50%",
+                border: "1px solid var(--border-default)",
+                background: page === p ? "white" : "transparent",
+                color: page === p ? "black" : "var(--text-secondary)",
+                cursor: "pointer",
+                fontWeight: page === p ? 600 : 400,
+                fontSize: "0.875rem",
+              }}
+            >
+              {p}
+            </button>
+          ))}
+
+          <button
+            onClick={() => setPage((p) => Math.min(pages, p + 1))}
+            disabled={page === pages}
+            style={{
+              width: 32,
+              height: 32,
+              borderRadius: "50%",
+              border: "1px solid var(--border-default)",
+              background: "transparent",
+              color: "var(--text-secondary)",
+              cursor: page === pages ? "not-allowed" : "pointer",
+              opacity: page === pages ? 0.4 : 1,
+            }}
+          >
+            ›
+          </button>
         </div>
       )}
     </div>
