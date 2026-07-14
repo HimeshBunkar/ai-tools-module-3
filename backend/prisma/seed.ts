@@ -1902,198 +1902,105 @@ async function main() {
   console.log("Seeding Leaderboard Tools...");
   await prisma.leaderboardTool.deleteMany({});
   const leaderboardTools = [
-    {
-      id: "chatgpt",
-      name: "ChatGPT",
-      category: "Chatbot",
-      tags: "productivity,writing,coding",
-      rank: 1,
-      growth: 145.2,
-      votes: 14820,
-      rating: 4.8,
-      saves: 5200,
-      url: "https://chatgpt.com",
-      description: "OpenAI's flagship conversational AI companion capable of drafting text, debugging code, and resolving complex queries.",
-      pricing: "Freemium",
-      visits: "1.6B",
+    ...TOOLS.map((t, index) => ({
+      id: t.slug,
+      name: t.name,
+      category: t.categorySlugs && t.categorySlugs[0] ? t.categorySlugs[0].charAt(0).toUpperCase() + t.categorySlugs[0].slice(1) : "Productivity",
+      tags: t.tagSlugs ? t.tagSlugs.join(",") : "AI,productivity",
+      rank: index + 1,
+      growth: parseFloat((5 + Math.random() * 150).toFixed(1)),
+      votes: Math.floor(200 + Math.random() * 5000),
+      rating: parseFloat((4.0 + Math.random() * 1.0).toFixed(1)),
+      saves: Math.floor(100 + Math.random() * 1500),
+      url: t.websiteUrl || "https://example.com",
+      description: t.description || `State-of-the-art AI tool for modern productivity and workflows.`,
+      pricing: t.pricingModel ? t.pricingModel.toString().charAt(0) + t.pricingModel.toString().slice(1).toLowerCase() : "Freemium",
+      visits: `${(1 + Math.random() * 50).toFixed(1)}M`,
       addedDate: "2026-01-01"
-    },
-    {
-      id: "claude",
-      name: "Claude AI",
-      category: "Chatbot",
-      tags: "productivity,writing,coding",
-      rank: 2,
-      growth: 189.5,
-      votes: 12450,
-      rating: 4.9,
-      saves: 4890,
-      url: "https://claude.ai",
-      description: "Anthropic's state-of-the-art conversational assistant designed with advanced reasoning, coding, and artifact capabilities.",
+    })),
+    ...Array.from({ length: 10 }).map((_, i) => ({
+      id: `extra-tool-${i}`,
+      name: `AI Tool Pro ${i + 1}`,
+      category: "Productivity",
+      tags: "AI,productivity,utility",
+      rank: TOOLS.length + 1 + i,
+      growth: parseFloat((5 + Math.random() * 100).toFixed(1)),
+      votes: Math.floor(100 + Math.random() * 1000),
+      rating: parseFloat((4.0 + Math.random() * 1.0).toFixed(1)),
+      saves: Math.floor(50 + Math.random() * 500),
+      url: "https://example.com",
+      description: "An advanced helper tool designed to streamline business automation and workflow productivity.",
       pricing: "Freemium",
-      visits: "85M",
-      addedDate: "2026-01-10"
-    },
-    {
-      id: "v0",
-      name: "v0 by Vercel",
-      category: "Code Assistant",
-      tags: "coding,frontend,react",
-      rank: 3,
-      growth: 245.8,
-      votes: 9840,
-      rating: 4.7,
-      saves: 3600,
-      url: "https://v0.dev",
-      description: "Generative UI system by Vercel that builds modern React components and full pages from simple text instructions.",
-      pricing: "Freemium",
-      visits: "42M",
-      addedDate: "2026-02-15"
-    },
-    {
-      id: "midjourney",
-      name: "Midjourney",
-      category: "Image Generation",
-      tags: "image,design,art",
-      rank: 4,
-      growth: 98.4,
-      votes: 15400,
-      rating: 4.7,
-      saves: 6100,
-      url: "https://midjourney.com",
-      description: "Text-to-image generator that translates natural language prompts into stunning, highly-detailed photographic and illustrative art.",
-      pricing: "Paid",
-      visits: "120M",
-      addedDate: "2026-01-05"
-    },
-    {
-      id: "cursor",
-      name: "Cursor IDE",
-      category: "Code Assistant",
-      tags: "coding,productivity,IDE",
-      rank: 5,
-      growth: 310.2,
-      votes: 11200,
-      rating: 4.9,
-      saves: 4300,
-      url: "https://cursor.com",
-      description: "An AI-first code editor fork of VS Code equipped with inline completions, edit-generation, and codebase-aware chat agent integrations.",
-      pricing: "Freemium",
-      visits: "25M",
-      addedDate: "2026-03-01"
-    }
+      visits: "5.4M",
+      addedDate: "2026-02-01"
+    }))
   ];
   await prisma.leaderboardTool.createMany({ data: leaderboardTools });
 
   console.log("Seeding Leaderboard Models...");
   await prisma.leaderboardModel.deleteMany({});
   const leaderboardModels = [
-    {
-      id: "claude-3-5-sonnet",
-      name: "Claude 3.5 Sonnet",
-      provider: "Anthropic",
-      category: "Multimodal",
-      rank: 1,
-      growth: 195.4,
-      contextWindow: "200K tokens",
-      pricing: "$3.00 / M input",
-      eloRating: 1256,
-      benchmarkScore: 88.7,
-      openSource: false,
-      votes: 8420,
-      rating: 4.9,
-      saves: 3200,
-      description: "State-of-the-art multimodal model setting new industry benchmarks for coding, workflow generation, and text synthesis.",
-      visits: "2.1B"
-    },
-    {
-      id: "gpt-4o",
-      name: "GPT-4o",
-      provider: "OpenAI",
-      category: "Multimodal",
-      rank: 2,
-      growth: 120.2,
-      contextWindow: "128K tokens",
+    ...seedModels.map((m, index) => ({
+      id: m.name.toLowerCase().replace(/[^a-z0-9]/g, "-"),
+      name: m.name,
+      provider: m.creator,
+      category: m.modality,
+      rank: index + 1,
+      growth: parseFloat((5 + Math.random() * 150).toFixed(1)),
+      contextWindow: m.contextWindow,
       pricing: "$2.50 / M input",
-      eloRating: 1251,
-      benchmarkScore: 88.2,
-      openSource: false,
-      votes: 9150,
-      rating: 4.8,
-      saves: 3450,
-      description: "OpenAI's high-speed flagship multimodal architecture supporting real-time text, vision, and voice capabilities.",
-      visits: "3.4B"
-    },
-    {
-      id: "llama-3-1-405b",
-      name: "Llama 3.1 405B",
-      provider: "Meta",
-      category: "Text Generation",
-      rank: 3,
-      growth: 178.6,
-      contextWindow: "128K tokens",
-      pricing: "Free (Self-Host)",
-      eloRating: 1210,
-      benchmarkScore: 84.5,
-      openSource: true,
-      votes: 6200,
-      rating: 4.6,
-      saves: 2800,
-      description: "Meta's largest open-weights model, rivaling top proprietary models in coding, translation, and complex reasoning.",
-      visits: "950M"
-    }
+      eloRating: 1250 - index * 10,
+      benchmarkScore: parseFloat((80 + Math.random() * 19).toFixed(1)),
+      openSource: m.parameterSize.includes("Billion") || m.parameterSize.includes("Million") || m.creator === "Meta" || m.creator === "Mistral",
+      votes: Math.floor(1000 + Math.random() * 5000),
+      rating: parseFloat((4.0 + Math.random() * 1.0).toFixed(1)),
+      saves: Math.floor(200 + Math.random() * 2000),
+      description: m.description,
+      visits: `${(50 + Math.random() * 900).toFixed(1)}M`
+    })),
+    ...Array.from({ length: 41 }).map((_, i) => {
+      const providers = ["OpenAI", "Anthropic", "Google", "Meta", "Mistral", "Cohere", "AI21 Labs"];
+      const provider = providers[i % providers.length];
+      const name = `${provider} Model-v${Math.floor(i / providers.length) + 1}.${i % providers.length}`;
+      return {
+        id: name.toLowerCase().replace(/[^a-z0-9]/g, "-"),
+        name: name,
+        provider: provider,
+        category: "Text, Code",
+        rank: seedModels.length + 1 + i,
+        growth: parseFloat((1 + Math.random() * 120).toFixed(1)),
+        contextWindow: "128K tokens",
+        pricing: "$1.50 / M input",
+        eloRating: 1100 - i * 5,
+        benchmarkScore: parseFloat((70 + Math.random() * 20).toFixed(1)),
+        openSource: provider === "Meta" || provider === "Mistral",
+        votes: Math.floor(100 + Math.random() * 2000),
+        rating: parseFloat((4.0 + Math.random() * 0.9).toFixed(1)),
+        saves: Math.floor(50 + Math.random() * 1000),
+        description: `An advanced neural language representation model optimized for reasoning, code intelligence, and multilingual completion tasks.`,
+        visits: `${(1 + Math.random() * 100).toFixed(1)}M`
+      };
+    })
   ];
   await prisma.leaderboardModel.createMany({ data: leaderboardModels });
 
   console.log("Seeding Leaderboard Companies...");
   await prisma.leaderboardCompany.deleteMany({});
-  const leaderboardCompanies = [
-    {
-      id: "openai",
-      name: "OpenAI",
-      rank: 1,
-      growth: 120.5,
-      funding: "$13.0B",
-      headquarters: "San Francisco, CA",
-      productsCount: 4,
-      modelsCount: 12,
-      votes: 18450,
-      rating: 4.8,
-      saves: 6200,
-      description: "Pioneering AI research and deployment company behind GPT-4o, ChatGPT, DALL-E, and Sora.",
-      visits: "1.8B"
-    },
-    {
-      id: "anthropic",
-      name: "Anthropic",
-      rank: 2,
-      growth: 210.8,
-      funding: "$8.4B",
-      headquarters: "San Francisco, CA",
-      productsCount: 2,
-      modelsCount: 6,
-      votes: 14890,
-      rating: 4.9,
-      saves: 5400,
-      description: "AI safety and research company, creators of the Claude family of language assistants.",
-      visits: "95M"
-    },
-    {
-      id: "google-deepmind",
-      name: "Google DeepMind",
-      rank: 3,
-      growth: 95.4,
-      funding: "Parent Funded",
-      headquarters: "London, UK",
-      productsCount: 6,
-      modelsCount: 15,
-      votes: 11200,
-      rating: 4.6,
-      saves: 4100,
-      description: "Alphabet's unified AI research division, developers of Gemini models, AlphaFold, and Imagen.",
-      visits: "680M"
-    }
-  ];
+  const leaderboardCompanies = COMPANIES.map((c, index) => ({
+    id: c.slug,
+    name: c.name,
+    rank: index + 1,
+    growth: parseFloat((10 + Math.random() * 200).toFixed(1)),
+    funding: `$${(5 + Math.random() * 95).toFixed(1)}M`,
+    headquarters: "San Francisco, CA",
+    productsCount: Math.floor(1 + Math.random() * 5),
+    modelsCount: Math.floor(1 + Math.random() * 8),
+    votes: Math.floor(100 + Math.random() * 2000),
+    rating: parseFloat((4.0 + Math.random() * 1.0).toFixed(1)),
+    saves: Math.floor(50 + Math.random() * 800),
+    description: `Leading artificial intelligence company specializing in products and research.`,
+    visits: `${(5 + Math.random() * 95).toFixed(1)}M`
+  }));
   await prisma.leaderboardCompany.createMany({ data: leaderboardCompanies });
 
   console.log(`Seed complete: ${COMPANIES.length} companies, ${TOOLS.length} tools, ${REVIEWS.length} reviews.`);
