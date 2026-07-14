@@ -10,11 +10,14 @@ import {
   resetPasswordSchema 
 } from './auth.schema.js';
 import { rateLimit, getIp } from '../../lib/rate-limit.js';
-
-const authService = new AuthService();
+import { getPrisma } from '../../lib/prisma.js';
 
 export class AuthController {
   
+  private getService(c: Context) {
+    return new AuthService(getPrisma(c.env), c.env);
+  }
+
   async signup(c: Context) {
     const ip = getIp(c.req.raw as any) || 'unknown';
     const { success, retryAfter } = rateLimit(`signup:${ip}`, 5, 60000);
@@ -30,7 +33,7 @@ export class AuthController {
         return c.json({ error: result.error.issues[0].message }, 400);
       }
 
-      await authService.signup(result.data);
+      await this.getService(c).signup(result.data);
       return c.json({ success: true, message: 'Verification email sent.' }, 201);
     } catch (error: any) {
       if (error.message === 'Email is already in use.') {
@@ -55,11 +58,12 @@ export class AuthController {
         return c.json({ error: result.error.issues[0].message }, 400);
       }
 
-      const user = await authService.login(result.data);
+      const user = await this.getService(c).login(result.data);
+      const jwtSecret = c.env?.JWT_SECRET || process.env.JWT_SECRET;
 
       const token = sign(
         { id: user.id, email: user.email, name: user.name }, 
-        process.env.JWT_SECRET!, 
+        jwtSecret!, 
         { expiresIn: '7d' }
       );
       
@@ -95,7 +99,7 @@ export class AuthController {
   async getMe(c: Context) {
     try {
       const user = c.get('user');
-      const dbUser = await authService.getMe(user.id);
+      const dbUser = await this.getService(c).getMe(user.id);
       return c.json({ success: true, user: dbUser });
     } catch (error) {
       return c.json({ error: 'User not found' }, 404);
@@ -111,11 +115,12 @@ export class AuthController {
         return c.json({ error: result.error.issues[0].message }, 400);
       }
 
-      const user = await authService.verifyEmail(result.data);
+      const user = await this.getService(c).verifyEmail(result.data);
+      const jwtSecret = c.env?.JWT_SECRET || process.env.JWT_SECRET;
 
       const token = sign(
         { id: user.id, email: user.email, name: user.name }, 
-        process.env.JWT_SECRET!, 
+        jwtSecret!, 
         { expiresIn: '7d' }
       );
       
@@ -129,7 +134,7 @@ export class AuthController {
 
       return c.json({ success: true, message: 'Email verified successfully.' });
     } catch (error: any) {
-      if (error.message.includes('expired') || error.message.includes('Invalid') || error.message.includes('not found')) {
+      if (error.message?.includes('expired') || error.message?.includes('Invalid') || error.message?.includes('not found')) {
          return c.json({ error: error.message }, 400);
       }
       return c.json({ error: 'An unexpected error occurred during verification.' }, 500);
@@ -151,7 +156,7 @@ export class AuthController {
         return c.json({ error: result.error.issues[0].message }, 400);
       }
 
-      const response = await authService.resendVerification(result.data);
+      const response = await this.getService(c).resendVerification(result.data);
       return c.json({ success: true, message: response.message });
     } catch (error: any) {
       if (error.message === 'Email is already verified.') {
@@ -176,7 +181,7 @@ export class AuthController {
         return c.json({ error: result.error.issues[0].message }, 400);
       }
 
-      const response = await authService.forgotPassword(result.data);
+      const response = await this.getService(c).forgotPassword(result.data);
       return c.json({ success: true, message: response.message });
     } catch (error) {
       return c.json({ error: 'Failed to send password reset email.' }, 500);
@@ -198,10 +203,10 @@ export class AuthController {
         return c.json({ error: result.error.issues[0].message }, 400);
       }
 
-      await authService.resetPassword(result.data);
+      await this.getService(c).resetPassword(result.data);
       return c.json({ success: true, message: 'Password has been reset successfully.' });
     } catch (error: any) {
-      if (error.message.includes('Invalid') || error.message.includes('expired')) {
+      if (error.message?.includes('Invalid') || error.message?.includes('expired')) {
         return c.json({ error: error.message }, 400);
       }
       return c.json({ error: 'Failed to reset password.' }, 500);
@@ -211,7 +216,7 @@ export class AuthController {
   async deleteAccount(c: Context) {
     try {
       const user = c.get('user');
-      await authService.deleteAccount(user.id);
+      await this.getService(c).deleteAccount(user.id);
 
       deleteCookie(c, 'auth_token', { 
         path: '/',
