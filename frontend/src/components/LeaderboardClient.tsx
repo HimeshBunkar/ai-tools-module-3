@@ -410,20 +410,43 @@ export function LeaderboardClient() {
 
   // Logo Domain Generator
   const getLogoUrl = (name: string) => {
-    const domainMap: Record<string, string> = {
-      "Cursor": "cursor.sh",
-      "GitHub Copilot": "github.com",
-      "Replit Agent": "replit.com",
-      "OpenAI": "openai.com",
-      "Anthropic": "anthropic.com",
-      "Ollama Inc": "ollama.com",
-      "Alibaba Cloud": "alibabacloud.com",
-      "DeepSeek-V3": "deepseek.com",
-      "Gemini 2.0 Flash": "google.com",
-      "o1-pro": "openai.com",
-      "o1-preview": "openai.com",
-    };
-    const domain = domainMap[name] || `${name.toLowerCase().replace(/\s+/g, "")}.com`;
+    const n = name.toLowerCase();
+    let domain = "";
+    
+    if (n.includes("chatgpt") || n.includes("gpt") || n.includes("o1-") || n.includes("openai")) {
+      domain = "openai.com";
+    } else if (n.includes("claude") || n.includes("anthropic")) {
+      domain = "anthropic.com";
+    } else if (n.includes("gemini") || n.includes("google") || n.includes("deepmind")) {
+      domain = "google.com";
+    } else if (n.includes("llama") || n.includes("meta")) {
+      domain = "meta.com";
+    } else if (n.includes("mistral")) {
+      domain = "mistral.ai";
+    } else if (n.includes("cohere")) {
+      domain = "cohere.com";
+    } else if (n.includes("ai21")) {
+      domain = "ai21.com";
+    } else if (n.includes("cursor")) {
+      domain = "cursor.com";
+    } else if (n.includes("v0")) {
+      domain = "vercel.com";
+    } else if (n.includes("midjourney")) {
+      domain = "midjourney.com";
+    } else if (n.includes("copilot") || n.includes("github")) {
+      domain = "github.com";
+    } else if (n.includes("replit")) {
+      domain = "replit.com";
+    } else if (n.includes("ollama")) {
+      domain = "ollama.com";
+    } else if (n.includes("alibaba")) {
+      domain = "alibabacloud.com";
+    } else if (n.includes("deepseek")) {
+      domain = "deepseek.com";
+    } else {
+      domain = `${name.toLowerCase().replace(/\s+/g, "").replace(/[^a-z0-9]/g, "")}.com`;
+    }
+    
     return `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
   };
 
