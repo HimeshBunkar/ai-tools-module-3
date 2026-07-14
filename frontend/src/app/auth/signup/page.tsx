@@ -7,6 +7,7 @@ import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import MailCheck from 'lucide-react/dist/esm/icons/mail-check';
 import { toast } from 'sonner';
+import { API_URL } from '@/lib/api';
 
 function SignUpForm() {
   const router = useRouter();
