@@ -2088,22 +2088,6 @@ async function main() {
       visits: `${(1 + Math.random() * 50).toFixed(1)}M`,
       addedDate: "2026-01-01"
     })),
-    ...Array.from({ length: 10 }).map((_, i) => ({
-      id: `extra-tool-${i}`,
-      name: `AI Tool Pro ${i + 1}`,
-      category: "Productivity",
-      tags: "AI,productivity,utility",
-      rank: TOOLS.length + 1 + i,
-      growth: parseFloat((5 + Math.random() * 100).toFixed(1)),
-      votes: Math.floor(100 + Math.random() * 1000),
-      rating: parseFloat((4.0 + Math.random() * 1.0).toFixed(1)),
-      saves: Math.floor(50 + Math.random() * 500),
-      url: "https://example.com",
-      description: "An advanced helper tool designed to streamline business automation and workflow productivity.",
-      pricing: "Freemium",
-      visits: "5.4M",
-      addedDate: "2026-02-01"
-    }))
   ];
   await prisma.leaderboardTool.createMany({ data: leaderboardTools });
 
@@ -2128,29 +2112,6 @@ async function main() {
       description: m.description,
       visits: `${(50 + Math.random() * 900).toFixed(1)}M`
     })),
-    ...Array.from({ length: 41 }).map((_, i) => {
-      const providers = ["OpenAI", "Anthropic", "Google", "Meta", "Mistral", "Cohere", "AI21 Labs"];
-      const provider = providers[i % providers.length];
-      const name = `${provider} Model-v${Math.floor(i / providers.length) + 1}.${i % providers.length}`;
-      return {
-        id: name.toLowerCase().replace(/[^a-z0-9]/g, "-"),
-        name: name,
-        provider: provider,
-        category: "Text, Code",
-        rank: seedModels.length + 1 + i,
-        growth: parseFloat((1 + Math.random() * 120).toFixed(1)),
-        contextWindow: "128K tokens",
-        pricing: "$1.50 / M input",
-        eloRating: 1100 - i * 5,
-        benchmarkScore: parseFloat((70 + Math.random() * 20).toFixed(1)),
-        openSource: provider === "Meta" || provider === "Mistral",
-        votes: Math.floor(100 + Math.random() * 2000),
-        rating: parseFloat((4.0 + Math.random() * 0.9).toFixed(1)),
-        saves: Math.floor(50 + Math.random() * 1000),
-        description: `An advanced neural language representation model optimized for reasoning, code intelligence, and multilingual completion tasks.`,
-        visits: `${(1 + Math.random() * 100).toFixed(1)}M`
-      };
-    })
   ];
   await prisma.leaderboardModel.createMany({ data: leaderboardModels });
 
