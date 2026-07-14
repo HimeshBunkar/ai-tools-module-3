@@ -1,6 +1,6 @@
 import type { CollectionsSearchParams } from "@/lib/types";
 
-const API_URL = (process.env.NEXT_PUBLIC_API_URL || 'https://api.aiorbit.club').replace(/\/$/, '');
+import { API_URL } from "@/lib/api";
 
 export async function getCollections(rawParams: CollectionsSearchParams) {
   const query = new URLSearchParams();
