@@ -61,7 +61,7 @@ function SignInForm() {
         <div className="space-y-1">
           <Input label="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
           <div className="flex justify-end">
-            <a href="/forgot-password" className="text-xs text-[#A1A1AA] hover:text-white transition-colors">
+            <a href="/auth/forgot-password" className="text-xs text-[#A1A1AA] hover:text-white transition-colors">
               Forgot Password?
             </a>
           </div>
