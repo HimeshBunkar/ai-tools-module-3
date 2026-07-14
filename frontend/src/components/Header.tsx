@@ -53,6 +53,12 @@ export function Header() {
               News
             </Link>
             <Link
+              href="/video"
+              className="text-[13px] font-medium text-foreground-muted hover:text-white transition-colors"
+            >
+              Videos
+            </Link>
+            <Link
               href="/tools"
               className="text-[13px] font-medium text-foreground-muted hover:text-white transition-colors"
             >
