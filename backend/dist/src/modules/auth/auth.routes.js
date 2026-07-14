@@ -21,7 +21,8 @@ authRoutes.get('/google', (c) => {
     const clientId = c.env?.GOOGLE_CLIENT_ID || process.env.GOOGLE_CLIENT_ID;
     if (!clientId)
         return c.json({ error: 'Google OAuth not configured' }, 500);
-    const backendUrl = c.env?.BACKEND_URL || process.env.BACKEND_URL || 'http://localhost:8787';
+    const requestUrl = new URL(c.req.url);
+    const backendUrl = requestUrl.origin;
     const redirectUri = `${backendUrl}/api/auth/google/callback`;
     const scope = 'email profile';
     const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&scope=${encodeURIComponent(scope)}`;
@@ -30,13 +31,14 @@ authRoutes.get('/google', (c) => {
 authRoutes.get('/google/callback', async (c) => {
     const code = c.req.query('code');
     const error = c.req.query('error');
-    const frontendUrl = c.env?.FRONTEND_URL || process.env.FRONTEND_URL || 'http://localhost:3000';
+    const frontendUrl = c.env?.FRONTEND_URL || process.env.FRONTEND_URL || 'https://aiorbit.club';
     if (error || !code) {
         return c.redirect(`${frontendUrl}/auth/signin?error=OAuthFailed`);
     }
     const clientId = c.env?.GOOGLE_CLIENT_ID || process.env.GOOGLE_CLIENT_ID;
     const clientSecret = c.env?.GOOGLE_CLIENT_SECRET || process.env.GOOGLE_CLIENT_SECRET;
-    const backendUrl = c.env?.BACKEND_URL || process.env.BACKEND_URL || 'http://localhost:8787';
+    const requestUrl = new URL(c.req.url);
+    const backendUrl = requestUrl.origin;
     const redirectUri = `${backendUrl}/api/auth/google/callback`;
     try {
         const tokenRes = await fetch('https://oauth2.googleapis.com/token', {
@@ -92,20 +94,22 @@ authRoutes.get('/github', (c) => {
     const clientId = c.env?.GITHUB_CLIENT_ID || process.env.GITHUB_CLIENT_ID;
     if (!clientId)
         return c.json({ error: 'Github OAuth not configured' }, 500);
-    const backendUrl = c.env?.BACKEND_URL || process.env.BACKEND_URL || 'http://localhost:8787';
+    const requestUrl = new URL(c.req.url);
+    const backendUrl = requestUrl.origin;
     const redirectUri = `${backendUrl}/api/auth/github/callback`;
     const authUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=user:email`;
     return c.redirect(authUrl);
 });
 authRoutes.get('/github/callback', async (c) => {
     const code = c.req.query('code');
-    const frontendUrl = c.env?.FRONTEND_URL || process.env.FRONTEND_URL || 'http://localhost:3000';
+    const frontendUrl = c.env?.FRONTEND_URL || process.env.FRONTEND_URL || 'https://aiorbit.club';
     if (!code) {
         return c.redirect(`${frontendUrl}/auth/signin?error=OAuthFailed`);
     }
     const clientId = c.env?.GITHUB_CLIENT_ID || process.env.GITHUB_CLIENT_ID;
     const clientSecret = c.env?.GITHUB_CLIENT_SECRET || process.env.GITHUB_CLIENT_SECRET;
-    const backendUrl = c.env?.BACKEND_URL || process.env.BACKEND_URL || 'http://localhost:8787';
+    const requestUrl = new URL(c.req.url);
+    const backendUrl = requestUrl.origin;
     const redirectUri = `${backendUrl}/api/auth/github/callback`;
     try {
         const tokenRes = await fetch('https://github.com/login/oauth/access_token', {
