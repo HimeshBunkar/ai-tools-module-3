@@ -9,6 +9,9 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  experimental: {
+    optimizePackageImports: ["lucide-react", "react-hook-form", "zod", "clsx", "tailwind-merge"],
+  },
 };
 
 export default nextConfig;
