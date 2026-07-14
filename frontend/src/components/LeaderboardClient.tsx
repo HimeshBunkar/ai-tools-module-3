@@ -525,6 +525,14 @@ export function LeaderboardClient() {
     return `https://www.google.com/s2/favicons?domain=${slug}.com&sz=128`;
   };
 
+  const resolveLogoUrl = (url: string | undefined | null, name: string) => {
+    if (url && url.includes("logo.clearbit.com")) {
+      const domain = url.split("logo.clearbit.com/")[1];
+      return `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
+    }
+    return url || getLogoUrl(name);
+  };
+
   const getInitials = (name: string) => name.trim().charAt(0).toUpperCase();
 
   const handleLogoError = (e: React.SyntheticEvent<HTMLImageElement, Event>, name: string) => {
@@ -739,7 +747,7 @@ export function LeaderboardClient() {
                                 {tool.name.charAt(0)}
                               </span>
                               <img
-                                src={tool.logoUrl || getLogoUrl(tool.name)}
+                                src={resolveLogoUrl(tool.logoUrl, tool.name)}
                                 alt={tool.name}
                                 className="h-full w-full object-contain absolute z-10 p-1.5 bg-[#18181C]"
                                 onError={(e) => handleLogoError(e, tool.name)}
@@ -833,7 +841,7 @@ export function LeaderboardClient() {
                                 {model.name.charAt(0)}
                               </span>
                               <img
-                                src={model.logoUrl || getLogoUrl(model.name)}
+                                src={resolveLogoUrl(model.logoUrl, model.name)}
                                 alt={model.name}
                                 className="h-full w-full object-contain absolute z-10 p-1.5 bg-[#18181C]"
                                 onError={(e) => handleLogoError(e, model.name)}
@@ -920,7 +928,7 @@ export function LeaderboardClient() {
                                 {company.name.charAt(0)}
                               </span>
                               <img
-                                src={company.logoUrl || getLogoUrl(company.name)}
+                                src={resolveLogoUrl(company.logoUrl, company.name)}
                                 alt={company.name}
                                 className="h-full w-full object-contain absolute z-10 p-1.5 bg-[#18181C]"
                                 onError={(e) => handleLogoError(e, company.name)}
