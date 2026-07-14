@@ -516,6 +516,11 @@ export function LeaderboardClient() {
 
   const getLogoUrl = (name: string): string => {
     const n = name.toLowerCase().trim();
+    if (n.includes("phind")) return "https://avatars.githubusercontent.com/u/144394874?v=4";
+    if (n.includes("beatoven")) return "https://avatars.githubusercontent.com/u/85035121?v=4";
+    if (n.includes("dreamstudio")) return "https://avatars.githubusercontent.com/u/100950301?v=4";
+    if (n.includes("podcastle")) return "https://avatars.githubusercontent.com/u/19472846?v=4";
+
     for (const [key, domain] of Object.entries(LOGO_DOMAIN_MAP)) {
       if (n === key || n.includes(key)) {
         return `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
