@@ -32,6 +32,14 @@ export class LeaderboardService {
       const votes = t.reviews.length || 0;
       const saves = t.bookmarks.length || 0;
 
+      // Extract real domain from websiteUrl
+      let domain = "";
+      try {
+        domain = new URL(t.websiteUrl).hostname.replace(/^www\./, "");
+      } catch (e) {
+        domain = `${t.slug}.com`;
+      }
+
       // Deterministic stats from tool id string hash
       const charSum = t.slug.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
       const growth = parseFloat((10 + (charSum % 190)).toFixed(1));
@@ -51,7 +59,8 @@ export class LeaderboardService {
         description: t.description,
         pricing: t.pricingModel.toString().charAt(0) + t.pricingModel.toString().slice(1).toLowerCase(),
         visits,
-        addedDate: t.createdAt.toISOString().split('T')[0]
+        addedDate: t.createdAt.toISOString().split('T')[0],
+        logoUrl: `https://logo.clearbit.com/${domain}`
       };
     });
 
@@ -86,6 +95,23 @@ export class LeaderboardService {
       const saves = 40 + (charSum % 90);
       const visits = `${12 + (charSum % 85)}M`;
 
+      // Resolve creator to official domains
+      let domain = "openai.com";
+      const c = m.creator.toLowerCase();
+      if (c.includes("anthropic")) {
+        domain = "anthropic.com";
+      } else if (c.includes("google")) {
+        domain = "google.com";
+      } else if (c.includes("meta")) {
+        domain = "meta.com";
+      } else if (c.includes("mistral")) {
+        domain = "mistral.ai";
+      } else if (c.includes("cohere")) {
+        domain = "cohere.com";
+      } else if (c.includes("ai21")) {
+        domain = "ai21.com";
+      }
+
       return {
         id: m.name.toLowerCase().replace(/[^a-z0-9]/g, "-"),
         name: m.name,
@@ -101,7 +127,8 @@ export class LeaderboardService {
         rating,
         saves,
         description: m.description,
-        visits
+        visits,
+        logoUrl: `https://logo.clearbit.com/${domain}`
       };
     });
 
@@ -134,6 +161,17 @@ export class LeaderboardService {
       const saves = 120 + (charSum % 450);
       const visits = `${8 + (charSum % 90)}M`;
 
+      // Extract domain from company tools website
+      let domain = "";
+      if (c.tools && c.tools.length > 0) {
+        try {
+          domain = new URL(c.tools[0].websiteUrl).hostname.replace(/^www\./, "");
+        } catch (e) {}
+      }
+      if (!domain) {
+        domain = `${c.slug}.com`;
+      }
+
       return {
         id: c.slug,
         name: c.name,
@@ -146,7 +184,8 @@ export class LeaderboardService {
         rating,
         saves,
         description: `Leading artificial intelligence company specializing in products and research.`,
-        visits
+        visits,
+        logoUrl: `https://logo.clearbit.com/${domain}`
       };
     });
 

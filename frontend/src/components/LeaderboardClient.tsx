@@ -29,6 +29,7 @@ type LeaderboardTool = {
   pricing: string;
   visits: string;
   addedDate: string;
+  logoUrl?: string;
 };
 
 type LeaderboardModel = {
@@ -48,6 +49,7 @@ type LeaderboardModel = {
   saves: number;
   description: string;
   visits: string;
+  logoUrl?: string;
 };
 
 type LeaderboardCompany = {
@@ -64,6 +66,7 @@ type LeaderboardCompany = {
   saves: number;
   description: string;
   visits: string;
+  logoUrl?: string;
 };
 
 // Hindi Translation dictionary
@@ -700,7 +703,7 @@ export function LeaderboardClient() {
                                 {tool.name.charAt(0)}
                               </span>
                               <img
-                                src={getLogoUrl(tool.name)}
+                                src={tool.logoUrl || getLogoUrl(tool.name)}
                                 alt={tool.name}
                                 className="h-full w-full object-contain absolute z-10 p-1.5 bg-[#18181C]"
                                 onError={(e) => handleLogoError(e, tool.name)}
@@ -794,7 +797,7 @@ export function LeaderboardClient() {
                                 {model.name.charAt(0)}
                               </span>
                               <img
-                                src={getLogoUrl(model.name)}
+                                src={model.logoUrl || getLogoUrl(model.name)}
                                 alt={model.name}
                                 className="h-full w-full object-contain absolute z-10 p-1.5 bg-[#18181C]"
                                 onError={(e) => handleLogoError(e, model.name)}
@@ -881,7 +884,7 @@ export function LeaderboardClient() {
                                 {company.name.charAt(0)}
                               </span>
                               <img
-                                src={getLogoUrl(company.name)}
+                                src={company.logoUrl || getLogoUrl(company.name)}
                                 alt={company.name}
                                 className="h-full w-full object-contain absolute z-10 p-1.5 bg-[#18181C]"
                                 onError={(e) => handleLogoError(e, company.name)}
