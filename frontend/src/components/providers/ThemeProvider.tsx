@@ -1,8 +1,7 @@
 'use client';
 
-import * as React from 'react';
-import { ThemeProvider as NextThemesProvider } from 'next-themes';
-
-export function ThemeProvider({ children, ...props }: React.ComponentProps<typeof NextThemesProvider>) {
-  return <NextThemesProvider {...props}>{children}</NextThemesProvider>;
+// Stub — the app uses a fixed dark theme via globals.css.
+// next-themes is NOT used to avoid bundling it into every edge function.
+export function ThemeProvider({ children }: { children: React.ReactNode }) {
+  return <>{children}</>;
 }

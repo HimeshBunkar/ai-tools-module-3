@@ -1,17 +1,13 @@
-export const runtime = 'edge';
-import { auth } from '@/lib/auth';
-import { redirect } from 'next/navigation';
 import { Shell } from '@/components/ui/shell';
+import { AuthGuard } from '@/components/auth-guard';
 import { SavedToolsClient } from '@/components/saved-tools-client';
 
-export default async function SavedToolsPage() {
-  const session = await auth();
-  if (!session?.user) redirect('/auth/signin');
-
+export default function SavedToolsPage() {
   return (
-    <Shell title="Saved Tools" description="Keep your favorite tools and workflows close at hand.">
-      <SavedToolsClient />
-    </Shell>
+    <AuthGuard>
+      <Shell title="Saved Tools" description="Keep your favorite tools and workflows close at hand.">
+        <SavedToolsClient />
+      </Shell>
+    </AuthGuard>
   );
 }
-

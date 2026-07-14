@@ -1,0 +1,37 @@
+import { Context } from 'hono';
+import { getPrisma } from '../../lib/prisma.js';
+import { CompaniesService } from './companies.service.js';
+
+export class CompaniesController {
+  async listCompanies(c: Context) {
+    const prisma = getPrisma(c.env);
+    const service = new CompaniesService(prisma);
+
+    try {
+      const companies = await service.listCompanies();
+      return c.json(companies);
+    } catch (error: any) {
+      return c.json({ error: error.message }, 500);
+    } finally {
+      await prisma.$disconnect();
+    }
+  }
+
+  async getCompanyDetails(c: Context) {
+    const prisma = getPrisma(c.env);
+    const service = new CompaniesService(prisma);
+    const slug = c.req.param('slug') || '';
+
+    try {
+      const company = await service.getCompanyDetails(slug);
+      if (!company) {
+        return c.json({ error: 'Company not found' }, 404);
+      }
+      return c.json(company);
+    } catch (error: any) {
+      return c.json({ error: error.message }, 500);
+    } finally {
+      await prisma.$disconnect();
+    }
+  }
+}

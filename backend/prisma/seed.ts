@@ -1,6 +1,12 @@
+import "dotenv/config";
 import { PrismaClient, PricingModel, BillingFrequency } from "@prisma/client";
 
-const prisma = new PrismaClient();
+import { Pool } from 'pg';
+import { PrismaPg } from '@prisma/adapter-pg';
+
+const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+const adapter = new PrismaPg(pool);
+const prisma = new PrismaClient({ adapter });
 
 const logoFor = (domain: string) => `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
 
@@ -1892,6 +1898,203 @@ async function main() {
     },
   ];
   await prisma.device.createMany({ data: seedDevices });
+
+  console.log("Seeding Leaderboard Tools...");
+  await prisma.leaderboardTool.deleteMany({});
+  const leaderboardTools = [
+    {
+      id: "chatgpt",
+      name: "ChatGPT",
+      category: "Chatbot",
+      tags: "productivity,writing,coding",
+      rank: 1,
+      growth: 145.2,
+      votes: 14820,
+      rating: 4.8,
+      saves: 5200,
+      url: "https://chatgpt.com",
+      description: "OpenAI's flagship conversational AI companion capable of drafting text, debugging code, and resolving complex queries.",
+      pricing: "Freemium",
+      visits: "1.6B",
+      addedDate: "2026-01-01"
+    },
+    {
+      id: "claude",
+      name: "Claude AI",
+      category: "Chatbot",
+      tags: "productivity,writing,coding",
+      rank: 2,
+      growth: 189.5,
+      votes: 12450,
+      rating: 4.9,
+      saves: 4890,
+      url: "https://claude.ai",
+      description: "Anthropic's state-of-the-art conversational assistant designed with advanced reasoning, coding, and artifact capabilities.",
+      pricing: "Freemium",
+      visits: "85M",
+      addedDate: "2026-01-10"
+    },
+    {
+      id: "v0",
+      name: "v0 by Vercel",
+      category: "Code Assistant",
+      tags: "coding,frontend,react",
+      rank: 3,
+      growth: 245.8,
+      votes: 9840,
+      rating: 4.7,
+      saves: 3600,
+      url: "https://v0.dev",
+      description: "Generative UI system by Vercel that builds modern React components and full pages from simple text instructions.",
+      pricing: "Freemium",
+      visits: "42M",
+      addedDate: "2026-02-15"
+    },
+    {
+      id: "midjourney",
+      name: "Midjourney",
+      category: "Image Generation",
+      tags: "image,design,art",
+      rank: 4,
+      growth: 98.4,
+      votes: 15400,
+      rating: 4.7,
+      saves: 6100,
+      url: "https://midjourney.com",
+      description: "Text-to-image generator that translates natural language prompts into stunning, highly-detailed photographic and illustrative art.",
+      pricing: "Paid",
+      visits: "120M",
+      addedDate: "2026-01-05"
+    },
+    {
+      id: "cursor",
+      name: "Cursor IDE",
+      category: "Code Assistant",
+      tags: "coding,productivity,IDE",
+      rank: 5,
+      growth: 310.2,
+      votes: 11200,
+      rating: 4.9,
+      saves: 4300,
+      url: "https://cursor.com",
+      description: "An AI-first code editor fork of VS Code equipped with inline completions, edit-generation, and codebase-aware chat agent integrations.",
+      pricing: "Freemium",
+      visits: "25M",
+      addedDate: "2026-03-01"
+    }
+  ];
+  await prisma.leaderboardTool.createMany({ data: leaderboardTools });
+
+  console.log("Seeding Leaderboard Models...");
+  await prisma.leaderboardModel.deleteMany({});
+  const leaderboardModels = [
+    {
+      id: "claude-3-5-sonnet",
+      name: "Claude 3.5 Sonnet",
+      provider: "Anthropic",
+      category: "Multimodal",
+      rank: 1,
+      growth: 195.4,
+      contextWindow: "200K tokens",
+      pricing: "$3.00 / M input",
+      eloRating: 1256,
+      benchmarkScore: 88.7,
+      openSource: false,
+      votes: 8420,
+      rating: 4.9,
+      saves: 3200,
+      description: "State-of-the-art multimodal model setting new industry benchmarks for coding, workflow generation, and text synthesis.",
+      visits: "2.1B"
+    },
+    {
+      id: "gpt-4o",
+      name: "GPT-4o",
+      provider: "OpenAI",
+      category: "Multimodal",
+      rank: 2,
+      growth: 120.2,
+      contextWindow: "128K tokens",
+      pricing: "$2.50 / M input",
+      eloRating: 1251,
+      benchmarkScore: 88.2,
+      openSource: false,
+      votes: 9150,
+      rating: 4.8,
+      saves: 3450,
+      description: "OpenAI's high-speed flagship multimodal architecture supporting real-time text, vision, and voice capabilities.",
+      visits: "3.4B"
+    },
+    {
+      id: "llama-3-1-405b",
+      name: "Llama 3.1 405B",
+      provider: "Meta",
+      category: "Text Generation",
+      rank: 3,
+      growth: 178.6,
+      contextWindow: "128K tokens",
+      pricing: "Free (Self-Host)",
+      eloRating: 1210,
+      benchmarkScore: 84.5,
+      openSource: true,
+      votes: 6200,
+      rating: 4.6,
+      saves: 2800,
+      description: "Meta's largest open-weights model, rivaling top proprietary models in coding, translation, and complex reasoning.",
+      visits: "950M"
+    }
+  ];
+  await prisma.leaderboardModel.createMany({ data: leaderboardModels });
+
+  console.log("Seeding Leaderboard Companies...");
+  await prisma.leaderboardCompany.deleteMany({});
+  const leaderboardCompanies = [
+    {
+      id: "openai",
+      name: "OpenAI",
+      rank: 1,
+      growth: 120.5,
+      funding: "$13.0B",
+      headquarters: "San Francisco, CA",
+      productsCount: 4,
+      modelsCount: 12,
+      votes: 18450,
+      rating: 4.8,
+      saves: 6200,
+      description: "Pioneering AI research and deployment company behind GPT-4o, ChatGPT, DALL-E, and Sora.",
+      visits: "1.8B"
+    },
+    {
+      id: "anthropic",
+      name: "Anthropic",
+      rank: 2,
+      growth: 210.8,
+      funding: "$8.4B",
+      headquarters: "San Francisco, CA",
+      productsCount: 2,
+      modelsCount: 6,
+      votes: 14890,
+      rating: 4.9,
+      saves: 5400,
+      description: "AI safety and research company, creators of the Claude family of language assistants.",
+      visits: "95M"
+    },
+    {
+      id: "google-deepmind",
+      name: "Google DeepMind",
+      rank: 3,
+      growth: 95.4,
+      funding: "Parent Funded",
+      headquarters: "London, UK",
+      productsCount: 6,
+      modelsCount: 15,
+      votes: 11200,
+      rating: 4.6,
+      saves: 4100,
+      description: "Alphabet's unified AI research division, developers of Gemini models, AlphaFold, and Imagen.",
+      visits: "680M"
+    }
+  ];
+  await prisma.leaderboardCompany.createMany({ data: leaderboardCompanies });
 
   console.log(`Seed complete: ${COMPANIES.length} companies, ${TOOLS.length} tools, ${REVIEWS.length} reviews.`);
 }
