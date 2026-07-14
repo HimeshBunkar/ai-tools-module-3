@@ -1741,47 +1741,9 @@ async function main() {
         },
     ];
     await prisma.aIModel.createMany({ data: seedModels });
-    console.log("Seeding News...");
-    await prisma.news.deleteMany({});
-    const seedNews = [
-        {
-            title: "OpenAI Announces SearchGPT Prototype",
-            source: "TechCrunch",
-            category: "Search & Retrieval",
-            publishedAt: "2 hours ago",
-            readTime: "3 min read",
-            summary: "OpenAI is testing a new search tool designed to give users fast, timely answers with cited links to web publications.",
-            url: "https://openai.com/blog/searchgpt-prototype",
-        },
-        {
-            title: "Next.js 15 Released with Turbopack and React 19 Support",
-            source: "Vercel Blog",
-            category: "Web Development",
-            publishedAt: "1 day ago",
-            readTime: "5 min read",
-            summary: "Vercel brings Next.js 15 to production with default caching updates, compiler changes, and React Server Components improvements.",
-            url: "https://nextjs.org/blog/next-15",
-        },
-        {
-            title: "Anthropic Introduces Claude 3.5 Sonnet Artifacts on Mobile Apps",
-            source: "VentureBeat",
-            category: "LLM Interface",
-            publishedAt: "3 days ago",
-            readTime: "4 min read",
-            summary: "Users can now interact with, view, and edit React layouts, SVGs, and documents built by Claude inside their mobile phone app.",
-            url: "https://anthropic.com/news/claude-3-5-sonnet",
-        },
-        {
-            title: "Boston Dynamics Spotlights New Fully Electric Atlas Humanoid",
-            source: "Robotics World",
-            category: "Robotics",
-            publishedAt: "1 week ago",
-            readTime: "6 min read",
-            summary: "Boston Dynamics retires the hydraulic Atlas and debuts a completely electric model with advanced range of motion and joint pivots.",
-            url: "https://bostondynamics.com",
-        },
-    ];
-    await prisma.news.createMany({ data: seedNews });
+    // News is no longer static-seeded — the news module gets its data from
+    // real RSS ingestion (`npm run ingest`), not mock rows. See
+    // src/modules/ingestion/.
     console.log("Seeding Repositories...");
     await prisma.repository.deleteMany({});
     const seedRepos = [
@@ -1819,13 +1781,11 @@ async function main() {
         },
     ];
     await prisma.repository.createMany({ data: seedRepos });
-<<<<<<< HEAD
     // Video seeding removed — the Videos + Models module (Module 9) now owns
     // this table via backend/crawler/ingest.ts, which writes real crawled data
     // matching the extended schema. Seeding stub rows here caused repeated
     // conflicts with required columns added for that module. Run the crawler
     // to populate real data: `npx tsx crawler/ingest.ts`
-=======
     // Video is owned by another module and already has 218 real rows in
     // production via its own ingestion path (confirmed via `prisma db pull`
     // during the news-module port). This mock-data block used the old flat
@@ -1834,7 +1794,6 @@ async function main() {
     // failing to reinsert (shape mismatch with the actual production
     // schema). Removed rather than fixed with fabricated data — not this
     // module's data to seed.
->>>>>>> origin/main
     console.log("Seeding Robots...");
     await prisma.robot.deleteMany({});
     const seedRobots = [
