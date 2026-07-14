@@ -299,18 +299,30 @@ export function LeaderboardClient() {
     });
   };
 
+  const matchModelCategory = (m: any, target: string): boolean => {
+    const cat = m.category.toLowerCase();
+    const name = m.name.toLowerCase();
+    const desc = m.description.toLowerCase();
+    
+    if (target === "Code Model") {
+      return cat.includes("code") || name.includes("code") || name.includes("coder");
+    }
+    if (target === "LLM") {
+      return cat.includes("text");
+    }
+    if (target === "Multi-modal" || target === "Multimodal") {
+      return cat.includes(",") || cat.includes("vision") || cat.includes("audio") || desc.includes("multimodal");
+    }
+    if (target === "Reasoning LLM") {
+      return desc.includes("reasoning") || name.includes("reasoning") || name.startsWith("o1");
+    }
+    return cat.includes(target.toLowerCase());
+  };
+
   const getFilteredModels = () => {
     const filtered = models.filter((m) => {
       if (activeCategory === "All Categories") return true;
-      const categoryMapping: Record<string, string> = {
-        "Code Model": "Code Model",
-        "LLM": "LLM",
-        "Multi-modal": "Multi-modal",
-        "Multimodal": "Multimodal",
-        "Reasoning LLM": "Reasoning LLM",
-      };
-      const target = categoryMapping[activeCategory] || activeCategory;
-      return m.category.toLowerCase().includes(target.toLowerCase());
+      return matchModelCategory(m, activeCategory);
     });
 
     // Apply Sorting logic
@@ -350,7 +362,7 @@ export function LeaderboardClient() {
       const list = activeTab === "bookmarks" ? tools.filter((t) => bookmarkedIds.has(t.id)) : tools;
       return list.filter((t) => t.category.toLowerCase().includes(target.toLowerCase())).length;
     } else if (activeTab === "models") {
-      return models.filter((m) => m.category.toLowerCase().includes(target.toLowerCase())).length;
+      return models.filter((m) => matchModelCategory(m, catName)).length;
     }
     return null;
   };
