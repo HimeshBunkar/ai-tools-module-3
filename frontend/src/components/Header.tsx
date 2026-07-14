@@ -29,6 +29,12 @@ export function Header() {
               AI Tools
             </Link>
             <Link
+              href="/leaderboard"
+              className="text-[13px] font-medium text-[#6E56CF] hover:text-white transition-colors font-semibold"
+            >
+              Leaderboard
+            </Link>
+            <Link
               href="/models"
               className="text-[13px] font-medium text-foreground-muted hover:text-white transition-colors"
             >
