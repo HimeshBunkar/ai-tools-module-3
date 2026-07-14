@@ -6,7 +6,23 @@ import { ReactNode, useState } from 'react';
 import { signOut } from '@/lib/auth-client';
 import { Button } from '@/components/ui/shadcn-button';
 import { cn } from '@/lib/utils';
-import { LayoutDashboard, Compass, Bookmark, Clock, Settings, Search, Menu, X, LogOut, User as UserIcon, PenTool, Hash, Plus, ChevronDown, CheckCircle2, Circle, Clock4 } from 'lucide-react';
+import LayoutDashboard from 'lucide-react/dist/esm/icons/layout-dashboard';
+import Compass from 'lucide-react/dist/esm/icons/compass';
+import Bookmark from 'lucide-react/dist/esm/icons/bookmark';
+import Clock from 'lucide-react/dist/esm/icons/clock';
+import Settings from 'lucide-react/dist/esm/icons/settings';
+import Search from 'lucide-react/dist/esm/icons/search';
+import Menu from 'lucide-react/dist/esm/icons/menu';
+import X from 'lucide-react/dist/esm/icons/x';
+import LogOut from 'lucide-react/dist/esm/icons/log-out';
+import UserIcon from 'lucide-react/dist/esm/icons/user';
+import PenTool from 'lucide-react/dist/esm/icons/pen-tool';
+import Hash from 'lucide-react/dist/esm/icons/hash';
+import Plus from 'lucide-react/dist/esm/icons/plus';
+import ChevronDown from 'lucide-react/dist/esm/icons/chevron-down';
+import CheckCircle2 from 'lucide-react/dist/esm/icons/check-circle-2';
+import Circle from 'lucide-react/dist/esm/icons/circle';
+import Clock4 from 'lucide-react/dist/esm/icons/clock-4';
 import { useUser } from '@/hooks/use-user';
 
 interface ShellProps {

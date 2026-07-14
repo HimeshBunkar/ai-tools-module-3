@@ -1,7 +1,7 @@
 "use client";
 
 import { useTransition, useState } from "react";
-import { Bookmark } from "lucide-react";
+import Bookmark from 'lucide-react/dist/esm/icons/bookmark';
 import { toggleBookmark } from "@/lib/actions";
 import { cn } from "@/lib/utils";
 

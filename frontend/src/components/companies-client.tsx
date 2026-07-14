@@ -2,7 +2,10 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { Building, MapPin, Calendar, Globe } from "lucide-react";
+import Building from 'lucide-react/dist/esm/icons/building';
+import MapPin from 'lucide-react/dist/esm/icons/map-pin';
+import Calendar from 'lucide-react/dist/esm/icons/calendar';
+import Globe from 'lucide-react/dist/esm/icons/globe';
 import { Company } from "@/lib/types";
 import { fetchAllCompanies } from "@/lib/api";
 

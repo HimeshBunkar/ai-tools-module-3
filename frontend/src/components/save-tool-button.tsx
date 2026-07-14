@@ -2,7 +2,8 @@
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Button } from '@/components/ui/shadcn-button';
-import { BookmarkPlus, BookmarkCheck } from 'lucide-react';
+import BookmarkPlus from 'lucide-react/dist/esm/icons/bookmark-plus';
+import BookmarkCheck from 'lucide-react/dist/esm/icons/bookmark-check';
 import { toast } from 'sonner';
 
 interface SavedTool {

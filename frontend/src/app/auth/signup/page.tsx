@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/shadcn-button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { MailCheck } from 'lucide-react';
+import MailCheck from 'lucide-react/dist/esm/icons/mail-check';
 import { toast } from 'sonner';
 
 function SignUpForm() {

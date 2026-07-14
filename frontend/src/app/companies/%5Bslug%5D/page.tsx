@@ -4,7 +4,12 @@ import { notFound } from "next/navigation";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { fetchCompanyDetails } from "@/lib/api";
-import { MapPin, Calendar, Globe, ArrowLeft, Star, ExternalLink } from "lucide-react";
+import MapPin from 'lucide-react/dist/esm/icons/map-pin';
+import Calendar from 'lucide-react/dist/esm/icons/calendar';
+import Globe from 'lucide-react/dist/esm/icons/globe';
+import ArrowLeft from 'lucide-react/dist/esm/icons/arrow-left';
+import Star from 'lucide-react/dist/esm/icons/star';
+import ExternalLink from 'lucide-react/dist/esm/icons/external-link';
 import { Company } from "@/lib/types";
 
 type CompanyDetailPageProps = {

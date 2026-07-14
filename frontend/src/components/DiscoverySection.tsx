@@ -2,7 +2,9 @@
 
 import React from "react";
 import Link from "next/link";
-import { AlertCircle, FileQuestion, ArrowRight } from "lucide-react";
+import AlertCircle from 'lucide-react/dist/esm/icons/alert-circle';
+import FileQuestion from 'lucide-react/dist/esm/icons/file-question';
+import ArrowRight from 'lucide-react/dist/esm/icons/arrow-right';
 import { cn } from "@/lib/utils";
 
 type DiscoverySectionProps = {

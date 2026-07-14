@@ -2,7 +2,9 @@
 
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
-import { Circle, CheckCircle2, ChevronRight } from 'lucide-react';
+import Circle from 'lucide-react/dist/esm/icons/circle';
+import CheckCircle2 from 'lucide-react/dist/esm/icons/check-circle-2';
+import ChevronRight from 'lucide-react/dist/esm/icons/chevron-right';
 
 export type IssueStatus = 'todo' | 'in-progress' | 'done';
 

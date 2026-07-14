@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { Search } from "lucide-react";
+import Search from 'lucide-react/dist/esm/icons/search';
 
 export function Header() {
   return (

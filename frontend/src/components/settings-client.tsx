@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/shadcn-button';
 import { Input } from '@/components/ui/input';
 import { signOut } from '@/lib/auth-client';
 import { toast } from 'sonner';
-import { LogOut } from 'lucide-react';
+import LogOut from 'lucide-react/dist/esm/icons/log-out';
 
 export function SettingsClient() {
   const { data: settingsData } = useQuery({
