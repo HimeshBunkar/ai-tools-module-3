@@ -371,3 +371,56 @@ model VerificationToken {
 
   @@unique([identifier, token])
 }
+
+model LeaderboardCompany {
+  id            String @id
+  name          String
+  rank          Int
+  growth        Float
+  funding       String
+  headquarters  String
+  productsCount Int
+  modelsCount   Int
+  votes         Int
+  rating        Float
+  saves         Int
+  description   String
+  visits        String
+}
+
+model LeaderboardModel {
+  id             String  @id
+  name           String
+  provider       String
+  category       String
+  rank           Int
+  growth         Float
+  contextWindow  String
+  pricing        String
+  eloRating      Int
+  benchmarkScore Float
+  openSource     Boolean
+  votes          Int
+  rating         Float
+  saves          Int
+  description    String
+  visits         String
+}
+
+model LeaderboardTool {
+  id          String @id
+  name        String
+  category    String
+  tags        String
+  rank        Int
+  growth      Float
+  votes       Int
+  rating      Float
+  saves       Int
+  url         String
+  description String
+  pricing     String
+  visits      String
+  addedDate   String
+}
+
