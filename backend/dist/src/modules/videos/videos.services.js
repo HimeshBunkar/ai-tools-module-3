@@ -44,40 +44,45 @@ export async function upsertVideos(prisma, incoming) {
     if (incoming.length === 0) {
         return prisma.video.count();
     }
-    await prisma.$transaction(incoming.map((v) => prisma.video.upsert({
-        where: { youtubeId: v.youtubeId },
-        update: {
-            title: v.title,
-            description: v.description,
-            toolName: v.toolName,
-            toolCategory: v.toolCategory,
-            thumbnail: v.thumbnail,
-            durationSeconds: v.durationSeconds,
-            views: v.views,
-            likes: v.likes,
-            publishedAt: v.publishedAt,
-            authorName: v.author.name,
-            authorAvatar: v.author.avatar,
-            tags: v.tags,
-            accent: v.accent,
-        },
-        create: {
-            slug: v.slug,
-            title: v.title,
-            description: v.description,
-            toolName: v.toolName,
-            toolCategory: v.toolCategory,
-            youtubeId: v.youtubeId,
-            thumbnail: v.thumbnail,
-            durationSeconds: v.durationSeconds,
-            views: v.views,
-            likes: v.likes,
-            publishedAt: v.publishedAt,
-            authorName: v.author.name,
-            authorAvatar: v.author.avatar,
-            tags: v.tags,
-            accent: v.accent,
-        },
-    })));
+    // Each upsert is independent — running them outside a single $transaction
+    // avoids Neon's HTTP-driver per-query latency blowing past the default
+    // 5s interactive transaction timeout once there are more than a few rows.
+    for (const v of incoming) {
+        await prisma.video.upsert({
+            where: { youtubeId: v.youtubeId },
+            update: {
+                title: v.title,
+                description: v.description,
+                toolName: v.toolName,
+                toolCategory: v.toolCategory,
+                thumbnail: v.thumbnail,
+                durationSeconds: v.durationSeconds,
+                views: v.views,
+                likes: v.likes,
+                publishedAt: v.publishedAt,
+                authorName: v.author.name,
+                authorAvatar: v.author.avatar,
+                tags: v.tags,
+                accent: v.accent,
+            },
+            create: {
+                slug: v.slug,
+                title: v.title,
+                description: v.description,
+                toolName: v.toolName,
+                toolCategory: v.toolCategory,
+                youtubeId: v.youtubeId,
+                thumbnail: v.thumbnail,
+                durationSeconds: v.durationSeconds,
+                views: v.views,
+                likes: v.likes,
+                publishedAt: v.publishedAt,
+                authorName: v.author.name,
+                authorAvatar: v.author.avatar,
+                tags: v.tags,
+                accent: v.accent,
+            },
+        });
+    }
     return prisma.video.count();
 }

@@ -2,6 +2,7 @@ import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { PrismaClient, PricingModel, Prisma } from '@prisma/client';
 import { PrismaNeon } from '@prisma/adapter-neon';
+import { videosRouter } from './modules/videos/videos.routes.js';
 import newsRouter from './modules/news/news.routes.js';
 import ingestionRouter from './modules/ingestion/ingestion.routes.js';
 import logosRouter from './modules/ingestion/logos.routes.js';
@@ -12,11 +13,11 @@ import { devicesRouter } from './modules/devices/devices.routes.js';
 import { modelsRouter } from './modules/models/models.routes.js';
 import { repositoriesRouter } from './modules/repositories/repositories.routes.js';
 import { robotsRouter } from './modules/robots/robots.routes.js';
-import { videosRouter } from './modules/videos/videos.routes.js';
 import { runIngestion } from './modules/ingestion/ingestion.service.js';
 const app = new Hono();
 // Enable CORS middleware so the frontend Next.js can make HTTP calls
 app.use('*', cors());
+app.route('/api/videos', videosRouter);
 app.route('/api/news', newsRouter);
 app.route('/api/ingestion', ingestionRouter);
 app.route('/logos/publishers', logosRouter);
@@ -27,7 +28,6 @@ app.route('/api/v1/devices', devicesRouter);
 app.route('/api/v1/models', modelsRouter);
 app.route('/api/v1/repositories', repositoriesRouter);
 app.route('/api/v1/robots', robotsRouter);
-app.route('/api/v1/videos', videosRouter);
 app.get('/', (c) => {
     return c.json({
         message: "AI Orbit API is fully operational",

@@ -69,8 +69,12 @@ export async function enrichVideos(videoIds) {
                 toolName: item.snippet.channelTitle ?? "Unknown",
                 toolCategory,
                 youtubeId: videoId,
-                thumbnail: item.snippet.thumbnails?.maxres?.url ??
-                    item.snippet.thumbnails?.high?.url ??
+                thumbnail: 
+                // maxres is intentionally excluded: YouTube's API sometimes
+                // reports a maxres thumbnail in metadata even when the file
+                // doesn't actually exist at that URL, causing 404s downstream.
+                // high/default are reliably present for every video.
+                item.snippet.thumbnails?.high?.url ??
                     item.snippet.thumbnails?.default?.url ??
                     "",
                 // contentDetails can be missing (live streams, some restricted

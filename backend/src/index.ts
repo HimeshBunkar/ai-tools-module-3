@@ -14,7 +14,6 @@ import { devicesRouter } from './modules/devices/devices.routes.js'
 import { modelsRouter } from './modules/models/models.routes.js'
 import { repositoriesRouter } from './modules/repositories/repositories.routes.js'
 import { robotsRouter } from './modules/robots/robots.routes.js'
-import { videosRouter } from './modules/videos/videos.routes.js'
 import { runIngestion } from './modules/ingestion/ingestion.service.js'
 import type { IngestionContext } from './modules/ingestion/pipeline.js'
 
@@ -43,7 +42,6 @@ app.route('/api/v1/devices', devicesRouter)
 app.route('/api/v1/models', modelsRouter)
 app.route('/api/v1/repositories', repositoriesRouter)
 app.route('/api/v1/robots', robotsRouter)
-app.route('/api/v1/videos', videosRouter)
 
 app.get('/', (c) => {
   return c.json({
