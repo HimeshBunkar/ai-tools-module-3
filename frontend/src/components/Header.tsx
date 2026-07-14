@@ -29,19 +29,19 @@ export function Header() {
               AI Tools
             </Link>
             <Link
-              href="/tools"
+              href="/models"
               className="text-[13px] font-medium text-foreground-muted hover:text-white transition-colors"
             >
               Models
             </Link>
             <Link
-              href="/tools"
+              href="/companies"
               className="text-[13px] font-medium text-foreground-muted hover:text-white transition-colors"
             >
               Companies
             </Link>
             <Link
-              href="/tools"
+              href="/collections"
               className="text-[13px] font-medium text-foreground-muted hover:text-white transition-colors"
             >
               Collections
@@ -59,7 +59,7 @@ export function Header() {
               Videos
             </Link>
             <Link
-              href="/tools"
+              href="/repositories"
               className="text-[13px] font-medium text-foreground-muted hover:text-white transition-colors"
             >
               Repositories
@@ -79,14 +79,14 @@ export function Header() {
               href="/tools"
               className="text-[13px] font-medium text-foreground-muted hover:text-white transition-colors"
             >
-              Login
+              Submit Tool
             </Link>
 
             <Link
-              href="/tools"
-              className="rounded-full bg-white px-4 py-1.5 text-[13px] font-semibold text-black hover:bg-neutral-200 transition-all active:scale-95 whitespace-nowrap"
+              href="/dashboard"
+              className="inline-flex h-[32px] items-center justify-center rounded-lg bg-white px-4 text-[13px] font-bold text-black hover:bg-neutral-200 transition-colors shrink-0"
             >
-              Submit Tool
+              Dashboard
             </Link>
           </div>
         </div>
