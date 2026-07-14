@@ -291,26 +291,27 @@ model Repository {
 // committed here. Kept verbatim; not owned by this module, do not alter.
 model Video {
   id              String   @id @default(cuid())
-  title           String
-  publishedAt     String
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @default(now()) @updatedAt
-  accent          String
-  authorAvatar    String
-  authorName      String
-  description     String
-  durationSeconds Int
-  likes           Int
   slug            String   @unique
-  tags            String[] @default([])
-  thumbnail       String
-  toolCategory    String
+  title           String
+  description     String
   toolName        String
+  toolCategory    String   // "multimodal-ai" | "robotics" | "agents" | "llm" | "general-ai"
   youtubeId       String   @unique
+  thumbnail       String
+  durationSeconds Int
   views           Int
+  likes           Int
+  publishedAt     String   // ISO date, YYYY-MM-DD (slice(0,10) at ingest time)
+  authorName      String
+  authorAvatar    String
+  tags            String[] @default([])
+  accent          String
 
-  @@index([publishedAt])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
   @@index([toolCategory])
+  @@index([publishedAt])
   @@index([views])
 }
 

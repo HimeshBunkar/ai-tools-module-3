@@ -2014,6 +2014,12 @@ async function main() {
   ];
   await prisma.repository.createMany({ data: seedRepos });
 
+  // Video seeding removed — the Videos + Models module (Module 9) now owns
+  // this table via backend/crawler/ingest.ts, which writes real crawled data
+  // matching the extended schema. Seeding stub rows here caused repeated
+  // conflicts with required columns added for that module. Run the crawler
+  // to populate real data: `npx tsx crawler/ingest.ts`
+
   // Video is owned by another module and already has 218 real rows in
   // production via its own ingestion path (confirmed via `prisma db pull`
   // during the news-module port). This mock-data block used the old flat

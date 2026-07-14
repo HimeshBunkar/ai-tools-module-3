@@ -1,0 +1,23 @@
+name: Debug Cloudflare Pages Build
+
+on:
+  push:
+    branches: [Videomodule]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install
+      - run: npm run build
+        env:
+          CF_PAGES: "1"
+          NEXT_PUBLIC_API_URL: "https://placeholder-for-ci-only.example.com"

@@ -27,7 +27,7 @@ function SignUpForm() {
 
   async function handleResendVerification() {
     setResendLoading(true);
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8787'}/api/auth/resend-verification`, { credentials: 'include', 
+    const response = await fetch(`${API_URL}/api/auth/resend-verification`, { credentials: 'include', 
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email: form.email }),
@@ -48,7 +48,7 @@ function SignUpForm() {
     setLoading(true);
     setError(null);
 
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8787'}/api/auth/signup`, { credentials: 'include', 
+    const response = await fetch(`${API_URL}/api/auth/signup`, { credentials: 'include', 
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(form),
@@ -69,7 +69,7 @@ function SignUpForm() {
   const handleOAuth = (provider: 'google' | 'github') => {
     if (provider === 'google') setIsLoadingGoogle(true);
     if (provider === 'github') setIsLoadingGithub(true);
-    window.location.href = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8787'}/api/auth/${provider}`;
+    window.location.href = `${API_URL}/api/auth/${provider}`;
   };
 
   if (success) {
