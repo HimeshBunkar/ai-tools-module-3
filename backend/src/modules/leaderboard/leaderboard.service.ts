@@ -60,7 +60,7 @@ export class LeaderboardService {
         pricing: t.pricingModel.toString().charAt(0) + t.pricingModel.toString().slice(1).toLowerCase(),
         visits,
         addedDate: t.createdAt.toISOString().split('T')[0],
-        logoUrl: `https://logo.clearbit.com/${domain}`
+        logoUrl: `https://www.google.com/s2/favicons?domain=${domain}&sz=128`
       };
     });
 
@@ -128,7 +128,7 @@ export class LeaderboardService {
         saves,
         description: m.description,
         visits,
-        logoUrl: `https://logo.clearbit.com/${domain}`
+        logoUrl: `https://www.google.com/s2/favicons?domain=${domain}&sz=128`
       };
     });
 
@@ -185,7 +185,7 @@ export class LeaderboardService {
         saves,
         description: `Leading artificial intelligence company specializing in products and research.`,
         visits,
-        logoUrl: `https://logo.clearbit.com/${domain}`
+        logoUrl: `https://www.google.com/s2/favicons?domain=${domain}&sz=128`
       };
     });
 

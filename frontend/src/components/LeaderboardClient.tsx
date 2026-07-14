@@ -483,6 +483,7 @@ export function LeaderboardClient() {
     "remove.bg": "remove.bg", "remove-bg": "remove.bg",
     "playground": "playground.com",
     "nightcafe": "nightcafe.studio",
+    "beatoven": "beatoven.ai",
     "ultimate.ai": "ultimate.ai", "ultimate-ai": "ultimate.ai",
     "julius": "julius.ai",
     "harvey": "harvey.ai",
@@ -517,11 +518,11 @@ export function LeaderboardClient() {
     const n = name.toLowerCase().trim();
     for (const [key, domain] of Object.entries(LOGO_DOMAIN_MAP)) {
       if (n === key || n.includes(key)) {
-        return `https://logo.clearbit.com/${domain}`;
+        return `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
       }
     }
     const slug = n.replace(/\s+/g, "").replace(/[^a-z0-9]/g, "");
-    return `https://logo.clearbit.com/${slug}.com`;
+    return `https://www.google.com/s2/favicons?domain=${slug}.com&sz=128`;
   };
 
   const getInitials = (name: string) => name.trim().charAt(0).toUpperCase();
