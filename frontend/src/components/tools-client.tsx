@@ -1,12 +1,11 @@
 'use client';
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import { SearchBar } from "@/components/SearchBar";
 import { TopFilters } from "@/components/TopFilters";
 import { SortDropdown } from "@/components/SortDropdown";
 import { ToolGrid } from "@/components/ToolGrid";
-import { Pagination } from "@/components/Pagination";
 import { API_URL } from "@/lib/api";
 import type { SortOption } from "@/lib/types";
 
@@ -19,32 +18,51 @@ export function ToolsClient() {
   const [totalPages, setTotalPages] = useState(1);
   const [categories, setCategories] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isFetchingMore, setIsFetchingMore] = useState(false);
+
+  const sentinelRef = useRef<HTMLDivElement>(null);
 
   const params = {
     q: searchParams.get("q") || undefined,
     category: searchParams.get("category") || undefined,
     pricing: searchParams.get("pricing") || undefined,
     sort: (searchParams.get("sort") || undefined) as SortOption | undefined,
-    page: searchParams.get("page") || undefined,
   };
+
+  const filterKey = `${params.q || ''}-${params.category || ''}-${params.pricing || ''}-${params.sort || ''}`;
+
+  // Reset page and tools when filters change
+  useEffect(() => {
+    setTools([]);
+    setPage(1);
+    setTotalPages(1);
+  }, [filterKey]);
 
   useEffect(() => {
     async function fetchTools() {
-      setIsLoading(true);
+      if (page === 1) {
+        setIsLoading(true);
+      } else {
+        setIsFetchingMore(true);
+      }
+
       try {
         const query = new URLSearchParams();
         if (params.q) query.set("q", params.q);
         if (params.category) query.set("category", params.category);
         if (params.pricing) query.set("pricing", params.pricing);
         if (params.sort) query.set("sort", params.sort);
-        if (params.page) query.set("page", params.page);
+        query.set("page", page.toString());
 
         const res = await fetch(`${API_URL}/api/v1/tools?${query.toString()}`);
         if (res.ok) {
           const data = await res.json();
-          setTools(data.tools || []);
+          if (page === 1) {
+            setTools(data.tools || []);
+          } else {
+            setTools(prev => [...prev, ...(data.tools || [])]);
+          }
           setTotal(data.total || 0);
-          setPage(data.page || 1);
           setTotalPages(data.totalPages || 1);
           setCategories(data.categories || []);
         }
@@ -52,12 +70,35 @@ export function ToolsClient() {
         console.error("Failed to fetch tools:", error);
       } finally {
         setIsLoading(false);
+        setIsFetchingMore(false);
       }
     }
 
     fetchTools();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchParams.toString()]);
+  }, [filterKey, page]);
+
+  // IntersectionObserver for endless scrolling
+  useEffect(() => {
+    if (isLoading || isFetchingMore || page >= totalPages) return;
+
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        setPage(prev => prev + 1);
+      }
+    }, { threshold: 0.1 });
+
+    const currentSentinel = sentinelRef.current;
+    if (currentSentinel) {
+      observer.observe(currentSentinel);
+    }
+
+    return () => {
+      if (currentSentinel) {
+        observer.unobserve(currentSentinel);
+      }
+    };
+  }, [isLoading, isFetchingMore, page, totalPages]);
 
   return (
     <main className="mx-auto max-w-container px-6 py-10">
@@ -71,23 +112,29 @@ export function ToolsClient() {
         <SearchBar defaultValue={params.q} />
       </header>
 
-      <TopFilters categories={categories} params={params} />
+      <TopFilters categories={categories} params={{ ...params, page: page.toString() }} />
 
       <div className="space-y-6">
         <div className="flex items-center justify-end">
           <SortDropdown />
         </div>
 
-        {isLoading ? (
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {[1,2,3,4,5,6,7,8].map((i) => (
-              <div key={i} className="h-48 animate-pulse rounded-xl border border-[#232326] bg-[#131316]" />
+        {isLoading && page === 1 ? (
+          <div className="flex flex-col gap-4">
+            {[1, 2, 3, 4].map((i) => (
+              <div key={i} className="h-24 animate-pulse rounded-xl border border-[#232326] bg-[#131316]" />
             ))}
           </div>
         ) : (
           <>
             <ToolGrid tools={tools} />
-            <Pagination page={page} totalPages={totalPages} params={params} />
+            
+            {/* Sentinel for infinite scroll */}
+            {tools.length > 0 && page < totalPages && (
+              <div ref={sentinelRef} className="h-20 flex items-center justify-center py-8">
+                <div className="h-6 w-6 animate-spin rounded-full border-2 border-white/20 border-t-white" />
+              </div>
+            )}
           </>
         )}
       </div>
