@@ -32,6 +32,7 @@ interface ShellProps {
 }
 
 const navWorkspace = [
+  { href: '/', label: 'Main Website', icon: Compass },
   { href: '/dashboard/profile', label: 'Profile', icon: UserIcon },
   { href: '/dashboard/settings', label: 'Settings', icon: Settings },
 ];
