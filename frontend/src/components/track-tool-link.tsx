@@ -1,5 +1,5 @@
-import { API_URL } from '@/lib/api';
 'use client';
+import { API_URL } from '@/lib/api';
 
 import ExternalLink from 'lucide-react/dist/esm/icons/external-link';
 

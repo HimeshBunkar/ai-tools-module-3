@@ -1,5 +1,5 @@
-import { API_URL } from '@/lib/api';
 'use client';
+import { API_URL } from '@/lib/api';
 
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';

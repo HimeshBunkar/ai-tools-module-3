@@ -1,5 +1,5 @@
-import { API_URL } from '@/lib/api';
 'use client';
+import { API_URL } from '@/lib/api';
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Button } from '@/components/ui/shadcn-button';

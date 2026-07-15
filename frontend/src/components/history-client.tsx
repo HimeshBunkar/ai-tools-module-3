@@ -1,5 +1,5 @@
-import { API_URL } from '@/lib/api';
 'use client';
+import { API_URL } from '@/lib/api';
 
 import { useQuery } from '@tanstack/react-query';
 import { Card } from '@/components/ui/card';
