@@ -29,7 +29,22 @@ type Bindings = {
 const app = new Hono<{ Bindings: Bindings }>()
 
 // Enable CORS middleware so the frontend Next.js can make HTTP calls
-app.use('*', cors())
+app.use('*', cors({
+  origin: (origin) => {
+    if (!origin) return 'https://aiorbit.club';
+    // Allow local development, preview domains, and primary domain
+    if (
+      origin === 'https://aiorbit.club' ||
+      origin === 'https://www.aiorbit.club' ||
+      origin.endsWith('.pages.dev') ||
+      origin.startsWith('http://localhost:')
+    ) {
+      return origin;
+    }
+    return 'https://aiorbit.club';
+  },
+  credentials: true,
+}))
 
 app.route('/api/news', newsRouter)
 app.route('/api/ingestion', ingestionRouter)
