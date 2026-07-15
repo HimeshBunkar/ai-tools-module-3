@@ -100,7 +100,7 @@ authRoutes.get('/google/callback', async (c) => {
 
     return c.redirect(`${frontendUrl}/dashboard`);
   } catch (err) {
-    return c.redirect(`${frontendUrl}/auth/signin?error=OAuthFailed`);
+    return c.redirect(`${frontendUrl}/auth/signin?error=OAuthFailed&details=${encodeURIComponent(err instanceof Error ? err.message : String(err))}`);
   }
 });
 
@@ -203,7 +203,7 @@ authRoutes.get('/github/callback', async (c) => {
 
     return c.redirect(`${frontendUrl}/dashboard`);
   } catch (err) {
-    return c.redirect(`${frontendUrl}/auth/signin?error=OAuthFailed`);
+    return c.redirect(`${frontendUrl}/auth/signin?error=OAuthFailed&details=${encodeURIComponent(err instanceof Error ? err.message : String(err))}`);
   }
 });
 
