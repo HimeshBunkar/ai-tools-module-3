@@ -18,6 +18,8 @@ authRoutes.post('/resend-verification', (c) => authController.resendVerification
 authRoutes.post('/forgot-password', (c) => authController.forgotPassword(c));
 authRoutes.post('/reset-password', (c) => authController.resetPassword(c));
 authRoutes.delete('/account', jwtMiddleware, (c) => authController.deleteAccount(c));
+authRoutes.get('/settings', jwtMiddleware, (c) => authController.getSettings(c));
+authRoutes.patch('/password', jwtMiddleware, (c) => authController.updatePassword(c));
 
 // --- GOOGLE OAUTH ---
 authRoutes.get('/google', (c) => {
