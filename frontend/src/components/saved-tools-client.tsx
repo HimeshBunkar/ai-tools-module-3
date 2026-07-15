@@ -1,3 +1,4 @@
+import { API_URL } from '@/lib/api';
 'use client';
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
@@ -24,7 +25,7 @@ export function SavedToolsClient() {
   const { data: savedTools = [], isLoading } = useQuery<SavedTool[]>({
     queryKey: ['saved-tools'],
     queryFn: async () => {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8787'}/api/user/saved-tools`, { credentials: 'include' });
+      const res = await fetch(`${API_URL}/api/user/saved-tools`, { credentials: 'include' });
       if (!res.ok) throw new Error('Failed to fetch saved tools');
       const data = await res.json();
       return data.savedTools || [];
@@ -34,7 +35,7 @@ export function SavedToolsClient() {
   // Delete Saved Tool
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8787'}/api/user/saved-tools/${id}`, { credentials: 'include',  method: 'DELETE' });
+      const res = await fetch(`${API_URL}/api/user/saved-tools/${id}`, { credentials: 'include',  method: 'DELETE' });
       if (!res.ok) throw new Error('Failed to delete saved tool');
     },
     onSuccess: () => {

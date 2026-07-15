@@ -1,3 +1,4 @@
+import { API_URL } from '@/lib/api';
 'use client';
 
 import { useState } from 'react';
@@ -15,7 +16,7 @@ export function ProfileClient() {
 
   const updateMutation = useMutation({
     mutationFn: async ({ newName }: { newName: string }) => {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8787'}/api/user`, { credentials: 'include', 
+      const res = await fetch(`${API_URL}/api/user`, { credentials: 'include', 
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: newName }),

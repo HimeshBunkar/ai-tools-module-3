@@ -220,15 +220,17 @@ export class AuthController {
       const user = c.get('user');
       await this.getService(c).deleteAccount(user.id);
 
+      const isProd = c.req.url.startsWith('https://');
       deleteCookie(c, 'auth_token', { 
         path: '/',
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
+        secure: isProd,
+        sameSite: isProd ? 'None' : 'Lax',
       });
 
       return c.json({ success: true, message: 'Account deleted successfully' });
-    } catch (error) {
-      return c.json({ error: 'Failed to delete account' }, 500);
+    } catch (error: any) {
+      console.error('Delete account error:', error);
+      return c.json({ error: error.message || 'Failed to delete account' }, 500);
     }
   }
 }

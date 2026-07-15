@@ -1,3 +1,4 @@
+import { API_URL } from '@/lib/api';
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
@@ -21,7 +22,7 @@ export function HistoryClient() {
   const { data: history = [], isLoading } = useQuery<any[]>({
     queryKey: ['history'],
     queryFn: async () => {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8787'}/api/user/history`, {
+      const res = await fetch(`${API_URL}/api/user/history`, {
         credentials: 'include',
       });
       if (!res.ok) return [];
