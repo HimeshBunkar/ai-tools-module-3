@@ -62,7 +62,10 @@ authRoutes.get('/google/callback', async (c) => {
       })
     });
     
-    if (!tokenRes.ok) throw new Error('Failed to get token');
+    if (!tokenRes.ok) {
+      const errText = await tokenRes.text();
+      throw new Error(`Google token error: ${errText}`);
+    }
     const tokenData = await tokenRes.json();
 
     const userRes = await fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
@@ -147,7 +150,10 @@ authRoutes.get('/github/callback', async (c) => {
       })
     });
     
-    if (!tokenRes.ok) throw new Error('Failed to get github token');
+    if (!tokenRes.ok) {
+      const errText = await tokenRes.text();
+      throw new Error(`Github token error: ${errText}`);
+    }
     const tokenData = await tokenRes.json();
     if (tokenData.error) throw new Error(tokenData.error);
 
