@@ -93,10 +93,11 @@ authRoutes.get('/google/callback', async (c) => {
 
     const jwtSecret = (c.env as any)?.JWT_SECRET || process.env.JWT_SECRET;
     const jwtToken = sign({ id: user.id, email: user.email, name: user.name }, jwtSecret!, { expiresIn: '7d' });
+    const isProd = c.req.url.startsWith('https://');
     setCookie(c, 'auth_token', jwtToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
+      secure: isProd,
+      sameSite: isProd ? 'None' : 'Lax',
       path: '/',
       maxAge: 60 * 60 * 24 * 7
     });
@@ -199,10 +200,11 @@ authRoutes.get('/github/callback', async (c) => {
 
     const jwtSecret = (c.env as any)?.JWT_SECRET || process.env.JWT_SECRET;
     const jwtToken = sign({ id: user.id, email: user.email, name: user.name }, jwtSecret!, { expiresIn: '7d' });
+    const isProd = c.req.url.startsWith('https://');
     setCookie(c, 'auth_token', jwtToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
+      secure: isProd,
+      sameSite: isProd ? 'None' : 'Lax',
       path: '/',
       maxAge: 60 * 60 * 24 * 7
     });

@@ -67,10 +67,11 @@ export class AuthController {
         { expiresIn: '7d' }
       );
       
+      const isProd = c.req.url.startsWith('https://');
       setCookie(c, 'auth_token', token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
+        secure: isProd,
+        sameSite: isProd ? 'None' : 'Lax',
         path: '/',
         maxAge: 60 * 60 * 24 * 7
       });
@@ -124,10 +125,11 @@ export class AuthController {
         { expiresIn: '7d' }
       );
       
+      const isProd = c.req.url.startsWith('https://');
       setCookie(c, 'auth_token', token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
+        secure: isProd,
+        sameSite: isProd ? 'None' : 'Lax',
         path: '/',
         maxAge: 60 * 60 * 24 * 7
       });
