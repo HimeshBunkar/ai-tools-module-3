@@ -233,4 +233,30 @@ export class AuthController {
       return c.json({ error: error.message || 'Failed to delete account' }, 500);
     }
   }
+
+  async getSettings(c: Context) {
+    try {
+      const user = c.get('user');
+      const settings = await this.getService(c).getSettings(user.id);
+      return c.json(settings);
+    } catch (error) {
+      return c.json({ error: 'Failed to fetch settings' }, 500);
+    }
+  }
+
+  async updatePassword(c: Context) {
+    try {
+      const user = c.get('user');
+      const body = await c.req.json();
+      
+      if (!body.newPassword || body.newPassword.length < 6) {
+        return c.json({ error: 'New password must be at least 6 characters long' }, 400);
+      }
+      
+      await this.getService(c).updatePassword(user.id, body);
+      return c.json({ success: true, message: 'Password updated successfully' });
+    } catch (error: any) {
+      return c.json({ error: error.message || 'Failed to update password' }, 400);
+    }
+  }
 }

@@ -13,7 +13,7 @@ export function SettingsClient() {
   const { data: settingsData } = useQuery({
     queryKey: ['user-settings'],
     queryFn: async () => {
-      const res = await fetch(`${API_URL}/api/user/settings`, {
+      const res = await fetch(`${API_URL}/api/auth/settings`, {
         credentials: 'include',
       });
       if (!res.ok) return { connectedProviders: [], hasPassword: true };
@@ -29,7 +29,7 @@ export function SettingsClient() {
 
   const passwordMutation = useMutation({
     mutationFn: async () => {
-      const res = await fetch(`${API_URL}/api/user/password`, { credentials: 'include', 
+      const res = await fetch(`${API_URL}/api/auth/password`, { credentials: 'include', 
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ currentPassword, newPassword }),
