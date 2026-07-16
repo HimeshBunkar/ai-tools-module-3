@@ -25,29 +25,17 @@ function getService(c) {
     return new NewsService(prisma);
 }
 export class NewsController {
-    /**
-     * GET /api/news — bundles the article list plus everything the listing
-     * page's client-side filter/sort/search needs. With ?page=&perPage=, only
-     * that page of the default (newest-first) feed is returned, plus a
-     * `pagination` block; omit both for the full unpaginated list (used
-     * whenever a filter/search/non-default sort is active — see
-     * NewsListingClient).
-     */
+    /** GET /api/news — bundles the full article list plus everything the listing page's client-side filter/sort/search/pagination needs. */
     static async getListing(c) {
         try {
-            const query = c.req.valid("query");
             const service = getService(c);
-            const paging = query.page && query.perPage ? { page: query.page, perPage: query.perPage } : undefined;
-            const [{ articles, total }, sources, categories, filterChips] = await Promise.all([
-                service.getArticles(paging, query.clientId),
+            const [articles, sources, categories, filterChips] = await Promise.all([
+                service.getArticles(),
                 service.getSourcesMap(),
                 service.getCategories(),
                 service.getFilterChips(),
             ]);
-            const pagination = paging
-                ? { page: paging.page, perPage: paging.perPage, total, hasMore: paging.page * paging.perPage < total }
-                : undefined;
-            return c.json({ articles, sources, categories, filterChips, pagination });
+            return c.json({ articles, sources, categories, filterChips });
         }
         catch (error) {
             console.error("News listing error:", error);
@@ -58,9 +46,8 @@ export class NewsController {
     static async getDetail(c) {
         try {
             const { slug } = c.req.valid("param");
-            const { clientId } = c.req.valid("query");
             const service = getService(c);
-            const article = await service.getArticleBySlug(slug, clientId);
+            const article = await service.getArticleBySlug(slug);
             if (!article) {
                 return c.json({ error: "Article not found" }, 404);
             }
