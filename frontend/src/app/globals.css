@@ -370,7 +370,9 @@
 }
 .collections-scope .collections-glow {
   animation: collectionsSpinGlow 6s linear infinite;
+}
 
+/* ============================================================
    Search module theme tokens — ported from the Module 2 (Global
    Search) prototype. Every token AND every derived Tailwind
    utility is prefixed `search-` (e.g. `bg-search-surface`,
