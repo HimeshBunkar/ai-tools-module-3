@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { AlertTriangle } from "lucide-react";
+import AlertTriangle from 'lucide-react/dist/esm/icons/alert-triangle';
 
 export default function CollectionsError({
   error,

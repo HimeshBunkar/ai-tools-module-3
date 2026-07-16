@@ -2,7 +2,10 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { Twitter, Github, MessageSquare, ArrowRight } from "lucide-react";
+import Twitter from 'lucide-react/dist/esm/icons/twitter';
+import Github from 'lucide-react/dist/esm/icons/github';
+import MessageSquare from 'lucide-react/dist/esm/icons/message-square';
+import ArrowRight from 'lucide-react/dist/esm/icons/arrow-right';
 
 export function Footer() {
   const [email, setEmail] = useState("");

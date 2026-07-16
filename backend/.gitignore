@@ -32,3 +32,7 @@ lerna-debug.log*
 .wrangler/
 .wrangler
 
+# compiled output — should never be committed
+dist/
+meta.json
+temp.js

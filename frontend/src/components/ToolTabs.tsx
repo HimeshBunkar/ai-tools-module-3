@@ -1,7 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { Sparkles, MessageSquare, Info, Calculator, FileText, Globe, Building } from "lucide-react";
+import Sparkles from 'lucide-react/dist/esm/icons/sparkles';
+import MessageSquare from 'lucide-react/dist/esm/icons/message-square';
+import Info from 'lucide-react/dist/esm/icons/info';
+import Calculator from 'lucide-react/dist/esm/icons/calculator';
+import FileText from 'lucide-react/dist/esm/icons/file-text';
+import Globe from 'lucide-react/dist/esm/icons/globe';
+import Building from 'lucide-react/dist/esm/icons/building';
 import { cn } from "@/lib/utils";
 import { ROICalculator } from "./ROICalculator";
 import { ProsConsVerdict } from "./ProsConsVerdict";

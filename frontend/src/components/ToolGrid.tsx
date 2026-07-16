@@ -1,4 +1,4 @@
-import { SearchX } from "lucide-react";
+import SearchX from 'lucide-react/dist/esm/icons/search-x';
 import { ToolCard } from "@/components/ToolCard";
 import type { ToolCardData } from "@/lib/types";
 

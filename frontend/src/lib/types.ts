@@ -110,3 +110,85 @@ export type CollectionDetailData = {
   toolCount: number;
   tools: ToolCardData[]; // reuses Module 3's existing ToolCardData shape
 };
+
+export type Company = {
+  id: string;
+  slug: string;
+  name: string;
+  logoUrl: string | null;
+  description: string | null;
+  websiteUrl: string | null;
+  foundedYear: string | null;
+  headquarters: string | null;
+  tools?: {
+    id: string;
+    slug: string;
+    name: string;
+    logoUrl: string | null;
+    pricingModel: string;
+    description: string;
+    avgRating: number;
+    _count: { reviews: number };
+  }[];
+};
+
+export type AIModel = {
+  id: string;
+  name: string;
+  modality: string;
+  description: string;
+  creator: string;
+  parameterSize: string;
+  contextWindow: string;
+  releaseDate: string;
+};
+
+export type News = {
+  id: string;
+  url: string;
+  category: string;
+  source: string;
+  title: string;
+  summary: string;
+  publishedAt: string;
+  readTime: string;
+};
+
+export type Repository = {
+  id: string;
+  url: string;
+  name: string;
+  owner: string;
+  description: string;
+  stars: number;
+  language: string;
+};
+
+export type Video = {
+  id: string;
+  url: string;
+  title: string;
+  channel: string;
+  duration: string;
+  views: string;
+  publishedAt: string;
+};
+
+export type Robot = {
+  id: string;
+  name: string;
+  category: string;
+  manufacturer: string;
+  year: string;
+  description: string;
+};
+
+export type Device = {
+  id: string;
+  name: string;
+  category: string;
+  manufacturer: string;
+  year: string;
+  description: string;
+};
+

@@ -1,4 +1,5 @@
-import { Star, MessageSquareOff } from "lucide-react";
+import Star from 'lucide-react/dist/esm/icons/star';
+import MessageSquareOff from 'lucide-react/dist/esm/icons/message-square-off';
 import { cn } from "@/lib/utils";
 import type { ReviewData } from "@/lib/types";
 
