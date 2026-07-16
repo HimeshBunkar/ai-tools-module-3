@@ -77,12 +77,13 @@ export function Header() {
 
           {/* Action buttons */}
           <div className="flex items-center gap-5">
-            <button
+            <Link
+              href="/search"
               className="p-1.5 text-foreground-muted hover:text-white rounded-lg transition-colors"
               aria-label="Search site"
             >
               <Search size={17} />
-            </button>
+            </Link>
 
             <Link
               href="/tools"
