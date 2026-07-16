@@ -31,16 +31,9 @@ const app = new Hono<{ Bindings: Bindings }>()
 // Enable CORS middleware so the frontend Next.js can make HTTP calls
 app.use('*', cors({
   origin: (origin) => {
-    if (!origin) return 'https://aiorbit.club';
-    if (
-      origin === 'https://aiorbit.club' ||
-      origin === 'https://www.aiorbit.club' ||
-      origin.endsWith('.aiorbit.club') ||
-      origin.endsWith('.pages.dev') ||
-      origin.startsWith('http://localhost:')
-    ) {
-      return origin;
-    }
+    if (!origin) return 'http://localhost:3000';
+    if (origin.endsWith('.aiorbit.club') || origin === 'https://aiorbit.club') return origin;
+    if (origin.startsWith('http://localhost:')) return origin;
     return 'https://aiorbit.club';
   },
   credentials: true,
