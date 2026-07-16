@@ -78,36 +78,36 @@ export function ModelsClient() {
             {visibleModels.map((model: AIModel) => (
               <div
                 key={model.id}
-                className="group flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 bg-transparent hover:bg-[#18181C]/40 transition-all w-full"
+                className="group grid grid-cols-1 sm:grid-cols-[40px_1fr_180px_120px] gap-4 items-center p-4 bg-transparent hover:bg-[#18181C]/40 transition-all w-full"
               >
-                <div className="flex items-start gap-4 min-w-0 flex-1">
-                  <div className="h-10 w-10 rounded-lg bg-[#18181C] flex items-center justify-center font-bold text-white uppercase border border-[#232326]/60 shrink-0">
-                    {model.name.charAt(0)}
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-center gap-3">
-                      <h3 className="font-bold text-white text-sm truncate">
-                        {model.name}
-                      </h3>
-                      <span className="px-2 py-0.5 rounded bg-[#18181C] text-[9px] text-[#A1A1AA] border border-[#232326] shrink-0 font-mono">
-                        {model.modality}
-                      </span>
-                    </div>
-                    <p className="text-xs text-[#A1A1AA] line-clamp-1 mt-1 leading-relaxed">
-                      {model.description}
-                    </p>
-                    
-                    {/* Parameters row */}
-                    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-2 text-[10px] font-mono text-[#71717A]">
-                      <span>Creator: <strong className="text-white">{model.creator}</strong></span>
-                      <span className="h-1 w-1 rounded-full bg-[#232326]" />
-                      <span>Params: <strong className="text-white">{model.parameterSize}</strong></span>
-                      <span className="h-1 w-1 rounded-full bg-[#232326]" />
-                      <span>Context: <strong className="text-white">{model.contextWindow}</strong></span>
-                    </div>
-                  </div>
+                {/* Column 1: Initials */}
+                <div className="h-10 w-10 rounded-lg bg-[#18181C] flex items-center justify-center font-bold text-white uppercase border border-[#232326]/60 shrink-0">
+                  {model.name.charAt(0)}
                 </div>
-                <div className="text-right shrink-0 sm:block hidden">
+
+                {/* Column 2: Name + Description */}
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2">
+                    <h3 className="font-bold text-white text-sm truncate">
+                      {model.name}
+                    </h3>
+                    <span className="px-1.5 py-0.5 rounded bg-[#18181C] text-[9px] text-[#A1A1AA] border border-[#232326] shrink-0 font-mono">
+                      {model.modality}
+                    </span>
+                  </div>
+                  <p className="text-xs text-[#A1A1AA] line-clamp-1 mt-1 leading-relaxed">
+                    {model.description}
+                  </p>
+                </div>
+
+                {/* Column 3: Context / Parameters */}
+                <div className="text-xs text-[#A1A1AA] font-mono flex flex-col gap-0.5 sm:block hidden">
+                  <div>Context: <strong className="text-white">{model.contextWindow}</strong></div>
+                  <div className="text-[10px] text-[#71717A]">Params: {model.parameterSize}</div>
+                </div>
+
+                {/* Column 4: Release Date */}
+                <div className="text-right sm:block hidden">
                   <span className="text-[10px] font-mono text-[#71717A] block">RELEASED</span>
                   <span className="text-xs text-white font-medium">{model.releaseDate}</span>
                 </div>

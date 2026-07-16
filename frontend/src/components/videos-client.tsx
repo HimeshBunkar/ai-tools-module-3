@@ -81,28 +81,32 @@ export function VideosClient() {
                 href={video.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-center justify-between p-4 bg-transparent hover:bg-[#18181C]/40 transition-all w-full focus-visible:bg-[#18181C]/40 focus-visible:outline-none"
+                className="group grid grid-cols-1 sm:grid-cols-[40px_1fr_180px_120px] gap-4 items-center p-4 bg-transparent hover:bg-[#18181C]/40 transition-all w-full focus-visible:bg-[#18181C]/40 focus-visible:outline-none"
               >
-                <div className="flex items-center gap-3 min-w-0 flex-1">
-                  <div className="h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-red-600/10 border border-red-600/20 flex text-red-500">
-                    <Play size={20} className="fill-red-500" />
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <h3 className="font-bold text-white text-sm truncate group-hover:text-white transition-colors">
-                      {video.title}
-                    </h3>
-                    <div className="flex items-center gap-2.5 mt-1 text-[11px] font-mono text-[#71717A]">
-                      <span>by {video.channel}</span>
-                      <span className="h-1 w-1 rounded-full bg-[#232326]" />
-                      <span>Duration: <strong className="text-white">{video.duration}</strong></span>
-                      <span className="h-1 w-1 rounded-full bg-[#232326]" />
-                      <span>{video.views}</span>
-                    </div>
-                  </div>
+                {/* Column 1: Play Icon */}
+                <div className="h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-red-600/10 border border-red-600/20 flex text-red-500">
+                  <Play size={20} className="fill-red-500" />
                 </div>
-                <span className="text-[10px] font-mono text-[#71717A] shrink-0 sm:block hidden">
-                  {video.publishedAt}
-                </span>
+
+                {/* Column 2: Title + Channel */}
+                <div className="min-w-0">
+                  <h3 className="font-bold text-white text-sm truncate group-hover:text-white transition-colors">
+                    {video.title}
+                  </h3>
+                  <p className="text-xs text-[#A1A1AA] truncate mt-0.5">by {video.channel}</p>
+                </div>
+
+                {/* Column 3: Duration & Views */}
+                <div className="text-xs text-[#A1A1AA] font-mono flex flex-col gap-0.5 sm:block hidden">
+                  <div>Duration: <strong className="text-white">{video.duration}</strong></div>
+                  <div className="text-[10px] text-[#71717A]">{video.views}</div>
+                </div>
+
+                {/* Column 4: Published Date */}
+                <div className="text-right sm:block hidden">
+                  <span className="text-[10px] font-mono text-[#71717A] block">PUBLISHED</span>
+                  <span className="text-xs text-white font-medium">{video.publishedAt}</span>
+                </div>
               </a>
             ))}
 

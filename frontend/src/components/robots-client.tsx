@@ -78,30 +78,35 @@ export function RobotsClient() {
             {visibleRobots.map((robot: Robot) => (
               <div
                 key={robot.id}
-                className="group flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 bg-transparent hover:bg-[#18181C]/40 transition-all w-full"
+                className="group grid grid-cols-1 sm:grid-cols-[40px_1fr_180px_120px] gap-4 items-center p-4 bg-transparent hover:bg-[#18181C]/40 transition-all w-full"
               >
-                <div className="flex items-start gap-4 min-w-0 flex-1">
-                  <div className="h-10 w-10 rounded-lg bg-[#18181C] flex items-center justify-center font-bold text-white uppercase border border-[#232326]/60 shrink-0">
-                    {robot.name.charAt(0)}
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-center gap-3">
-                      <h3 className="font-bold text-white text-sm truncate">
-                        {robot.name}
-                      </h3>
-                      <span className="px-2 py-0.5 rounded bg-[#18181C] text-[9px] text-[#A1A1AA] border border-[#232326] shrink-0 font-mono">
-                        {robot.category}
-                      </span>
-                    </div>
-                    <p className="text-xs text-[#A1A1AA] line-clamp-1 mt-1 leading-relaxed">
-                      {robot.description}
-                    </p>
-                    <div className="flex items-center gap-3 mt-1.5 text-[10px] font-mono text-[#71717A]">
-                      <span>Manufacturer: <strong className="text-white">{robot.manufacturer}</strong></span>
-                    </div>
-                  </div>
+                {/* Column 1: Initials */}
+                <div className="h-10 w-10 rounded-lg bg-[#18181C] flex items-center justify-center font-bold text-white uppercase border border-[#232326]/60 shrink-0">
+                  {robot.name.charAt(0)}
                 </div>
-                <div className="text-right shrink-0 sm:block hidden">
+
+                {/* Column 2: Name + Description */}
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2">
+                    <h3 className="font-bold text-white text-sm truncate">
+                      {robot.name}
+                    </h3>
+                    <span className="px-1.5 py-0.5 rounded bg-[#18181C] text-[9px] text-[#A1A1AA] border border-[#232326] shrink-0 font-mono">
+                      {robot.category}
+                    </span>
+                  </div>
+                  <p className="text-xs text-[#A1A1AA] line-clamp-1 mt-1 leading-relaxed">
+                    {robot.description}
+                  </p>
+                </div>
+
+                {/* Column 3: Manufacturer */}
+                <div className="text-xs text-[#A1A1AA] font-mono flex flex-col gap-0.5 sm:block hidden">
+                  <div>Mfg: <strong className="text-white">{robot.manufacturer}</strong></div>
+                </div>
+
+                {/* Column 4: Year */}
+                <div className="text-right sm:block hidden">
                   <span className="text-[10px] font-mono text-[#71717A] block">RELEASE YEAR</span>
                   <span className="text-xs text-white font-medium">{robot.year}</span>
                 </div>

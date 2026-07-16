@@ -81,27 +81,38 @@ export function CompaniesClient() {
               <Link
                 key={company.id}
                 href={`/companies/${company.slug}`}
-                className="group flex items-center justify-between p-4 bg-transparent hover:bg-[#18181C]/40 transition-all focus-visible:bg-[#18181C]/40 focus-visible:outline-none"
+                className="group grid grid-cols-1 sm:grid-cols-[40px_1fr_200px_120px_120px] gap-4 items-center p-4 bg-transparent hover:bg-[#18181C]/40 transition-all focus-visible:bg-[#18181C]/40 focus-visible:outline-none"
               >
-                <div className="flex items-center gap-3 min-w-0">
-                  <div className="h-10 w-10 rounded-lg bg-[#18181C] flex items-center justify-center font-black text-lg text-white border border-[#232326] shrink-0">
-                    {company.name.charAt(0)}
-                  </div>
-                  <div className="min-w-0">
-                    <h3 className="font-bold text-white text-base truncate group-hover:text-white transition-colors">
-                      {company.name}
-                    </h3>
-                    <div className="flex items-center gap-2 mt-0.5 text-[11px] text-[#71717A]">
-                      <span className="flex items-center gap-0.5"><MapPin size={10} />{company.headquarters || "Global HQ"}</span>
-                      <span className="h-1 w-1 rounded-full bg-[#232326]" />
-                      <span>Founded: {company.foundedYear || "N/A"}</span>
-                    </div>
-                  </div>
+                {/* Column 1: Initials/Logo */}
+                <div className="h-10 w-10 rounded-lg bg-[#18181C] flex items-center justify-center font-black text-lg text-white border border-[#232326] shrink-0">
+                  {company.name.charAt(0)}
                 </div>
 
-                <span className="text-xs font-semibold text-[#71717A] group-hover:text-white transition-colors">
-                  View Details &rarr;
-                </span>
+                {/* Column 2: Name */}
+                <div className="min-w-0">
+                  <h3 className="font-bold text-white text-base truncate group-hover:text-white transition-colors">
+                    {company.name}
+                  </h3>
+                </div>
+
+                {/* Column 3: Headquarters */}
+                <div className="text-sm text-[#A1A1AA] flex items-center gap-1 truncate">
+                  <MapPin size={12} className="shrink-0 text-[#71717A]" />
+                  <span>{company.headquarters || "Global HQ"}</span>
+                </div>
+
+                {/* Column 4: Founded Year */}
+                <div className="text-sm text-[#A1A1AA] truncate">
+                  <span className="sm:hidden text-xs text-[#71717A] mr-1">Founded:</span>
+                  {company.foundedYear || "N/A"}
+                </div>
+
+                {/* Column 5: Action Link */}
+                <div className="text-right sm:block hidden">
+                  <span className="text-xs font-semibold text-[#71717A] group-hover:text-white transition-colors">
+                    View Details &rarr;
+                  </span>
+                </div>
               </Link>
             ))}
 

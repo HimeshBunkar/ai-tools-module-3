@@ -81,32 +81,38 @@ export function RepositoriesClient() {
                 href={repo.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-center justify-between p-4 bg-transparent hover:bg-[#18181C]/40 transition-all w-full focus-visible:bg-[#18181C]/40 focus-visible:outline-none"
+                className="group grid grid-cols-1 sm:grid-cols-[40px_1fr_180px_120px] gap-4 items-center p-4 bg-transparent hover:bg-[#18181C]/40 transition-all w-full focus-visible:bg-[#18181C]/40 focus-visible:outline-none"
               >
-                <div className="flex items-center gap-3 min-w-0 flex-1">
-                  <div className="h-10 w-10 rounded-lg bg-[#18181C] flex items-center justify-center font-bold text-white uppercase border border-[#232326]/60 shrink-0">
-                    {repo.name.charAt(0)}
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-baseline gap-2">
-                      <h3 className="font-bold text-white text-sm truncate group-hover:text-white transition-colors">
-                        {repo.name}
-                      </h3>
-                      <span className="text-[10px] text-[#71717A]">by {repo.owner}</span>
-                    </div>
-                    <p className="text-xs text-[#A1A1AA] line-clamp-1 mt-1 leading-relaxed">
-                      {repo.description}
-                    </p>
-                    <div className="flex items-center gap-3 mt-1.5 text-[10px] font-mono text-[#71717A]">
-                      <span>⭐ {repo.stars.toLocaleString()} stars</span>
-                      <span className="h-1 w-1 rounded-full bg-[#232326]" />
-                      <span>Lang: <strong className="text-white">{repo.language}</strong></span>
-                    </div>
-                  </div>
+                {/* Column 1: Initials */}
+                <div className="h-10 w-10 rounded-lg bg-[#18181C] flex items-center justify-center font-bold text-white uppercase border border-[#232326]/60 shrink-0">
+                  {repo.name.charAt(0)}
                 </div>
-                <span className="text-xs font-semibold text-[#71717A] group-hover:text-white transition-colors shrink-0">
-                  Github &rarr;
-                </span>
+
+                {/* Column 2: Name + Description */}
+                <div className="min-w-0">
+                  <div className="flex items-baseline gap-2">
+                    <h3 className="font-bold text-white text-sm truncate group-hover:text-white transition-colors">
+                      {repo.name}
+                    </h3>
+                    <span className="text-[10px] text-[#71717A]">by {repo.owner}</span>
+                  </div>
+                  <p className="text-xs text-[#A1A1AA] line-clamp-1 mt-1 leading-relaxed">
+                    {repo.description}
+                  </p>
+                </div>
+
+                {/* Column 3: Stars & Language */}
+                <div className="text-xs text-[#A1A1AA] font-mono flex flex-col gap-0.5 sm:block hidden">
+                  <div>⭐ {repo.stars.toLocaleString()} stars</div>
+                  <div className="text-[10px] text-[#71717A]">Lang: {repo.language}</div>
+                </div>
+
+                {/* Column 4: Github Link */}
+                <div className="text-right sm:block hidden">
+                  <span className="text-xs font-semibold text-[#71717A] group-hover:text-white transition-colors shrink-0">
+                    Github &rarr;
+                  </span>
+                </div>
               </a>
             ))}
 

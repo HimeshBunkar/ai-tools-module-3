@@ -230,28 +230,35 @@ export function HomeClient() {
               <Link 
                 key={c.id}
                 href={`/companies/${c.slug}`}
-                className="group flex items-center justify-between gap-4 p-4 bg-transparent hover:bg-[#18181C]/40 transition-all focus-visible:bg-[#18181C]/40 focus-visible:outline-none"
+                className="group grid grid-cols-1 sm:grid-cols-[40px_1fr_200px_120px_120px] gap-4 items-center p-4 bg-transparent hover:bg-[#18181C]/40 transition-all focus-visible:bg-[#18181C]/40 focus-visible:outline-none"
               >
-                <div className="flex items-center gap-3 min-w-0">
-                  <div className="h-10 w-10 rounded-lg bg-[#18181C] flex items-center justify-center font-bold text-white uppercase border border-[#232326]/60 shrink-0">
-                    {c.name.charAt(0)}
-                  </div>
-                  <div className="min-w-0">
-                    <h3 className="text-sm font-bold text-white truncate">{c.name}</h3>
-                    <div className="flex items-center gap-2 mt-0.5 text-[11px] text-[#71717A]">
-                      <span>AI Company</span>
-                      {c.headquarters && (
-                        <>
-                          <span className="h-1 w-1 rounded-full bg-[#232326]" />
-                          <span className="flex items-center gap-0.5"><MapPin size={10} />{c.headquarters}</span>
-                        </>
-                      )}
-                    </div>
-                  </div>
+                {/* Column 1: Initials */}
+                <div className="h-10 w-10 rounded-lg bg-[#18181C] flex items-center justify-center font-bold text-white uppercase border border-[#232326]/60 shrink-0">
+                  {c.name.charAt(0)}
                 </div>
-                <span className="text-xs font-semibold text-[#71717A] group-hover:text-white transition-colors">
-                  Details &rarr;
-                </span>
+
+                {/* Column 2: Name */}
+                <div className="min-w-0">
+                  <h3 className="text-sm font-bold text-white truncate">{c.name}</h3>
+                </div>
+
+                {/* Column 3: Headquarters */}
+                <div className="text-sm text-[#A1A1AA] flex items-center gap-1 truncate">
+                  <MapPin size={12} className="shrink-0 text-[#71717A]" />
+                  <span>{c.headquarters || "Global HQ"}</span>
+                </div>
+
+                {/* Column 4: Label */}
+                <div className="text-sm text-[#A1A1AA] truncate">
+                  AI Company
+                </div>
+
+                {/* Column 5: Action Link */}
+                <div className="text-right sm:block hidden">
+                  <span className="text-xs font-semibold text-[#71717A] group-hover:text-white transition-colors">
+                    Details &rarr;
+                  </span>
+                </div>
               </Link>
             ))}
           </div>
@@ -269,25 +276,34 @@ export function HomeClient() {
               <Link 
                 key={m.id}
                 href={`/models`}
-                className="group flex items-center justify-between gap-4 p-4 bg-transparent hover:bg-[#18181C]/40 transition-all focus-visible:bg-[#18181C]/40 focus-visible:outline-none"
+                className="group grid grid-cols-1 sm:grid-cols-[40px_1fr_180px_120px] gap-4 items-center p-4 bg-transparent hover:bg-[#18181C]/40 transition-all focus-visible:bg-[#18181C]/40 focus-visible:outline-none"
               >
-                <div className="flex items-center gap-3 min-w-0 flex-1">
-                  <div className="h-10 w-10 rounded-lg bg-[#18181C] flex items-center justify-center font-bold text-white uppercase border border-[#232326]/60 shrink-0">
-                    {m.name.charAt(0)}
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-baseline gap-2">
-                      <h3 className="text-sm font-bold text-white truncate">{m.name}</h3>
-                      <span className="text-[10px] font-mono text-[#71717A] uppercase">{m.creator}</span>
-                    </div>
-                    <p className="text-xs text-[#A1A1AA] line-clamp-1 mt-1 leading-relaxed">
-                      {m.description}
-                    </p>
-                  </div>
+                {/* Column 1: Initials */}
+                <div className="h-10 w-10 rounded-lg bg-[#18181C] flex items-center justify-center font-bold text-white uppercase border border-[#232326]/60 shrink-0">
+                  {m.name.charAt(0)}
                 </div>
-                <div className="text-right shrink-0">
-                  <span className="text-[10px] font-mono text-[#71717A] block">CONTEXT WINDOW</span>
-                  <span className="text-xs text-white font-medium">{m.contextWindow}</span>
+
+                {/* Column 2: Name + Description */}
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2">
+                    <h3 className="text-sm font-bold text-white truncate">{m.name}</h3>
+                    <span className="text-[10px] font-mono text-[#71717A]">by {m.creator}</span>
+                  </div>
+                  <p className="text-xs text-[#A1A1AA] line-clamp-1 mt-1 leading-relaxed">
+                    {m.description}
+                  </p>
+                </div>
+
+                {/* Column 3: Context Window */}
+                <div className="text-xs text-[#A1A1AA] font-mono sm:block hidden">
+                  Context: <strong className="text-white">{m.contextWindow}</strong>
+                </div>
+
+                {/* Column 4: Action */}
+                <div className="text-right sm:block hidden">
+                  <span className="text-xs font-semibold text-[#71717A] group-hover:text-white transition-colors">
+                    Details &rarr;
+                  </span>
                 </div>
               </Link>
             ))}
@@ -308,25 +324,34 @@ export function HomeClient() {
                 href={repo.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-center justify-between gap-4 p-4 bg-transparent hover:bg-[#18181C]/40 transition-all focus-visible:bg-[#18181C]/40 focus-visible:outline-none"
+                className="group grid grid-cols-1 sm:grid-cols-[40px_1fr_180px_120px] gap-4 items-center p-4 bg-transparent hover:bg-[#18181C]/40 transition-all focus-visible:bg-[#18181C]/40 focus-visible:outline-none"
               >
-                <div className="flex items-center gap-3 min-w-0 flex-1">
-                  <div className="h-10 w-10 rounded-lg bg-[#18181C] flex items-center justify-center font-bold text-white uppercase border border-[#232326]/60 shrink-0">
-                    {repo.name.charAt(0)}
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-baseline gap-2">
-                      <h3 className="text-sm font-bold text-white truncate">{repo.name}</h3>
-                      <span className="text-[10px] font-mono text-[#71717A]">⭐ {repo.stars.toLocaleString()} stars</span>
-                    </div>
-                    <p className="text-xs text-[#A1A1AA] line-clamp-1 mt-1 leading-relaxed">
-                      {repo.description}
-                    </p>
-                  </div>
+                {/* Column 1: Initials */}
+                <div className="h-10 w-10 rounded-lg bg-[#18181C] flex items-center justify-center font-bold text-white uppercase border border-[#232326]/60 shrink-0">
+                  {repo.name.charAt(0)}
                 </div>
-                <div className="text-right shrink-0">
-                  <span className="text-[10px] font-mono text-[#71717A] block">LANGUAGE</span>
-                  <span className="text-xs text-white font-medium">{repo.language}</span>
+
+                {/* Column 2: Name + Description */}
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2">
+                    <h3 className="text-sm font-bold text-white truncate">{repo.name}</h3>
+                    <span className="text-[10px] text-[#71717A]">⭐ {repo.stars.toLocaleString()}</span>
+                  </div>
+                  <p className="text-xs text-[#A1A1AA] line-clamp-1 mt-1 leading-relaxed">
+                    {repo.description}
+                  </p>
+                </div>
+
+                {/* Column 3: Language */}
+                <div className="text-xs text-[#A1A1AA] font-mono sm:block hidden">
+                  Lang: <strong className="text-white">{repo.language}</strong>
+                </div>
+
+                {/* Column 4: Action */}
+                <div className="text-right sm:block hidden">
+                  <span className="text-xs font-semibold text-[#71717A] group-hover:text-white transition-colors">
+                    Github &rarr;
+                  </span>
                 </div>
               </a>
             ))}
@@ -345,21 +370,28 @@ export function HomeClient() {
               <a
                 key={n.id}
                 href={`/news/${n.slug}`}
-                className="group flex items-center justify-between gap-4 p-4 bg-transparent hover:bg-[#18181C]/40 transition-all focus-visible:bg-[#18181C]/40 focus-visible:outline-none"
+                className="group grid grid-cols-1 sm:grid-cols-[40px_1fr_180px_120px] gap-4 items-center p-4 bg-transparent hover:bg-[#18181C]/40 transition-all focus-visible:bg-[#18181C]/40 focus-visible:outline-none"
               >
-                <div className="flex items-center gap-3 min-w-0 flex-1">
-                  <div className="h-10 w-10 rounded-lg bg-[#18181C] flex items-center justify-center font-bold text-white uppercase border border-[#232326]/60 shrink-0">
-                    N
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <h3 className="text-sm font-bold text-white truncate">{n.title}</h3>
-                    <p className="text-[11px] text-[#71717A] mt-0.5 truncate">{n.publisher?.name}</p>
-                  </div>
+                {/* Column 1: Initials */}
+                <div className="h-10 w-10 rounded-lg bg-[#18181C] flex items-center justify-center font-bold text-white uppercase border border-[#232326]/60 shrink-0">
+                  N
                 </div>
-                <div className="text-right shrink-0">
-                  <span className="text-[10px] font-mono text-[#71717A] block">PUBLISHED</span>
-                  <span className="text-xs text-white font-medium">
-                    {new Date(n.publishedAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+
+                {/* Column 2: Title */}
+                <div className="min-w-0">
+                  <h3 className="text-sm font-bold text-white truncate">{n.title}</h3>
+                  <p className="text-[11px] text-[#A1A1AA] mt-0.5 truncate">by {n.publisher?.name}</p>
+                </div>
+
+                {/* Column 3: Published stack */}
+                <div className="text-xs text-[#A1A1AA] font-mono sm:block hidden">
+                  {new Date(n.publishedAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+                </div>
+
+                {/* Column 4: Action */}
+                <div className="text-right sm:block hidden">
+                  <span className="text-xs font-semibold text-[#71717A] group-hover:text-white transition-colors">
+                    Read &rarr;
                   </span>
                 </div>
               </a>
