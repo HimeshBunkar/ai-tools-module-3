@@ -4,20 +4,13 @@ export const runtime = "edge";
 import { getCollections } from "@/lib/collections";
 import { CategoryMenu } from "@/components/CategoryMenu";
 import { CollectionGrid } from "@/components/CollectionGrid";
+import { CollectionsClosingCTA } from "@/components/CollectionsClosingCTA";
 import type { CollectionsSearchParams } from "@/lib/types";
 
 export const metadata: Metadata = {
-  title: "Collections — Curated AI Tool Bundles",
+  title: "Collections — The AI Signal",
   description:
-    "Hand-picked bundles of the best AI tools, grouped by what you're trying to get done — build, run a business, create, or research.",
-  openGraph: {
-    title: "Collections — Curated AI Tool Bundles",
-    description: "Hand-picked bundles of the best AI tools, grouped by task.",
-    type: "website",
-  },
-  alternates: {
-    canonical: "/collections",
-  },
+    "Curated bundles of the best AI tools, agents and models, hand-picked by category.",
 };
 
 type PageProps = {
@@ -29,19 +22,43 @@ export default async function CollectionsPage({ searchParams }: PageProps) {
   const { items, pagination, categoryCounts } = await getCollections(params);
 
   return (
-    <main className="mx-auto max-w-container px-6 py-10">
-      <header className="mb-8">
-        <h1 className="text-2xl font-semibold text-foreground">Collections</h1>
-        <p className="mt-1 text-sm text-foreground-muted">
-          {pagination.total} curated bundle{pagination.total === 1 ? "" : "s"} of the best AI tools
-        </p>
-      </header>
-
-      <div className="mb-8 rounded-lg border border-border bg-surface p-5">
-        <CategoryMenu categoryCounts={categoryCounts ?? {}} />
+    <main className="collections-scope min-h-screen pb-20">
+      {/* Sticky bar sits flush at the very top (top-0), matching the
+          prototype exactly — not offset, since this page owns its own
+          header here rather than stacking below a separate global one. */}
+      <div className="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur-md">
+        <div className="mx-auto flex max-w-container items-center justify-between px-6 py-3">
+          <div className="flex items-center gap-2.5">
+            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-sm font-bold text-background">
+              S
+            </span>
+            <span className="text-base font-bold text-foreground">The AI Signal</span>
+          </div>
+          <CategoryMenu categoryCounts={categoryCounts ?? {}} />
+        </div>
       </div>
 
-      <CollectionGrid collections={items} />
+      <div className="mx-auto max-w-container px-6 pt-6">
+        <div className="max-w-2xl">
+          <span className="font-mono text-xs uppercase tracking-widest text-accent">
+            Collections
+          </span>
+          <h1 className="mt-3 text-3xl font-bold text-foreground sm:text-4xl">
+            Curated bundles of the best AI tools
+          </h1>
+          <p className="mt-3 text-foreground-muted">
+            Hand-picked sets of tools for a specific job — from shipping code faster to
+            scaling a marketing team. {pagination.total} collections and counting. Browse
+            by category using the menu above.
+          </p>
+        </div>
+
+        <div className="mt-8">
+          <CollectionGrid collections={items} />
+        </div>
+
+        <CollectionsClosingCTA />
+      </div>
     </main>
   );
 }
