@@ -1,20 +1,25 @@
 import nodemailer from 'nodemailer';
-const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-    },
-});
-const getBaseUrl = () => {
+const getBaseUrl = (env) => {
+    if (env?.FRONTEND_URL)
+        return env.FRONTEND_URL;
     if (process.env.FRONTEND_URL)
         return process.env.FRONTEND_URL;
-    return 'http://localhost:3000';
+    return 'https://aiorbit.club';
 };
-export async function sendVerificationLinkEmail(email, token) {
-    const confirmLink = `${getBaseUrl()}/verify-email?token=${token}&email=${encodeURIComponent(email)}`;
+const getTransporter = (env) => {
+    return nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: env?.EMAIL_USER || process.env.EMAIL_USER,
+            pass: env?.EMAIL_PASS || process.env.EMAIL_PASS,
+        },
+    });
+};
+export async function sendVerificationLinkEmail(email, token, env) {
+    const confirmLink = `${getBaseUrl(env)}/verify-email?token=${token}&email=${encodeURIComponent(email)}`;
+    const emailUser = env?.EMAIL_USER || process.env.EMAIL_USER;
     const mailOptions = {
-        from: `"The AI Signal" <${process.env.EMAIL_USER}>`,
+        from: `"The AI Signal" <${emailUser}>`,
         to: email,
         subject: 'Verify your email address',
         text: `Thanks for signing up for The AI Signal!\n\nPlease verify your email address by copying and pasting the following link into your browser:\n${confirmLink}\n\nThis link will expire in 1 hour. If you didn't request this email, you can safely ignore it.`,
@@ -36,6 +41,7 @@ export async function sendVerificationLinkEmail(email, token) {
     `,
     };
     try {
+        const transporter = getTransporter(env);
         await transporter.sendMail(mailOptions);
         return { success: true };
     }
@@ -44,10 +50,11 @@ export async function sendVerificationLinkEmail(email, token) {
         return { success: false, error };
     }
 }
-export async function sendPasswordResetEmail(email, token) {
-    const resetLink = `${getBaseUrl()}/reset-password?token=${token}&email=${encodeURIComponent(email)}`;
+export async function sendPasswordResetEmail(email, token, env) {
+    const resetLink = `${getBaseUrl(env)}/auth/reset-password?token=${token}&email=${encodeURIComponent(email)}`;
+    const emailUser = env?.EMAIL_USER || process.env.EMAIL_USER;
     const mailOptions = {
-        from: `"The AI Signal" <${process.env.EMAIL_USER}>`,
+        from: `"The AI Signal" <${emailUser}>`,
         to: email,
         subject: 'Reset your password - The AI Signal',
         text: `You requested a password reset.\n\nPlease set a new password by copying and pasting the following link into your browser:\n${resetLink}\n\nThis link will expire in 1 hour. If you didn't request this email, you can safely ignore it.`,
@@ -69,6 +76,7 @@ export async function sendPasswordResetEmail(email, token) {
     `,
     };
     try {
+        const transporter = getTransporter(env);
         await transporter.sendMail(mailOptions);
         return { success: true };
     }

@@ -3,7 +3,7 @@ import { Pool } from 'pg';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { PrismaNeon } from '@prisma/adapter-neon';
 
-// Helper for dynamic Prisma Neon client creation (Cloudflare Workers dynamic env)
+
 export function getPrisma(env: { DATABASE_URL: string } | any) {
   const dbUrl = env?.DATABASE_URL || process.env.DATABASE_URL;
   if (!dbUrl) {

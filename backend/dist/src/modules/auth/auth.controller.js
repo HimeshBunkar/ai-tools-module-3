@@ -4,8 +4,11 @@ import { sign } from 'jsonwebtoken';
 import { AuthService } from './auth.service.js';
 import { signupSchema, loginSchema, verifyEmailSchema, emailOnlySchema, resetPasswordSchema } from './auth.schema.js';
 import { rateLimit, getIp } from '../../lib/rate-limit.js';
-const authService = new AuthService();
+import { getPrisma } from '../../lib/prisma.js';
 export class AuthController {
+    getService(c) {
+        return new AuthService(getPrisma(c.env), c.env);
+    }
     async signup(c) {
         const ip = getIp(c.req.raw) || 'unknown';
         const { success, retryAfter } = rateLimit(`signup:${ip}`, 5, 60000);
@@ -18,7 +21,7 @@ export class AuthController {
             if (!result.success) {
                 return c.json({ error: result.error.issues[0].message }, 400);
             }
-            await authService.signup(result.data);
+            await this.getService(c).signup(result.data);
             return c.json({ success: true, message: 'Verification email sent.' }, 201);
         }
         catch (error) {
@@ -40,12 +43,14 @@ export class AuthController {
             if (!result.success) {
                 return c.json({ error: result.error.issues[0].message }, 400);
             }
-            const user = await authService.login(result.data);
-            const token = sign({ id: user.id, email: user.email, name: user.name }, process.env.JWT_SECRET, { expiresIn: '7d' });
+            const user = await this.getService(c).login(result.data);
+            const jwtSecret = c.env?.JWT_SECRET || process.env.JWT_SECRET;
+            const token = sign({ id: user.id, email: user.email, name: user.name }, jwtSecret, { expiresIn: '7d' });
+            const isProd = c.req.url.startsWith('https://');
             setCookie(c, 'auth_token', token, {
                 httpOnly: true,
-                secure: process.env.NODE_ENV === 'production',
-                sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
+                secure: isProd,
+                sameSite: isProd ? 'None' : 'Lax',
                 path: '/',
                 maxAge: 60 * 60 * 24 * 7
             });
@@ -72,7 +77,7 @@ export class AuthController {
     async getMe(c) {
         try {
             const user = c.get('user');
-            const dbUser = await authService.getMe(user.id);
+            const dbUser = await this.getService(c).getMe(user.id);
             return c.json({ success: true, user: dbUser });
         }
         catch (error) {
@@ -86,19 +91,21 @@ export class AuthController {
             if (!result.success) {
                 return c.json({ error: result.error.issues[0].message }, 400);
             }
-            const user = await authService.verifyEmail(result.data);
-            const token = sign({ id: user.id, email: user.email, name: user.name }, process.env.JWT_SECRET, { expiresIn: '7d' });
+            const user = await this.getService(c).verifyEmail(result.data);
+            const jwtSecret = c.env?.JWT_SECRET || process.env.JWT_SECRET;
+            const token = sign({ id: user.id, email: user.email, name: user.name }, jwtSecret, { expiresIn: '7d' });
+            const isProd = c.req.url.startsWith('https://');
             setCookie(c, 'auth_token', token, {
                 httpOnly: true,
-                secure: process.env.NODE_ENV === 'production',
-                sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
+                secure: isProd,
+                sameSite: isProd ? 'None' : 'Lax',
                 path: '/',
                 maxAge: 60 * 60 * 24 * 7
             });
             return c.json({ success: true, message: 'Email verified successfully.' });
         }
         catch (error) {
-            if (error.message.includes('expired') || error.message.includes('Invalid') || error.message.includes('not found')) {
+            if (error.message?.includes('expired') || error.message?.includes('Invalid') || error.message?.includes('not found')) {
                 return c.json({ error: error.message }, 400);
             }
             return c.json({ error: 'An unexpected error occurred during verification.' }, 500);
@@ -116,7 +123,7 @@ export class AuthController {
             if (!result.success) {
                 return c.json({ error: result.error.issues[0].message }, 400);
             }
-            const response = await authService.resendVerification(result.data);
+            const response = await this.getService(c).resendVerification(result.data);
             return c.json({ success: true, message: response.message });
         }
         catch (error) {
@@ -138,7 +145,7 @@ export class AuthController {
             if (!result.success) {
                 return c.json({ error: result.error.issues[0].message }, 400);
             }
-            const response = await authService.forgotPassword(result.data);
+            const response = await this.getService(c).forgotPassword(result.data);
             return c.json({ success: true, message: response.message });
         }
         catch (error) {
@@ -157,11 +164,11 @@ export class AuthController {
             if (!result.success) {
                 return c.json({ error: result.error.issues[0].message }, 400);
             }
-            await authService.resetPassword(result.data);
+            await this.getService(c).resetPassword(result.data);
             return c.json({ success: true, message: 'Password has been reset successfully.' });
         }
         catch (error) {
-            if (error.message.includes('Invalid') || error.message.includes('expired')) {
+            if (error.message?.includes('Invalid') || error.message?.includes('expired')) {
                 return c.json({ error: error.message }, 400);
             }
             return c.json({ error: 'Failed to reset password.' }, 500);
@@ -170,16 +177,42 @@ export class AuthController {
     async deleteAccount(c) {
         try {
             const user = c.get('user');
-            await authService.deleteAccount(user.id);
+            await this.getService(c).deleteAccount(user.id);
+            const isProd = c.req.url.startsWith('https://');
             deleteCookie(c, 'auth_token', {
                 path: '/',
-                secure: process.env.NODE_ENV === 'production',
-                sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
+                secure: isProd,
+                sameSite: isProd ? 'None' : 'Lax',
             });
             return c.json({ success: true, message: 'Account deleted successfully' });
         }
         catch (error) {
-            return c.json({ error: 'Failed to delete account' }, 500);
+            console.error('Delete account error:', error);
+            return c.json({ error: error.message || 'Failed to delete account' }, 500);
+        }
+    }
+    async getSettings(c) {
+        try {
+            const user = c.get('user');
+            const settings = await this.getService(c).getSettings(user.id);
+            return c.json(settings);
+        }
+        catch (error) {
+            return c.json({ error: 'Failed to fetch settings' }, 500);
+        }
+    }
+    async updatePassword(c) {
+        try {
+            const user = c.get('user');
+            const body = await c.req.json();
+            if (!body.newPassword || body.newPassword.length < 6) {
+                return c.json({ error: 'New password must be at least 6 characters long' }, 400);
+            }
+            await this.getService(c).updatePassword(user.id, body);
+            return c.json({ success: true, message: 'Password updated successfully' });
+        }
+        catch (error) {
+            return c.json({ error: error.message || 'Failed to update password' }, 400);
         }
     }
 }

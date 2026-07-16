@@ -1,47 +1,45 @@
-import { PrismaClient } from "@prisma/client";
-import { PrismaNeon } from "@prisma/adapter-neon";
-import { fetchLeaderboardData } from "./leaderboard.services.js";
-import { QuerySchema } from "./leaderboard.schemas.js";
-export async function getLeaderboard(c) {
-    let prisma = null;
-    try {
-        const connectionString = c.env.DATABASE_URL;
-        if (!connectionString) {
-            return c.json({ error: "DATABASE_URL is not configured" }, 500);
+import { Context } from 'hono';
+import { PrismaClient } from '@prisma/client';
+import { PrismaNeon } from '@prisma/adapter-neon';
+import { LeaderboardService } from './leaderboard.service.js';
+function getPrisma(env) {
+    const adapter = new PrismaNeon({ connectionString: env.DATABASE_URL });
+    return new PrismaClient({ adapter });
+}
+export class LeaderboardController {
+    async getTools(c) {
+        const prisma = getPrisma(c.env);
+        const service = new LeaderboardService(prisma);
+        const category = c.req.query('category');
+        try {
+            const tools = await service.listTools(category);
+            return c.json(tools);
         }
-        const adapter = new PrismaNeon({ connectionString });
-        prisma = new PrismaClient({ adapter });
-        const queryParams = c.req.query();
-        const result = QuerySchema.safeParse(queryParams);
-        if (!result.success) {
-            return c.json({ error: "Invalid query parameters", details: result.error.format() }, 400);
+        catch (error) {
+            return c.json({ error: error.message }, 500);
         }
-        const queryInput = result.data;
-        const data = await fetchLeaderboardData(prisma, queryInput);
-        if (queryInput.tab === "tools") {
-            data.items = data.items.map((item) => {
-                let parsedTags = [];
-                try {
-                    parsedTags = JSON.parse(item.tags || "[]");
-                }
-                catch {
-                    parsedTags = [];
-                }
-                return {
-                    ...item,
-                    tags: parsedTags
-                };
-            });
-        }
-        return c.json(data);
     }
-    catch (error) {
-        console.error("Leaderboard API Controller Error:", error);
-        return c.json({ error: "Internal server error.", message: error.message }, 500);
+    async getModels(c) {
+        const prisma = getPrisma(c.env);
+        const service = new LeaderboardService(prisma);
+        const category = c.req.query('category');
+        try {
+            const models = await service.listModels(category);
+            return c.json(models);
+        }
+        catch (error) {
+            return c.json({ error: error.message }, 500);
+        }
     }
-    finally {
-        if (prisma) {
-            await prisma.$disconnect();
+    async getCompanies(c) {
+        const prisma = getPrisma(c.env);
+        const service = new LeaderboardService(prisma);
+        try {
+            const companies = await service.listCompanies();
+            return c.json(companies);
+        }
+        catch (error) {
+            return c.json({ error: error.message }, 500);
         }
     }
 }

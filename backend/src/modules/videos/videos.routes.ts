@@ -1,9 +1,10 @@
-import { Hono } from 'hono';
-import { VideosController } from './videos.controller.js';
+import { Hono } from "hono";
+import { listVideos, getVideoBySlug, getRelatedVideos } from "./videos.controller.js";
 
-const router = new Hono();
-const controller = new VideosController();
+const videosRouter = new Hono();
 
-router.get('/', (c) => controller.listVideos(c));
+videosRouter.get("/", listVideos);
+videosRouter.get("/:slug", getVideoBySlug);
+videosRouter.get("/:slug/related", getRelatedVideos);
 
-export { router as videosRouter };
+export { videosRouter };
