@@ -180,7 +180,7 @@ export function HomeClient() {
       <div className="border-b border-[#232326]/40 w-full z-10 relative" />
 
       {/* 3. Main Grid Content Wrapper */}
-      <div className="mx-auto max-w-[1440px] px-8 py-8 flex-1 space-y-12 w-full">
+      <div className="mx-auto max-w-[1070px] px-8 py-8 flex-1 space-y-12 w-full">
         
         {/* Tools Section */}
         <div id="tools" className="scroll-mt-28 space-y-4">

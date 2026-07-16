@@ -12,21 +12,21 @@ export function ToolCard({ tool }: { tool: ToolCardData }) {
   return (
     <Link
       href={`/tools/${tool.slug}`}
-      className="group flex flex-col sm:flex-row gap-5 items-start sm:items-center justify-between py-4 px-5 transition-all hover:bg-[#18181C]/40 focus-visible:bg-[#18181C]/40 focus-visible:outline-none"
+      className="group flex flex-col sm:flex-row gap-5 items-start sm:items-center justify-between sm:h-[154px] py-4 px-5 transition-all hover:bg-[#18181C]/40 focus-visible:bg-[#18181C]/40 focus-visible:outline-none"
     >
       {/* Left section: Logo + Title/Description */}
-      <div className="flex items-start gap-4 flex-1 min-w-0">
-        <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-border bg-white p-2">
+      <div className="flex items-center gap-4 flex-1 min-w-0 h-full">
+        <div className="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-border bg-white p-2.5">
           {tool.logoUrl ? (
             <Image
               src={tool.logoUrl}
               alt={`${tool.name} logo`}
-              width={48}
-              height={48}
+              width={64}
+              height={64}
               className="h-full w-full object-contain"
             />
           ) : (
-            <span className="text-base font-bold text-neutral-900">
+            <span className="text-xl font-bold text-neutral-900">
               {tool.name.charAt(0)}
             </span>
           )}
@@ -58,7 +58,7 @@ export function ToolCard({ tool }: { tool: ToolCardData }) {
       </div>
 
       {/* Right section: Pricing + Badges */}
-      <div className="flex flex-row sm:flex-col items-center sm:items-end justify-between sm:justify-center gap-3 w-full sm:w-auto shrink-0 border-t border-[#232326]/60 sm:border-t-0 pt-4 sm:pt-0 mt-4 sm:mt-0">
+      <div className="flex flex-row sm:flex-col items-center sm:items-end justify-between sm:justify-center gap-3 w-full sm:w-auto shrink-0 border-t border-[#232326]/60 sm:border-t-0 pt-4 sm:pt-0 mt-4 sm:mt-0 sm:h-full">
         <div className="flex flex-wrap items-center gap-2">
           <PricingBadge
             pricingModel={tool.pricingModel}

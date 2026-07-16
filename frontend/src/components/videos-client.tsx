@@ -52,7 +52,7 @@ export function VideosClient() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#000000] text-white selection:bg-neutral-800 selection:text-white">
-      <main className="mx-auto max-w-[1440px] px-8 py-12 flex-1 w-full">
+      <main className="mx-auto max-w-[1070px] px-8 py-12 flex-1 w-full">
         <div className="mb-10">
           <h1 className="text-3xl font-black tracking-tight text-white flex items-center gap-2">
             <Play className="text-[#6E56CF]" />
