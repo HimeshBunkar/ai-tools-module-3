@@ -64,9 +64,9 @@ export function VideosClient() {
         </div>
 
         {isLoading ? (
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col divide-y divide-[#232326]/60 border border-[#232326]/60 rounded-xl overflow-hidden bg-[#131316]/10">
             {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="h-20 animate-pulse rounded-xl border border-[#232326] bg-[#131316]/50" />
+              <div key={i} className="h-20 animate-pulse bg-[#131316]/50" />
             ))}
           </div>
         ) : videos.length === 0 ? (
@@ -74,14 +74,14 @@ export function VideosClient() {
             <p className="text-[#A1A1AA] text-sm">No videos found.</p>
           </div>
         ) : (
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col divide-y divide-[#232326]/60 border border-[#232326]/60 rounded-xl overflow-hidden bg-[#131316]/10">
             {visibleVideos.map((video: Video) => (
               <a
                 key={video.id}
                 href={video.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-center justify-between border border-[#232326] bg-[#131316] p-4 rounded-xl hover:border-neutral-500 hover:bg-[#18181C]/40 transition-all shadow-lg w-full"
+                className="group flex items-center justify-between p-4 bg-transparent hover:bg-[#18181C]/40 transition-all w-full focus-visible:bg-[#18181C]/40 focus-visible:outline-none"
               >
                 <div className="flex items-center gap-3 min-w-0 flex-1">
                   <div className="h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-red-600/10 border border-red-600/20 flex text-red-500">

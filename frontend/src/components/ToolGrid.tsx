@@ -20,7 +20,7 @@ export function ToolGrid({ tools }: { tools: ToolCardData[] }) {
   return (
     <div
       role="list"
-      className="flex flex-col gap-4"
+      className="flex flex-col divide-y divide-[#232326]/60 border border-[#232326]/60 rounded-xl overflow-hidden bg-[#131316]/10"
     >
       {tools.map((tool) => (
         <div key={tool.id} role="listitem">

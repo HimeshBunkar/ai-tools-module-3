@@ -64,9 +64,9 @@ export function ModelsClient() {
         </div>
 
         {isLoading ? (
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col divide-y divide-[#232326]/60 border border-[#232326]/60 rounded-xl overflow-hidden bg-[#131316]/10">
             {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="h-20 animate-pulse rounded-xl border border-[#232326] bg-[#131316]/50" />
+              <div key={i} className="h-20 animate-pulse bg-[#131316]/50" />
             ))}
           </div>
         ) : models.length === 0 ? (
@@ -74,11 +74,11 @@ export function ModelsClient() {
             <p className="text-[#A1A1AA] text-sm">No models found.</p>
           </div>
         ) : (
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col divide-y divide-[#232326]/60 border border-[#232326]/60 rounded-xl overflow-hidden bg-[#131316]/10">
             {visibleModels.map((model: AIModel) => (
               <div
                 key={model.id}
-                className="group flex flex-col sm:flex-row sm:items-center justify-between gap-4 border border-[#232326] bg-[#131316] p-4 rounded-xl hover:border-neutral-500 transition-all shadow-lg w-full"
+                className="group flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 bg-transparent hover:bg-[#18181C]/40 transition-all w-full"
               >
                 <div className="flex items-start gap-4 min-w-0 flex-1">
                   <div className="h-10 w-10 rounded-lg bg-[#18181C] flex items-center justify-center font-bold text-white uppercase border border-[#232326]/60 shrink-0">

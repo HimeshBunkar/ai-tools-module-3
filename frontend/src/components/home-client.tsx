@@ -225,12 +225,12 @@ export function HomeClient() {
           description="Explore leading AI companies, labs, and startups building the future."
           viewAllHref="/companies"
         >
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col divide-y divide-[#232326]/60 border border-[#232326]/60 rounded-xl overflow-hidden bg-[#131316]/10">
             {topCompanies.map((c) => (
               <Link 
                 key={c.id}
                 href={`/companies/${c.slug}`}
-                className="group flex items-center justify-between gap-4 rounded-xl border border-[#232326] bg-[#131316] p-4 hover:border-neutral-500 hover:bg-[#18181C]/40 transition-all"
+                className="group flex items-center justify-between gap-4 p-4 bg-transparent hover:bg-[#18181C]/40 transition-all focus-visible:bg-[#18181C]/40 focus-visible:outline-none"
               >
                 <div className="flex items-center gap-3 min-w-0">
                   <div className="h-10 w-10 rounded-lg bg-[#18181C] flex items-center justify-center font-bold text-white uppercase border border-[#232326]/60 shrink-0">
@@ -264,12 +264,12 @@ export function HomeClient() {
           description="Discover state-of-the-art open source and proprietary AI models."
           viewAllHref="/models"
         >
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col divide-y divide-[#232326]/60 border border-[#232326]/60 rounded-xl overflow-hidden bg-[#131316]/10">
             {topModels.map((m) => (
               <Link 
                 key={m.id}
                 href={`/models`}
-                className="group flex items-center justify-between gap-4 rounded-xl border border-[#232326] bg-[#131316] p-4 hover:border-neutral-500 hover:bg-[#18181C]/40 transition-all"
+                className="group flex items-center justify-between gap-4 p-4 bg-transparent hover:bg-[#18181C]/40 transition-all focus-visible:bg-[#18181C]/40 focus-visible:outline-none"
               >
                 <div className="flex items-center gap-3 min-w-0 flex-1">
                   <div className="h-10 w-10 rounded-lg bg-[#18181C] flex items-center justify-center font-bold text-white uppercase border border-[#232326]/60 shrink-0">
@@ -301,14 +301,14 @@ export function HomeClient() {
           description="Explore popular open-source repositories pushing AI boundaries on GitHub."
           viewAllHref="/repositories"
         >
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col divide-y divide-[#232326]/60 border border-[#232326]/60 rounded-xl overflow-hidden bg-[#131316]/10">
             {topRepos.map((repo) => (
               <a 
                 key={repo.id}
                 href={repo.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-center justify-between gap-4 rounded-xl border border-[#232326] bg-[#131316] p-4 hover:border-neutral-500 hover:bg-[#18181C]/40 transition-all"
+                className="group flex items-center justify-between gap-4 p-4 bg-transparent hover:bg-[#18181C]/40 transition-all focus-visible:bg-[#18181C]/40 focus-visible:outline-none"
               >
                 <div className="flex items-center gap-3 min-w-0 flex-1">
                   <div className="h-10 w-10 rounded-lg bg-[#18181C] flex items-center justify-center font-bold text-white uppercase border border-[#232326]/60 shrink-0">
@@ -340,12 +340,12 @@ export function HomeClient() {
           description="Stay informed with critical announcements and ecosystem coverage."
           viewAllHref="/news"
         >
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col divide-y divide-[#232326]/60 border border-[#232326]/60 rounded-xl overflow-hidden bg-[#131316]/10">
             {topNews.map((n) => (
               <a
                 key={n.id}
                 href={`/news/${n.slug}`}
-                className="group flex items-center justify-between gap-4 rounded-xl border border-[#232326] bg-[#131316] p-4 hover:border-neutral-500 hover:bg-[#18181C]/40 transition-all"
+                className="group flex items-center justify-between gap-4 p-4 bg-transparent hover:bg-[#18181C]/40 transition-all focus-visible:bg-[#18181C]/40 focus-visible:outline-none"
               >
                 <div className="flex items-center gap-3 min-w-0 flex-1">
                   <div className="h-10 w-10 rounded-lg bg-[#18181C] flex items-center justify-center font-bold text-white uppercase border border-[#232326]/60 shrink-0">
