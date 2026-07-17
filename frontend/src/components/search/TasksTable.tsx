@@ -1,7 +1,8 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, Suspense } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import {
   CheckSquare,
   ChevronUp,
@@ -123,23 +124,46 @@ interface TasksTableProps {
   total: number;
 }
 
-export function TasksTable({ items, total }: TasksTableProps) {
+const PERSONAL_TASKS = [
+  "summarize a document",
+  "remove background from an image",
+  "translate a webpage",
+  "generate a voiceover",
+  "build a chatbot"
+];
+
+function isPersonalTask(title: string): boolean {
+  const t = title.toLowerCase();
+  return PERSONAL_TASKS.some(p => t.includes(p) || p.includes(t));
+}
+
+function TasksTableContent({ items, total }: TasksTableProps) {
+  const searchParams = useSearchParams();
+  const typeFilter = searchParams.get("type"); // "personal" or "work"
   const [showTab, setShowTab] = useState<ShowTab>("All Tasks");
   const [sort, setSort] = useState<{ key: SortKey; dir: SortDir }>({ key: "saves", dir: "desc" });
 
+  const filteredItems = useMemo(() => {
+    if (!typeFilter) return items;
+    return items.filter((item) => {
+      const isPersonal = isPersonalTask(item.title);
+      return typeFilter === "personal" ? isPersonal : !isPersonal;
+    });
+  }, [items, typeFilter]);
+
   const metricsById = useMemo(() => {
     const map = new Map<string, TaskMetrics>();
-    items.forEach((entity) => map.set(entity.id, deriveTaskMetrics(entity)));
+    filteredItems.forEach((entity) => map.set(entity.id, deriveTaskMetrics(entity)));
     return map;
-  }, [items]);
+  }, [filteredItems]);
 
   const sorted = useMemo(() => {
-    return [...items].sort((a, b) => {
+    return [...filteredItems].sort((a, b) => {
       const av = metricsById.get(a.id)![sort.key];
       const bv = metricsById.get(b.id)![sort.key];
       return sort.dir === "desc" ? bv - av : av - bv;
     });
-  }, [items, metricsById, sort]);
+  }, [filteredItems, metricsById, sort]);
 
   function toggleSort(key: SortKey) {
     setSort((prev) =>
@@ -154,9 +178,11 @@ export function TasksTable({ items, total }: TasksTableProps) {
         <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-search-text-primary text-search-bg">
           <CheckSquare size={14} strokeWidth={2.5} />
         </span>
-        <h1 className="text-lg font-semibold text-search-text-primary">Tasks</h1>
+        <h1 className="text-lg font-semibold text-search-text-primary">
+          {typeFilter === "personal" ? "Personal Tasks" : typeFilter === "work" ? "Work Tasks" : "Tasks"}
+        </h1>
       </div>
-      <p className="mb-3 text-xs text-search-text-tertiary">{total.toLocaleString()} tasks</p>
+      <p className="mb-3 text-xs text-search-text-tertiary">{filteredItems.length.toLocaleString()} tasks</p>
 
       {/* Show: pills */}
       <div className="mb-4 flex items-center gap-2.5">
@@ -271,5 +297,13 @@ export function TasksTable({ items, total }: TasksTableProps) {
         </table>
       </div>
     </div>
+  );
+}
+
+export function TasksTable(props: TasksTableProps) {
+  return (
+    <Suspense fallback={<div className="h-[200px] w-full animate-pulse bg-search-surface border border-search-border rounded-lg" />}>
+      <TasksTableContent {...props} />
+    </Suspense>
   );
 }

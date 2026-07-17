@@ -1,12 +1,14 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import Search from 'lucide-react/dist/esm/icons/search';
+import ChevronDown from 'lucide-react/dist/esm/icons/chevron-down';
 import { useUser } from '@/hooks/use-user';
 
 export function Header() {
   const { user, isLoading } = useUser();
+  const [tasksDropdownOpen, setTasksDropdownOpen] = useState(false);
   
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/20 bg-background/50 backdrop-blur-md py-4">
@@ -37,42 +39,38 @@ export function Header() {
             >
               Leaderboard
             </Link>
-            <Link
-              href="/models"
-              className="text-[13px] font-medium text-foreground-muted hover:text-white transition-colors"
+            
+            {/* Tasks Dropdown */}
+            <div 
+              className="relative"
+              onMouseEnter={() => setTasksDropdownOpen(true)}
+              onMouseLeave={() => setTasksDropdownOpen(false)}
             >
-              Models
-            </Link>
-            <Link
-              href="/companies"
-              className="text-[13px] font-medium text-foreground-muted hover:text-white transition-colors"
-            >
-              Companies
-            </Link>
-            <Link
-              href="/collections"
-              className="text-[13px] font-medium text-foreground-muted hover:text-white transition-colors"
-            >
-              Collections
-            </Link>
-            <Link
-              href="/news"
-              className="text-[13px] font-medium text-foreground-muted hover:text-white transition-colors"
-            >
-              News
-            </Link>
-            <Link
-              href="/video"
-              className="text-[13px] font-medium text-foreground-muted hover:text-white transition-colors"
-            >
-              Videos
-            </Link>
-            <Link
-              href="/repositories"
-              className="text-[13px] font-medium text-foreground-muted hover:text-white transition-colors"
-            >
-              Repositories
-            </Link>
+              <button
+                type="button"
+                className="text-[13px] font-medium text-foreground-muted hover:text-white transition-colors flex items-center gap-1 focus:outline-none py-1"
+              >
+                Tasks
+                <ChevronDown size={14} className={`transition-transform duration-200 ${tasksDropdownOpen ? 'rotate-180 text-white' : 'text-foreground-muted'}`} />
+              </button>
+              
+              {tasksDropdownOpen && (
+                <div className="absolute left-0 mt-2 w-32 rounded-lg border border-border bg-[#0C0C0E] p-1.5 shadow-xl transition-all z-50">
+                  <Link
+                    href="/search/tasks?type=personal"
+                    className="block rounded-md px-3 py-2 text-xs text-foreground-muted hover:bg-[#18181C] hover:text-white transition-colors"
+                  >
+                    Personal
+                  </Link>
+                  <Link
+                    href="/search/tasks?type=work"
+                    className="block rounded-md px-3 py-2 text-xs text-foreground-muted hover:bg-[#18181C] hover:text-white transition-colors"
+                  >
+                    Work
+                  </Link>
+                </div>
+              )}
+            </div>
           </nav>
 
           {/* Action buttons */}
