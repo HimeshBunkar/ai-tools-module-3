@@ -143,7 +143,7 @@ export function HomeClient() {
             The AI Signal helps you find the best AI tools of 2026 easily!
           </p>
 
-          <form action="/tools" method="GET" className="relative w-full max-w-[900px] mx-auto mb-[22px] group">
+          <form action="/tools" method="GET" className="relative w-full max-w-[640px] mx-auto mb-[22px] group">
             <div className="relative w-full rounded-lg border border-[#232326] bg-[#111113] h-[48px] flex items-center px-5 pr-20 focus-within:border-neutral-500 transition-all duration-300">
               <input
                 type="text"
@@ -171,7 +171,7 @@ export function HomeClient() {
             <HeroFeatureChips />
           </div>
 
-          <div className="mb-[30px] w-full flex justify-center">
+          <div className="mt-5 mb-[30px] w-full flex justify-center">
             <HeroCategoryPills />
           </div>
         </div>

@@ -579,109 +579,90 @@ export function LeaderboardClient() {
 
   return (
     <div className="w-full flex flex-col bg-[#000000] text-white selection:bg-neutral-800 selection:text-white min-h-screen">
-      {/* Top Header Logo & Navigation Bar */}
-      <div className="border-b border-[#1B1B1F] bg-[#000000] sticky top-0 z-50">
-        <div className="mx-auto max-w-[1440px] px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            {/* Exactly AS box Logo from screenshot */}
-            <div className="flex h-8 w-8 items-center justify-center rounded bg-white text-black font-black text-sm select-none shadow">
-              AS
-            </div>
-            <span className="text-sm font-black tracking-wider text-white">
-              {_("title")}
-            </span>
-          </div>
-
-          <div className="flex items-center gap-4">
-            {/* Language dropdown switch */}
-            <div className="relative inline-flex items-center">
-              <Globe size={13} className="absolute left-2.5 text-[#71717A] pointer-events-none" />
-              <select
-                value={lang}
-                onChange={(e) => setLang(e.target.value as "en" | "hi")}
-                className="appearance-none rounded-lg border border-[#232326] bg-[#131316] pl-7 pr-7 py-1 text-xs font-semibold text-[#A1A1AA] hover:text-white hover:border-neutral-500 focus:outline-none transition-all cursor-pointer h-7"
-              >
-                <option value="en">{_("english")}</option>
-                <option value="hi">{_("hindi")}</option>
-              </select>
-              <ChevronDown size={11} className="absolute right-2 text-[#71717A] pointer-events-none" />
-            </div>
-
-            <button className="rounded-md bg-white px-4 py-1.5 text-xs font-semibold text-black hover:bg-neutral-200 transition-all active:scale-95 whitespace-nowrap">
-              {_("login")}
-            </button>
-          </div>
-        </div>
-      </div>
-
       {/* Main Leaderboard Content Frame */}
       <div className="mx-auto max-w-[1440px] w-full px-6 py-6 flex-1 flex flex-col">
-        {/* Navigation Tabs */}
-        <div className="flex items-center gap-2.5 border-b border-[#1B1B1F] pb-4 mb-6">
-          <button
-            onClick={() => {
-              setActiveTab("tools");
-              setActiveCategory("All Categories");
-            }}
-            className={cn(
-              "px-4 py-2 text-xs font-bold rounded-lg border transition-all active:scale-95 flex items-center gap-1.5",
-              activeTab === "tools"
-                ? "bg-[#131316] text-white border-neutral-500 shadow-md"
-                : "bg-transparent border-transparent text-[#71717A] hover:text-white"
-            )}
-          >
-            <Brain size={13} />
-            {_("aiTools")}
-          </button>
-          <button
-            onClick={() => {
-              setActiveTab("models");
-              setActiveCategory("All Categories");
-            }}
-            className={cn(
-              "px-4 py-2 text-xs font-bold rounded-lg border transition-all active:scale-95 flex items-center gap-1.5",
-              activeTab === "models"
-                ? "bg-[#131316] text-white border-neutral-500 shadow-md"
-                : "bg-transparent border-transparent text-[#71717A] hover:text-white"
-            )}
-          >
-            <Sparkles size={13} />
-            {_("aiModels")}
-          </button>
-          <button
-            onClick={() => {
-              setActiveTab("companies");
-              setActiveCategory("All Categories");
-            }}
-            className={cn(
-              "px-4 py-2 text-xs font-bold rounded-lg border transition-all active:scale-95 flex items-center gap-1.5",
-              activeTab === "companies"
-                ? "bg-[#131316] text-white border-neutral-500 shadow-md"
-                : "bg-transparent border-transparent text-[#71717A] hover:text-white"
-            )}
-          >
-            <Building size={13} />
-            {_("aiCompanies")}
-          </button>
-          <button
-            onClick={() => {
-              setActiveTab("bookmarks");
-              setActiveCategory("All Categories");
-            }}
-            className={cn(
-              "px-4 py-2 text-xs font-bold rounded-lg border transition-all active:scale-95 flex items-center gap-1.5",
-              activeTab === "bookmarks"
-                ? "bg-[#131316] text-white border-neutral-500 shadow-md"
-                : "bg-transparent border-transparent text-[#71717A] hover:text-white"
-            )}
-          >
-            <Bookmark size={13} />
-            {_("bookmarks")}
-            {/* Bookmarks Count Badge exactly like screenshot */}
-            <span className="ml-1.5 bg-neutral-800 text-[#71717A] text-[10px] px-1.5 py-0.5 rounded-full font-bold">
-              {bookmarkedIds.size}
-            </span>
-          </button>
+        {/* Navigation Tabs & Language Switcher */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b border-[#1B1B1F] pb-4 mb-6 gap-4">
+          <div className="flex flex-wrap items-center gap-2.5">
+            <button
+              onClick={() => {
+                setActiveTab("tools");
+                setActiveCategory("All Categories");
+              }}
+              className={cn(
+                "px-4 py-2 text-xs font-bold rounded-lg border transition-all active:scale-95 flex items-center gap-1.5",
+                activeTab === "tools"
+                  ? "bg-[#131316] text-white border-neutral-500 shadow-md"
+                  : "bg-transparent border-transparent text-[#71717A] hover:text-white"
+              )}
+            >
+              <Brain size={13} />
+              {_("aiTools")}
+            </button>
+            <button
+              onClick={() => {
+                setActiveTab("models");
+                setActiveCategory("All Categories");
+              }}
+              className={cn(
+                "px-4 py-2 text-xs font-bold rounded-lg border transition-all active:scale-95 flex items-center gap-1.5",
+                activeTab === "models"
+                  ? "bg-[#131316] text-white border-neutral-500 shadow-md"
+                  : "bg-transparent border-transparent text-[#71717A] hover:text-white"
+              )}
+            >
+              <Sparkles size={13} />
+              {_("aiModels")}
+            </button>
+            <button
+              onClick={() => {
+                setActiveTab("companies");
+                setActiveCategory("All Categories");
+              }}
+              className={cn(
+                "px-4 py-2 text-xs font-bold rounded-lg border transition-all active:scale-95 flex items-center gap-1.5",
+                activeTab === "companies"
+                  ? "bg-[#131316] text-white border-neutral-500 shadow-md"
+                  : "bg-transparent border-transparent text-[#71717A] hover:text-white"
+              )}
+            >
+              <Building size={13} />
+              {_("aiCompanies")}
+            </button>
+            <button
+              onClick={() => {
+                setActiveTab("bookmarks");
+                setActiveCategory("All Categories");
+              }}
+              className={cn(
+                "px-4 py-2 text-xs font-bold rounded-lg border transition-all active:scale-95 flex items-center gap-1.5",
+                activeTab === "bookmarks"
+                  ? "bg-[#131316] text-white border-neutral-500 shadow-md"
+                  : "bg-transparent border-transparent text-[#71717A] hover:text-white"
+              )}
+            >
+              <Bookmark size={13} />
+              {_("bookmarks")}
+              {/* Bookmarks Count Badge exactly like screenshot */}
+              <span className="ml-1.5 bg-neutral-800 text-[#71717A] text-[10px] px-1.5 py-0.5 rounded-full font-bold">
+                {bookmarkedIds.size}
+              </span>
+            </button>
+          </div>
+
+          {/* Language dropdown switch */}
+          <div className="relative inline-flex items-center self-end sm:self-auto">
+            <Globe size={13} className="absolute left-2.5 text-[#71717A] pointer-events-none" />
+            <select
+              value={lang}
+              onChange={(e) => setLang(e.target.value as "en" | "hi")}
+              className="appearance-none rounded-lg border border-[#232326] bg-[#131316] pl-7 pr-7 py-1 text-xs font-semibold text-[#A1A1AA] hover:text-white hover:border-neutral-500 focus:outline-none transition-all cursor-pointer h-7"
+            >
+              <option value="en">{_("english")}</option>
+              <option value="hi">{_("hindi")}</option>
+            </select>
+            <ChevronDown size={11} className="absolute right-2 text-[#71717A] pointer-events-none" />
+          </div>
         </div>
 
         {/* Dynamic Category Filtering Bar */}

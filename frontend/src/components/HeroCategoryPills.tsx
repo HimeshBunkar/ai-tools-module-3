@@ -10,6 +10,7 @@ export function HeroCategoryPills() {
     { name: "Models", href: "#models" },
     { name: "Companies", href: "#companies" },
     { name: "Repositories", href: "#repos" },
+    { name: "Videos", href: "/videos", external: true },
     { name: "News", href: "#news" },
     { name: "Collections", href: "/tools", external: true },
   ];
